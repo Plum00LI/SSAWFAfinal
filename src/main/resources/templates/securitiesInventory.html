@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>证券库存</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+
+
+</head>
+
+<body>
+<div class="layuimini-main">
+    <table id="userTable" lay-filter="userTable"></table>
+</div>
+<!--表格-->
+<div style="display: none;" id="toolbar1">
+    <div style="position: absolute; float: left">
+        <form id="searchform" lay-filter="searchform"
+              class="layui-form layui-form-pane">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label"
+                       style="width: 100px;text-align: center;float: left">统计日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="dateTime"
+                           name="dateTime" autocomplete="off"
+                           placeholder="请输入时间" class="layui-input">
+                </div>
+                <label class="layui-form-label"
+                       style="width: 110px;text-align: center">证券名称</label>
+                <div class="layui-input-inline">
+                    <input type="text"  id="securitiesName"
+                           name="securitiesName" autocomplete="off" placeholder="请输入证券名称"
+                           class="layui-input">
+                </div>
+                <button style="position: absolute;height: 38px;text-align: center" type="button"
+                        lay-event="search" class="layui-btn layui-btn-primary layui-btn-sm">
+                    <i class="layui-icon">&#xe615;</i>搜索
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="layui-btn-container"
+         style="position: absolute; right: 115px; top: 10px;">
+        <button class="layui-btn layui-btn-sm layui-btn-primary"
+                lay-event="deleteAll" style="color: #FF0000">
+            <i class="layui-icon">&#xe640;</i>批量删除
+        </button>
+        <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-btn-disabled" lay-event="" id="addbtn"><i
+                class="layui-icon">&#xe654;</i>添加证券库存
+        </button>
+        <div class="layui-inline" style="top: -4px;">
+            <input type="checkbox" lay-event="initialSigns" title="是否为期初数据" lay-filter="initialSigns">
+        </div>
+    </div>
+
+
+
+</div>
+<!--工具条-->
+<div style="display: none;" id="barDemo">
+    <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+            class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
+            class="layui-icon">&#xe640;</i>删除</a>
+</div></div>
+<!--增加的div内容-->
+<div id="addContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">统计日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" autocomplete="off" placeholder="请输入统计日期" name="dateTime" id="endTime1">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">证券编号</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="text" class="layui-input" autocomplete="off" placeholder="请输入证券编号" name="securitiesName" id="addSecuritiesName">
+                    <input type="hidden" name="securitiesId" id="addSecuritiesId" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block"></div>
+        <input type="hidden" name="fundId" id="fundId" th:value="${session.fundId}">
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">单位成本</label>
+                <div class="layui-inline layui-show-xs-block" style="float: left">
+                    <input type="number" step="1" min="0"  
+                           oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                           class="layui-input" autocomplete="off" placeholder="请输入单位成本" name="price">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">数量</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="number" step="1" min="0"  
+                           oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                           class="layui-input" autocomplete="off" placeholder="请输入数量" name="securitiesNum">
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" >总金额</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="text" class="layui-input" autocomplete="off" placeholder="总金额" name="total">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block" style="float: left">
+                <label class="layui-form-label layui-bg-green" style="height: 100px;line-height: 100px">备注</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <textarea class="layui-textarea"placeholder="备注" cols="" autocomplete="off" name="securitiesInventoryDesc"></textarea>
+
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 0px; margin-left: 200px">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <input type="hidden" name="securitiesInventoryId" id="securitiesInventoryId">
+        <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" autocomplete="off" placeholder="请输入日期" name="dateTime" id="endTime2">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">证券编号</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="text" class="layui-input" autocomplete="off" placeholder="请输入证券编号" name="securitiesName" id="addSecuritiesName1">
+                    <input type="hidden" name="securitiesId" id="addSecuritiesId1" />
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block"></div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">单位成本</label>
+                <div class="layui-inline layui-show-xs-block" style="float: left">
+                    <input type="number" step="1" min="0"  
+                           oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                           class="layui-input" autocomplete="off" placeholder="请输入单位成本" name="price">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green">数量</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="number" step="1" min="0"  
+                           oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                           class="layui-input" autocomplete="off" placeholder="请输入数量" name="securitiesNum">
+                </div>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-green" >总金额</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="text" class="layui-input" autocomplete="off" placeholder="总金额" name="total">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block" style="float: left">
+            <label class="layui-form-label layui-bg-green" style="height: 100px;line-height: 100px">备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea class="layui-textarea"placeholder="备注" cols="" autocomplete="off" name="securitiesInventoryDesc"></textarea>
+
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 20px; margin-left: 200px;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+<!--外部js代码-->
+<script src="../js/securitiesInventory.js" type="text/javascript"></script>
+<!--下拉表格-->
+<script type="text/javascript">
+    layui.use('tableSelect',function(){
+        var tableSelect=layui.tableSelect;
+        tableSelect.render({
+            elem: '#addSecuritiesName',	//定义输入框input对象 必填
+            checkedKey: 'securitiesName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url:'../Securities/selectSecurities',
+                cols: [
+                    [
+                    {type:'radio',field : 'securitiesId'},
+                    { field: 'securitiesId', title: '证券编号',align: 'center'},
+                    { field: 'securitiesName', title: '证券名称',align: 'center'},
+                    { field: 'securitiesType', title: '证券类型',align: 'center',
+                        templet :function(item){
+                            if(item.securitiesType==1){
+                                return '债券';
+                            }
+                            return '股票';
+                        }
+                    }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.securitiesId);
+                    $('#addSecuritiesId').val(item.securitiesId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+        tableSelect.render({
+            elem: '#addAccountName',	//定义输入框input对象 必填
+            checkedKey: 'accountName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url: '../selectAccount',
+                cols: [
+                    [
+                    {type: 'radio', field: 'securitiesId'},
+                    {field: 'accountId', title: '账户编号', align: 'center'},
+                    {field: 'accountName', title: '账户名称', align: 'center'},
+                    {field: 'blankCardCode', title: '银行卡号', align: 'center', width: 180}
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.accountName);
+                    console.log(item.accountId)
+                    $('#addAccountId').val(item.accountId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+        tableSelect.render({
+            elem: '#addSecuritiesName1',	//定义输入框input对象 必填
+            checkedKey: 'securitiesName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url:'../Securities/selectSecurities',
+                cols: [
+                    [
+                        {type:'radio',field : 'securitiesId'},
+                        { field: 'securitiesId', title: '证券代码',align: 'center'},
+                        { field: 'securitiesName', title: '证券名称',align: 'center'},
+                        { field: 'securitiesType', title: '证券类型',align: 'center',
+                            templet :function(item){
+                                if(item.securitiesType==1){
+                                    return '债券';
+                                }
+                                return '股票';
+                            }
+                        }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.securitiesName);
+                    console.log(item.securitiesId)
+                    $('#addSecuritiesId1').val(item.securitiesId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+        tableSelect.render({
+            elem: '#addSecuritiesName1',	//定义输入框input对象 必填
+            checkedKey: 'securitiesName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url:'../Securities/selectSecurities',
+                cols: [
+                    [
+                        {type:'radio',field : 'securitiesId'},
+                        { field: 'securitiesId', title: '证券编号',align: 'center'},
+                        { field: 'securitiesName', title: '证券名称',align: 'center'},
+                        { field: 'securitiesType', title: '证券类型',align: 'center',
+                            templet :function(item){
+                                if(item.securitiesType==1){
+                                    return '债券';
+                                }
+                                return '股票';
+                            }
+                        }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.securitiesId);
+                    $('#addSecuritiesId').val(item.securitiesId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+        tableSelect.render({
+            elem: '#addAccountName1',	//定义输入框input对象 必填
+            checkedKey: 'accountName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url: '../account/selectAccount',
+                cols: [
+                    [
+                        {type: 'radio', field: 'securitiesId'},
+                        {field: 'accountId', title: '账户编号', align: 'center'},
+                        {field: 'accountName', title: '账户名称', align: 'center'},
+                        {field: 'blankCardCode', title: '银行卡号', align: 'center', width: 180}
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.accountName);
+                    console.log(item.accountId)
+                    $('#addAccountId').val(item.accountId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+        tableSelect.render({
+            elem: '#addSecuritiesName1',	//定义输入框input对象 必填
+            checkedKey: 'securitiesName', //表格的唯一建值，非常重要，影响到选中状态 必填
+            table: {	//定义表格参数，与LAYUI的TABLE模块一致，只是无需再定义表格elem
+                url:'../Securities/selectSecurities',
+                cols: [
+                    [
+                        {type:'radio',field : 'securitiesId'},
+                        { field: 'securitiesId', title: '证券代码',align: 'center'},
+                        { field: 'securitiesName', title: '证券名称',align: 'center'},
+                        { field: 'securitiesType', title: '证券类型',align: 'center',
+                            templet :function(item){
+                                if(item.securitiesType==1){
+                                    return '债券';
+                                }
+                                return '股票';
+                            }
+                        }
+                    ]
+                ]
+            },
+            done: function (elem, data) {
+                //选择完后的回调，包含2个返回值 elem:返回之前input对象；data:表格返回的选中的数据 []
+                //拿到data[]后 就按照业务需求做想做的事情啦~比如加个隐藏域放ID...
+                var NEWJSON = []
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.securitiesName);
+                    console.log(item.securitiesId)
+                    $('#addSecuritiesId1').val(item.securitiesId);
+                })
+                elem.val(NEWJSON.join(","))
+            }
+        });
+    });
+</script>
+</body>
+</html>

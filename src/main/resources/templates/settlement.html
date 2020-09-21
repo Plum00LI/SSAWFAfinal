@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>交易结算设置</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+
+</head>
+<body>
+
+<!--结算表头-->
+<script type="text/html" id="userToolBar">
+    <div style="margin-top: 0px;margin-left: 0px" >
+        <form class="layui-form layui-col-space5">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">成交日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">交易方式</label>
+
+                <div class="layui-inline layui-show-xs-block">
+                    <select name="transactionDataMode" id="cateId">
+                        <option placeholder="请选择"></option>
+                        <option value="1">买入</option>
+                        <option value="2">卖出</option>
+                        <option value="3">分红</option>
+                        <option value="4">送股</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn layui-btn-primary"  lay-submit="" lay-filter="select" lay-event="select"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn layui-btn-normal"  type="button" lay-submit="settlement" lay-filter="search" lay-event="search" name="settlement" id="settlement" onclick="return false;" >结算</button>
+            </div>
+        </form>
+        <ul class="layui-tab-title" style="border-bottom-color: #D0D0D0">
+            <li class="layui-this" lay-id="1" style="color:#FF00FF">未结算</li>
+            <li lay-id="2">已结算</li>
+        </ul>
+    </div>
+</script>
+
+<!--反结算表头-->
+<script type="text/html" id="userToolBar2">
+    <div style="margin-top: 0px;margin-left: 0px" >
+        <form class="layui-form layui-col-space5">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">成交日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请输入成交日期" name="dateTime" id="start1">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">交易方式</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <select name="transactionDataMode" id="cateId1">
+                        <option placeholder="请选择"></option>
+                        <option value="1">买入</option>
+                        <option value="2">卖出</option>
+                        <option value="3">分红</option>
+                        <option value="4">送股</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn layui-btn-primary"  lay-submit="" lay-filter="select" lay-event="select"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn layui-btn-normal"  type="button" lay-submit="settlement" lay-filter="search2" lay-event="search2" name="settlement" id="settlement1" onclick="return false"; >反结算</button>
+            </div>
+        </form>
+        <ul class="layui-tab-title" style="border-bottom-color: #D0D0D0">
+            <li class="layui-this" lay-id="1">未结算</li>
+            <li lay-id="2" class="layui-this " style="color:#FF00FF">已结算</li>
+        </ul>
+    </div>
+</script>
+
+<div class="layui-tab" lay-filter="test">
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <!--表格-->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable2" lay-filter="userTable2"></table>
+        </div>
+    </div>
+</div>
+<script src="../js/settlement.js"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.DayEndProcessing.mapper.IncomePaymentMapper">
+
+    <resultMap id="cashInterestIncomeMap" type="com.ssaw.DayEndProcessing.entity.CashInterestIncome">
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="businessType" column="businessType" javaType="Integer"></result>
+        <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
+        <result property="businessDate" column="businessDate" javaType="String"></result>
+        <result property="totalMoney" column="totalMoney" javaType="Double"></result>
+        <result property="deposit" column="deposit" javaType="Integer"></result>
+    </resultMap>
+
+    <select id="selectCashInterestIncome" parameterType="java.util.Map" statementType="CALLABLE" >
+            {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=cashInterestIncomeMap})}
+    </select>
+
+    <resultMap id="bondInterestIncomeMap" type="com.ssaw.DayEndProcessing.entity.BondInterestIncome">
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="securitiesType" column="securitiesType" javaType="Integer"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="totalPrice" column="totalPrice" javaType="Double"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+    </resultMap>
+    <select id="selectBondInterestIncome" parameterType="java.util.Map" statementType="CALLABLE" >
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=bondInterestIncomeMap})}
+    </select>
+
+
+    <resultMap id="payTwoFeesMap" type="com.ssaw.DayEndProcessing.entity.PayTwoFees">
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="businessType" column="businessType" javaType="Integer"></result>
+        <result property="businessStatus" column="businessStatus" javaType="Integer"></result>
+        <result property="totalMoney" column="totalMoney" javaType="Double"></result>
+        <result property="businessDate" column="businessDate" javaType="String"></result>
+    </resultMap>
+    <select id="selectPayTwoFees"  parameterType="java.util.Map" statementType="CALLABLE" >
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=payTwoFeesMap})}
+    </select>
+
+
+</mapper>

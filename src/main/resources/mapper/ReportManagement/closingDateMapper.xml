@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.ReportManagement.mapper.ClosingDateMapper">
+
+    <select id="selectClosingDate" parameterType="String"
+            resultType="com.ssaw.ReportManagement.entity.ClosingDate">
+        select td.*,s.securitiesName,s.securitiesType from((select sum(num) num,sum(netReceipts) netReceipts,sum(totalSum) totalSum,sum(commission) commission,max(securitiesId)  securitiesId
+    ,sum(brokerage) brokerage,sum(stamp) stamp,sum(transfer) transfer,sum(management) management,max(flag) flag,sum(security) security,max(transactionDataMode) transactionDataMode from
+        transactionData where DATETIME=#{dateTime} group by SECURITIESID,transactionDataMode)) td join securities s on td.securitiesId=s.SECURITIESID
+    </select>
+</mapper>

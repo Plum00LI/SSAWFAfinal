@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.ReportManagement.mapper.DifferenceReportMapper">
+
+
+    <select id="selectDifferenceReport" resultType="com.ssaw.ReportManagement.entity.DifferenceReport">
+    select (case exchange when 1 then '上海' else '深圳' end)||(case securitiesType when 1 then '债卷' else '股票' end)as securitiesName,
+    nvl(sum(case flag when 1 then NETRECEIPTS*flag end),0)as outMoney,
+    nvl(sum(case flag when -1 then NETRECEIPTS*flag end),0)as inMoney,
+    nvl(sum(totalSum *flag),0)as totalSum,
+    nvl(sum(COMMISSION),0)as commission,
+    nvl(sum(TRANSFER),0)as transfer,
+    nvl(sum(BROKERAGE),0)as brokerage,
+    nvl(sum(STAMP),0)as stamp,
+    nvl(sum(MANAGEMENT),0)as management,
+    nvl(sum(SECURITY),0)as security,
+    nvl(sum(NETRECEIPTS*flag),0)as netReceipts
+    from  (select * from TRANSACTIONDATA t join (select * from SECURITIES)s on t.SECURITIESID=s.SECURITIESID) where  datetime=#{dateTime} group by exchange,securitiesType
+    union all
+    select '两地合计' as securitiesName,
+    nvl(sum(case flag when 1 then NETRECEIPTS*flag end),0)as outMoney,
+    nvl(sum(case flag when -1 then NETRECEIPTS*flag end),0)as inMoney,
+    nvl(sum(totalSum *flag),0)as totalSum,
+    nvl(sum(COMMISSION),0)as commission,
+    nvl(sum(TRANSFER),0)as transfer,
+    nvl(sum(BROKERAGE),0)as brokerage,
+    nvl(sum(STAMP),0)as stamp,
+    nvl(sum(MANAGEMENT),0)as management,
+    nvl(sum(SECURITY),0)as security,
+    nvl(sum(NETRECEIPTS*flag),0)as netReceipts
+    from TRANSACTIONDATA where datetime=#{dateTime}
+    </select>
+</mapper>

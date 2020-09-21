@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.TAManagement.mapper.TaTransactionMapper">
+
+    <insert id="insertTaTransaction" parameterType="com.ssaw.TAManagement.entity.TaTransaction">
+        insert into taTransaction(taTransactionId,dateTime,balanceDate,fundId,fundNum,accountId,totalMoney,actualMoney,price,cost,agencies,transactionType,transactionStatus) values (#{taTransactionId},#{dateTime},#{balanceDate},#{fundId},#{fundNum},#{accountId},#{totalMoney},#{actualMoney},#{price},#{cost},#{agencies},#{transactionType},#{transactionStatus})
+    </insert>
+
+
+
+    <update id="updateTaTransaction" parameterType="com.ssaw.TAManagement.entity.TaTransaction">
+        update TaTransaction set accountId=#{accountId},transactionType=#{transactionType},fundNum=#{fundNum},cost=#{cost},dateTime=#{dateTime},price=#{price},balanceDate=#{balanceDate},agencies=#{agencies},totalMoney=#{totalMoney},actualMoney=#{actualMoney},transactionStatus=#{transactionStatus} where taTransactionId=#{taTransactionId}</update>
+    <delete id="deleteTaTransaction" parameterType="java.util.List">
+        delete from TaTransaction where taTransactionId in
+        <foreach collection="list" item="taTransactionId" open="(" separator="," close=")">#{taTransactionId}</foreach>
+    </delete>
+    <resultMap id="taTransactionMap" type="com.ssaw.TAManagement.entity.TaTransaction">
+        <result property="taTransactionId" column="taTransactionId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="balanceDate" column="balanceDate" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="fundNum" column="fundNum" javaType="DOUBLE"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="totalMoney" column="totalMoney" javaType="DOUBLE"></result>
+        <result property="actualMoney" column="actualMoney" javaType="DOUBLE"></result>
+        <result property="price" column="price" javaType="DOUBLE"></result>
+        <result property="cost" column="cost" javaType="DOUBLE"></result>
+        <result property="agencies" column="agencies" javaType="Integer"></result>
+        <result property="transactionType" column="transactionType" javaType="Integer"></result>
+        <result property="transactionStatus" column="transactionStatus" javaType="Integer"></result>
+    </resultMap>
+
+    <select id="selectTaTransaction" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=taTransactionMap})}
+    </select>
+
+</mapper>

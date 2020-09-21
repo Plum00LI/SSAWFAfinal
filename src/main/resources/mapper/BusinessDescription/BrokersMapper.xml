@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.BusinessDescription.mapper.BrokersMapper">
+
+    <!--增加-->
+    <insert id="insertBrokers">
+        insert into brokers values (#{brokersId},#{brokersName},#{brokersInstructions},#{brokersDesc})
+    </insert>
+
+    <!--删除-->
+    <delete id="deleteBrokers" parameterType="java.util.List">
+        delete from brokers where brokersId in
+        <foreach collection="list" item="brokersId"
+                 open="(" separator="," close=")">
+            #{brokersId}
+        </foreach>
+    </delete>
+
+    <!--修改-->
+    <update id="updateBrokers" parameterType="com.ssaw.BusinessDescription.entity.Brokers">
+        update brokers set brokersName=#{brokersName},brokersInstructions=#{brokersInstructions},brokersDesc=#{brokersDesc} where brokersId=#{brokersId}
+    </update>
+
+    <!--查询-->
+    <resultMap id="brokersMap" type="com.ssaw.BusinessDescription.entity.Brokers">
+        <result property="brokersId" column="brokersId" javaType="String"></result>
+        <result property="brokersName" column="brokersName" javaType="String"></result>
+        <result property="brokersInstructions" column="brokersInstructions" javaType="String"></result>
+        <result property="brokersDesc" column="brokersDesc" javaType="String"></result>
+    </resultMap>
+
+    <select id="selectBrokers" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=brokersMap})}
+    </select>
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.CashManagement.mapper.BankTreasurerMapper">
+    <insert id="insertBankTreasurer">
+        insert into bankTreasurer(bankTreasurerId,fundId,totalPrice,accountId,flag,dbTime,dateTime,businessId,allocatingType,bankTreasurerDesc)
+        values (#{bankTreasurerId},#{fundId},#{totalPrice},#{accountId},#{flag},#{dbTime},#{dateTime},#{businessId},#{allocatingType},#{bankTreasurerDesc})
+    </insert>
+    <update id="updateBankTreasurer">
+        	UPDATE bankTreasurer SET  accountId=#{accountId},
+		totalPrice=#{totalPrice},allocatingType=#{allocatingType},flag=#{flag},
+		dbTime=#{dbTime},bankTreasurerDesc=#{bankTreasurerDesc} ,dateTime=#{dateTime} WHERE bankTreasurerId=#{bankTreasurerId}
+    </update>
+    <delete id="deleteBankTreasurer" parameterType="list">
+            delete from bankTreasurer where bankTreasurerId in
+            <foreach collection="list" item="bankTreasurerId" open="(" separator="," close=")">
+                #{bankTreasurerId}
+            </foreach>
+    </delete>
+    <delete id="deleteBankTreasurerByDepositId">
+        delete from bankTreasurer where businessId=#{businessId}
+    </delete>
+
+    <resultMap id="bankTreasurerMap" type="com.ssaw.CashManagement.entity.BankTreasurer">
+        <result property="bankTreasurerId" column="bankTreasurerId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="totalPrice" column="totalPrice" javaType="Double"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="dbTime" column="dbTime" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="businessId" column="businessId" javaType="String"></result>
+        <result property="allocatingType" column="allocatingType" javaType="Integer"></result>
+        <result property="bankTreasurerDesc" column="bankTreasurerDesc" javaType="String"></result>
+    </resultMap>
+    <select id="selectBankTreasurer" parameterType="java.util.Map" statementType="CALLABLE">
+       {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=bankTreasurerMap})}
+    </select>
+
+
+</mapper>

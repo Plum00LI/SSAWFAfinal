@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.DayEndProcessing.mapper.OperationValueStatisticsMapper">
+
+    <select id="selectOperationValueStatistics" resultType="com.ssaw.DayEndProcessing.entity.OperationValueStatistics">
+select (b.ACCOUNTID)ACCOUNTID,(f.ACCOUNTNAME)ACCOUNTNAME,(f.BLANKCARDCODE)BLANKCARDCODE,(c.CASHBLANCE)CASHBLANCE,TOTALMONEY from (select * from ACCOUNT where FUNDID=#{param2}) f
+join(select * from CASHINVENTORY where DATETIME=#{param1} and FUNDID=#{param2})c on c.ACCOUNTID=f.ACCOUNTID
+join (select * from CASHCLOSEDPAYINVENTORY where BUSINESSDATE=#{param1} and FUNDID=#{param2} and BUSINESSTYPE=#{param3})b on c.ACCOUNTID=b.ACCOUNTID
+</select>
+    <select id="selectOperationTA" resultType="com.ssaw.DayEndProcessing.entity.OperationValueStatistics">
+select NVL(sum(TOTALMONEY),'')TOTALMONEY from CASHCLOSEDPAYINVENTORY where ACCOUNTID=#{param1} and BUSINESSTYPE=#{param2} and BUSINESSSTATUS=#{param3} and BUSINESSDATE=#{param4} and fundID=#{param5}
+</select>
+    <select id="selectOperationCost" resultType="com.ssaw.DayEndProcessing.entity.OperationValueStatistics">
+select TOTALMONEY from CASHCLOSEDPAYINVENTORY where  ACCOUNTID=#{param1} and BUSINESSDATE=#{param2} and FUNDID=#{param3} and BUSINESSTYPE=#{param4}
+
+</select>
+
+</mapper>

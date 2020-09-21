@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>证券市场变动表</title>
+    <link type="text/css" rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <script type="text/javascript" src="../lib/layui/layui.js"></script>
+    <!--表格头文件-->
+    <script type="text/html" id="userToolBar">
+        <form class="layui-form layui-col-space5" >
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-green" style="width: 100px;text-align: center">日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" autocomplete="off"  placeholder="请选择日期" name="start" id="start" >
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <button class="layui-btn"  lay-submit lay-event="search" lay-filter="search" id="searchId"><i class="layui-icon">&#xe615;</i>搜索</button>
+            </div>
+        </form>
+
+    </script>
+
+    <script type="text/javascript">
+        layui.use(['table', 'form', 'layer','laydate'], function () {
+            var table = layui.table;
+            var form = layui.form;
+            var layer = layui.layer;
+            var laydate=layui.laydate;
+            var $ = layui.$;
+            laydate.render({
+                elem:'#start'
+            });
+
+
+            table.render({
+                elem: '#myTable' //实例化表格的ID名称
+                , url: '../selectSecuritiesMarket'   //接收JSON数据的路径
+                , toolbar: '#userToolBar' //开启头部工具栏，并为其绑定左侧模板
+                , title: '用户数据表'//表格名称
+                , cellMinWidth: 100
+                , height:'full-30'
+                , page: true
+                , cols:[
+                    [
+                        {field : 'securitiesId', align: 'center', title : '证券代码', width:120}
+                        ,{field : 'securitiesName', align: 'center', title : '证券名称'}
+                        ,{field : 'securitiesNum', align: 'center', title : '证券数量'}
+                        ,{field : 'price', align: 'center', title : '单位成本'}
+                        ,{field : 'closingPrice', align: 'center', title : '行情价格'}
+                        ,{field : 'marketChangeValue', align: 'center', title : '市值变动值'}
+                        ,{field : 'netAssetValue', align: 'center', title : '资产净值',hide:true}
+                        ,{field : 'ratio', align: 'center', title : '市值占净值比'}
+                    ]
+                ]
+
+            });
+            //给工具条的按钮添加事件
+            table.on('toolbar(myTable)', function (obj) {
+                switch (obj.event) {
+                    case "search":
+                        var dateTime=$('#start').val();
+                        table.reload('myTable', {
+                            method: 'post',
+                            page: {
+                                curr: 1
+                            },
+                            where:{
+                                'dateTime':dateTime
+                            }
+                        });
+                        laydate.render({
+                            elem:'#start'
+                        });
+                        break;
+                }
+            })
+        })
+
+    </script>
+</head>
+<body>
+
+<table id="myTable" lay-filter="myTable"></table>
+</body>
+</html>

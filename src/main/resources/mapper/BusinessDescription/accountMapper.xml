@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.BusinessDescription.mapper.AccountMapper">
+    <insert id="insertAccount" parameterType="com.ssaw.BusinessDescription.entity.Account">
+    insert into account(accountId,fundId,blankCardCode,accountName,blankName,deposit,cardRate,procisionDays,
+    openTime,endTime,accountDesc) values (#{accountId},#{fundId},#{blankCardCode},#{accountName},#{blankName},
+    #{deposit},#{cardRate},#{procisionDays},#{openTime},#{endTime},#{accountDesc})
+    </insert>
+    <update id="updateAccount" parameterType="com.ssaw.BusinessDescription.entity.Account">
+    update account set accountName=#{accountName},deposit=#{deposit},cardRate=#{cardRate},procisionDays=#{procisionDays},accountDesc=#{accountDesc} where accountId=#{accountId}
+    </update>
+    <delete id="deleteAccount" parameterType="list">
+        delete from account where accountId in
+        <foreach collection="list" item="accountId" open="(" separator="," close=")">
+            #{accountId}
+        </foreach>
+    </delete>
+    <resultMap id="accountMap" type="com.ssaw.BusinessDescription.entity.Account">
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="blankCardCode" column="blankCardCode" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="blankName" column="blankName" javaType="String"></result>
+        <result property="deposit" column="deposit" javaType="Integer"></result>
+        <result property="cardRate" column="cardRate" javaType="Double"></result>
+        <result property="procisionDays" column="procisionDays" javaType="Integer"></result>
+        <result property="openTime" column="openTime" javaType="String"></result>
+        <result property="endTime" column="endTime" javaType="String"></result>
+        <result property="accountDesc" column="accountDesc" javaType="String"></result>
+    </resultMap>
+
+    <select id="selectAccount" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=accountMap})}
+    </select>
+    <select id="selectAccountById" resultType="com.ssaw.BusinessDescription.entity.Account">
+        select * from account where accountId=#{accountId}
+    </select>
+
+</mapper>

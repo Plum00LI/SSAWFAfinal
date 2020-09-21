@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--傅赛赢  -->
+    <title>证券信息设置</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+    <script src="../js/seatSchedule.js"></script>
+    <script src="../js/fund.js"></script>
+</head>
+<body>
+<!--工具条-->
+<script type="text/html" id="userToolBar">
+    <form class="layui-form">
+        <label class="layui-form-label layui-bg-gray">席位</label>
+        <div class="layui-inline layui-show-xs-block">
+            <input name="seatTypes" lay-verify="required" id="seatTypes"
+                   autocomplete="off" placeholder="" class="layui-input">
+            <input type="hidden" id="seateIds" name="seateIds">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">查询类型</label>
+            <div class="layui-inline layui-show-xs-block">
+                <select name="datefind" id="datefind">
+                    <option value="1">查询当日</option>
+                    <option value="2">查询当月</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">划款日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input" autocomplete="off" placeholder="请输入划款日期" name="datetime" id="datetime">
+                </div>
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>查询
+            </button>
+        </div>
+    </form>
+</script>
+<div class="layuimini-main">
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable" ></table>
+</div>
+<!--交易席位表 seate-->
+<!--席位下拉表格-->
+<script type="text/javascript">
+    layui.use(['table', 'form', 'tableSelect'], function () {
+        var $ = layui.jquery,
+            // table = layui.table,
+            // form = layui.form,
+            tableSelect = layui.tableSelect;
+        tableSelect.render({
+            elem: '#seatTypes',
+            checkedKey: 'seateId',
+            table: {
+                url: '../seateSelect',
+                cols: [
+                    [
+                        {type: 'radio'},
+                        {field: 'seateId', align: 'center', title: '基金ID'},
+                        {field: 'seateName', align: 'center', title: '基金名称'}
+                    ]]
+            },
+            done: function (elem, data) {
+                var NEWJSON = [];
+                layui.each(data.data, function (index, item) {
+                    NEWJSON.push(item.seateId)
+                    $("#seateIds").val(item.seateId)
+                });
+                elem.val(NEWJSON.join(","))
+            }
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>table下拉选择器</title>
+    <link rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layuimini/css/public.css" media="all">
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+    <script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <form class="layui-form" action="#" method="get" style="padding: 20px">
+            <div class="layui-input-inline">
+                <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input" id="demo">
+                <input type="hidden" name="id" id="userId">
+                <div th:text="${session.fundId}"></div>
+                <input type="" name="fundId" th:value="${session.fundId}">
+                <input type="" name="accountId" th:value="${session.a}">
+                <input type="submit" value="commit">
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    layui.use(['table','form','tableSelect'],function () {
+        var $ = layui.jquery,
+            table = layui.table,
+            form = layui.form,
+            tableSelect = layui.tableSelect;
+
+        tableSelect.render({
+            elem:'#demo'
+            ,checkedKey:'id'
+            ,table:{
+                url:'../lib/layuimini/api/tableSelect.json'
+                ,cellMinWidth: 60
+                ,cols:[
+                    [
+                        {type:'checkbox'},
+                        {field:'id',title:'id',hide:true},
+                        {field: 'username',title:'姓名'},
+                        {field: 'sex',title: '性别'}
+                ]
+                ]
+            }
+            ,done:function (elem,data) {
+                var NEWJSON = []
+                layui.each(data.data,function (index,item) {
+                    NEWJSON.push(item.username);
+                    $("#userId").val(item.id);
+            })
+            elem.val(NEWJSON.join(","))
+            }
+        })
+    })
+</script>
+
+</body>
+</html>

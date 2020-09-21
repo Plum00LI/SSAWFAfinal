@@ -1,0 +1,26 @@
+server:
+  port: 9100
+  address: 127.0.0.1
+  servlet:
+    context-path: /
+  tomcat:
+    connection-timeout: 60000
+    uri-encoding: UTF-8
+    max-connections: 10000
+    threads:
+      min-spare: 10
+
+spring:
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource:
+    url: jdbc:oracle:thin:@192.168.136.254:1521:orcl
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: SSAWFA
+    password: SSAWFA123
+mybatis:
+  mapper-locations: classpath:/mapper/*/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

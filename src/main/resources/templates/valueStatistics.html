@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div id="toolbarDemo">
+            <div>
+                <form id="searchform" lay-filter="searchform"
+                      class="layui-form layui-form-pane">
+                    <div class="layui-form">
+                        <div class="layui-form-item">
+                            <label style="height: 32px;" class="layui-form-label">统计日期</label>
+                            <div class="layui-inline">
+                                <input type="text" style="height: 32px;" class="layui-input" id="test12" name ="datetime">
+                            </div>
+                            <div class="layui-inline">
+                                <button type="button"
+                                        class="layui-btn layui-btn-sm search" id="statisticsButton" >
+                                    <i class="layui-icon">&#xe615;</i>统计
+                                </button>
+                                <button type="button" lay-event="search1"
+                                        class="layui-btn layui-btn-sm" id="statisticsButton2">
+                                    <i class="layui-icon">&#xe615;</i>查询
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+    </div>
+
+        <div>
+            <div class="layui-btn-group" id="toolbarDemo3" style="display: none;" >
+                <button class="layui-btn" id="btn-expand" lay-event="btn-expand">全部展开</button>
+                <button class="layui-btn layui-btn-normal" id="btn-fold" lay-event="btn-fold">全部折叠</button>
+            </div>
+            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+        </div>
+        <script type="text/html" id="toolbarDemo2">
+            <div class="layui-btn-container">
+
+            </div>
+        </script>
+ </div>
+</div>
+
+
+<input type="hidden" id="fundId" name="fundId" th:value="${session.fundId}">
+<input type="hidden" id="accountId" name="accountId" th:value="${session.accountId}">
+
+</body>
+</html>
+<script src="../lib/layuimini/lib/layui-v2.5.5/layui.js" charset="utf-8"></script>
+<script src="../lib/layuimini/js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['table', 'treetable','laydate'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
+        var dates = layui.laydate;
+        dates.render({
+            elem: '#test12',
+            type: 'date' ,//默认，可不填
+            value: new Date()//获取当前时间
+        });
+
+        var fundId=$('#fundId').val();
+        var accountId=$('#accountId').val();
+
+        // 渲染表格
+        layer.load(2);
+        treetable.render(
+            {
+
+            treeColIndex: 1,
+            treeSpid: -1,
+            treeIdName: 'projectId',
+            treePidName: 'projectFatherId',
+            toolbar: '#toolbarDemo3',
+            defaultToolbar: ['filter', 'exports', 'print'],
+            elem: '#munu-table',
+            // url: '../lib/layuimini/api/test.json',
+            url: '../ValueStatistics/selectValueStatistics?valueStatisticsDate='+$('#test12').val()+' &fundId='+fundId+' &accountId='+accountId
+            ,
+
+            page: false,
+            cols: [
+                [
+                    {type: 'checkbox'},
+                    {field: 'projectName', minWidth: 150, align: 'left', title: '项目名称'},
+                    {field: 'projectCode', width: 150, align: 'center',title: '项目代码'},
+                    {field: 'quantityint', width: 150, align: 'center',title: '股数',templet: function (x) {
+                            if(x.quantityint==null){
+                                return "";
+                            }
+                            else{
+                                return fmoney(x.quantityint,2);
+                            }
+                        }
+                     },
+                    {field: 'peice', width: 150, align: 'center',title: '行情'},
+                    {field: 'cost', width: 150, align: 'center',title: '成本',templet: function (x) {
+                            if(x.cost==null){
+                                return "";
+                            }else if(x.projectName=='单位净值'){
+                                return fmoney(x.cost,3);
+                            }
+                            else{
+                                return fmoney(x.cost,2);
+                            }
+                        }
+                        },
+                    {field: 'marketValue', width: 150, align: 'center',title: '市值',templet: function (x) {
+                            if(x.marketValue==null){
+                                return "";
+                            }
+                            else{
+                                return fmoney(x.marketValue,2);
+                            }
+                        }
+                     },
+                    {field: 'valuation', width: 150, align: 'center',title: '估值增值',templet: function (x) {
+                            if(x.valuation==null){
+                                return "";
+                            }
+                            else{
+                                return fmoney(x.valuation,2);
+                            }
+                        }
+                    }
+
+                ]
+            ],
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+        table.on('toolbar(munu-table)', function (obj) {
+            switch (obj.event) {
+                <!--展开按钮-->
+                case 'btn-expand':
+                    treetable.expandAll('#munu-table');
+                    break;
+                case 'btn-fold':
+                    <!--折叠按钮-->
+                    treetable.foldAll('#munu-table');
+                    break;
+            }
+        });
+
+
+        $('#statisticsButton').click(function(){
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'projectId',
+                treePidName: 'projectFatherId',
+                toolbar: '#toolbarDemo3',
+                defaultToolbar: ['filter', 'exports', 'print'],
+                elem: '#munu-table',
+                // url: '../lib/layuimini/api/test.json',
+                url: '../ValueStatistics/insertValueStatistics?valueStatisticsDate='+$('#test12').val()+' &fundId='+fundId+' &accountId='+accountId
+                ,
+
+                page: false,
+                cols: [
+                    [
+                        {type: 'checkbox'},
+                        {field: 'projectName', minWidth: 150, align: 'left', title: '项目名称'},
+                        {field: 'projectCode', width: 150, align: 'center',title: '项目代码'},
+                        {field: 'quantityint', width: 150, align: 'center',title: '股数',templet: function (x) {
+                                if(x.quantityint==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.quantityint,2);
+                                }
+                            }
+                        },
+                        {field: 'peice', width: 150, align: 'center',title: '行情'},
+                        {field: 'cost', width: 150, align: 'center',title: '成本',templet: function (x) {
+                                if(x.cost==null){
+                                    return "";
+                                }else if(x.projectName=='单位净值'){
+                                    return fmoney(x.cost,3);
+                                }
+                                else{
+                                    return fmoney(x.cost,2);
+                                }
+                            }
+                        },
+                        {field: 'marketValue', width: 150, align: 'center',title: '市值',templet: function (x) {
+                                if(x.marketValue==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.marketValue,2);
+                                }
+                            }
+                        },
+                        {field: 'valuation', width: 150, align: 'center',title: '估值增值',templet: function (x) {
+                                if(x.valuation==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.valuation,2);
+                                }
+                            }
+                        }
+
+                    ]
+                ],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        })
+        $('#statisticsButton2').click(function(){
+
+            treetable.render({
+                treeColIndex: 1,
+                treeSpid: -1,
+                treeIdName: 'projectId',
+                treePidName: 'projectFatherId',
+                toolbar: '#toolbarDemo3',
+                defaultToolbar: ['filter', 'exports', 'print'],
+                elem: '#munu-table',
+                // url: '../lib/layuimini/api/test.json',
+                url: '../ValueStatistics/selectValueStatistics?valueStatisticsDate='+$('#test12').val()+' &fundId='+fundId+' &accountId='+accountId
+                ,
+
+                page: false,
+                cols: [
+                    [
+                        {type: 'checkbox'},
+                        {field: 'projectName', minWidth: 150, align: 'left', title: '项目名称'},
+                        {field: 'projectCode', width: 150, align: 'center',title: '项目代码'},
+                        {field: 'quantityint', width: 150, align: 'center',title: '股数',templet: function (x) {
+                                if(x.quantityint==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.quantityint,2);
+                                }
+                            }
+                        },
+                        {field: 'peice', width: 150, align: 'center',title: '行情'},
+                        {field: 'cost', width: 150, align: 'center',title: '成本',templet: function (x) {
+                                if(x.cost==null){
+                                    return "";
+                                }else if(x.projectName=='单位净值'){
+                                    return fmoney(x.cost,3);
+                                }
+                                else{
+                                    return fmoney(x.cost,2);
+                                }
+                            }
+                        },
+                        {field: 'marketValue', width: 150, align: 'center',title: '市值',templet: function (x) {
+                                if(x.marketValue==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.marketValue,2);
+                                }
+                            }
+                        },
+                        {field: 'valuation', width: 150, align: 'center',title: '估值增值',templet: function (x) {
+                                if(x.valuation==null){
+                                    return "";
+                                }
+                                else{
+                                    return fmoney(x.valuation,2);
+                                }
+                            }
+                        }
+
+                    ]
+                ],
+                done: function () {
+                    layer.closeAll('loading');
+                }
+            });
+        })
+
+
+    });
+    function fmoney(s, n)
+
+    {
+
+        n = n > 0 && n <= 20 ? n : 2;
+
+        s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
+
+        var l = s.split(".")[0].split("").reverse(),
+
+            r = s.split(".")[1];
+
+        t = "";
+
+        for(i = 0; i < l.length; i ++ )
+
+        {
+
+            t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
+
+        }
+
+        return t.split("").reverse().join("") + "." + r;
+
+    }
+</script>

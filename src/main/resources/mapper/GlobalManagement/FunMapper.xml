@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.GlobalManagement.mapper.FunMapper">
+<select id="selectFun"  resultType="com.ssaw.GlobalManagement.entity.Fun">
+    SELECT id,title,NVL(endowId,0) AS endowId FROM (SELECT * FROM fun WHERE pid=#{param1})LEFT JOIN ( SELECT * FROM endow WHERE roleId=#{param2}) ON id=funId
+</select>
+
+
+
+</mapper>

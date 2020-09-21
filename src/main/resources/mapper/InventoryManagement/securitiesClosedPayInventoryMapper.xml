@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.InventoryManagement.mapper.SecuritiesClosedPayInventoryMapper">
+
+    <insert id="insertSecuritiesClosedPayInventory" parameterType="com.ssaw.InventoryManagement.entity.SecuritiesClosedPayInventory">
+         insert into securitiesClosedPayInventory values (#{securitiesClosedPayInventoryId},#{dateTime},#{fundId},#{securitiesId},#{securitiesType},#{flag},#{totalPrice},#{securitiesClosedPayDesc},#{securityPeriodFlag})
+    </insert>
+
+    <update id="updateSecuritiesClosedPayInventory">
+        update securitiesClosedPayInventory set dateTime=#{dateTime},fundId=#{fundId},securitiesId=#{securitiesId},securitiesType=#{securitiesType},flag=#{flag},totalPrice=#{totalPrice},securitiesClosedPayDesc=#{securitiesClosedPayDesc,jdbcType=VARCHAR},securityPeriodFlag=#{securityPeriodFlag} where securitiesClosedPayInventoryId=#{securitiesClosedPayInventoryId}
+    </update>
+
+    <delete id="deleteSecuritiesClosedPayInventory" parameterType="list">
+        delete from securitiesClosedPayInventory where securitiesClosedPayInventoryId in
+        <foreach collection="list" item="securitiesClosedPayInventoryId" open="("
+                 separator="," close=")">
+            #{securitiesClosedPayInventoryId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteSecuritiesClosedPayInventoryDate">
+        delete from securitiesClosedPayInventory where SECURITYPERIODFLAG=0 and dateTime=#{dateTime} and fundId=#{fundId} and securitiesid=#{securitiesid}
+    </delete>
+
+    <resultMap id="securitiesClosedPayInventoryMap" type="com.ssaw.InventoryManagement.entity.SecuritiesClosedPayInventory">
+        <result property="securitiesClosedPayInventoryId" column="securitiesClosedPayInventoryId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="securitiesType" column="securitiesType" javaType="Integer"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="totalPrice" column="totalPrice" javaType="Double"></result>
+        <result property="securitiesClosedPayDesc" column="securitiesClosedPayDesc" javaType="String"></result>
+        <result property="securityPeriodFlag" column="securityPeriodFlag" javaType="Integer"></result>
+    </resultMap>
+    <select id="selectSecuritiesClosedPayInventory" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=securitiesClosedPayInventoryMap})}
+    </select>
+</mapper>

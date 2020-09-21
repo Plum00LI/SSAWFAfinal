@@ -1,0 +1,249 @@
+<!--syt
+1.0-->
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>现金库存</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+
+
+    <!--工具条-->
+    <script type="text/html" id="cashInventoryToolBar">
+        <div style="float:right">
+            <input type="checkbox" lay-event="initialSigns" title="是否为期初数据" lay-filter="initialSigns">&nbsp&nbsp&nbsp&nbsp
+            <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm layui-btn-disabled" lay-event="" id="addbtn"><i
+                    class="layui-icon">&#xe654;</i>添加数据</button>
+            <button class="layui-btn layui-btn-primary layui-btn layui-btn-sm" lay-event="deleteAll" style="color: #FF0000"><i
+                    class="layui-icon">&#xe640;</i>批量删除</button>
+        </div>
+        <form class="layui-form layui-col-space5">
+
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label" style="width: 110px;text-align: center">账户名称</label>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"  autocomplete="off" placeholder="请选择现金账户" name="accountName" id="searchAccountName">
+                <input type="hidden" name="accountId" id="searchAccountId"/>
+
+            </div>
+            <input type="hidden" name="fundId" id="searchFundId" th:value="${session.fundId}">
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label " style="width: 110px;text-align: center ;">统计日期</label>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"  autocomplete="off" placeholder="请输入统计日期"  id="dateTime">
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <a class="layui-btn layui-btn-primary"  lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</a>
+            </div>
+        </form>
+    </script>
+
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+<div>
+    <!--表格-->
+    <table id="cashInventoryTable" lay-filter="cashInventoryTable">
+        <input type="hidden" name="fundId" id="tableFundId" th:value="${session.fundId}">
+    </table>
+    <!--工具条-->
+    <div style="display: none;" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+                class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del" style="color: #FF0000"><i
+                class="layui-icon">&#xe640;</i>删除</a>
+
+    </div>
+</div>
+<!--增加的div内容-->
+<div id="addContent" style="display: none; height: 100%; width:100%; text-align: center">
+    <form id="addform" lay-filter="addform" class="layui-form layui-col-space5" style="margin: 50px auto; display: inline-block;">
+        <div style="float: left;">
+            <input type="hidden" name="fundId" id="fundId" th:value="${session.fundId}">
+            <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input type="text"  class="layui-input"  autocomplete="off" placeholder="日期" name="dateTime" id="dateTime1">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">现金账户</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择现金账户" name="accountName" id="insertAccountName">
+                    <input type="hidden" name="accountId" id="insertAccountId"/>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="layui-inline layui-show-xs-block" style="float: left">
+            <label class="layui-form-label layui-bg-primary" style="text-align: center">余额</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input type="text" class="layui-input" placeholder="余额" name="cashBlance" id="cashBlance1">
+            </div>
+        </div>
+        <br>
+        <br>
+        <br/>
+        <br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-primary" style="text-align: center; width: 130px; height: 81px; line-height: 81px">备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="cashInventoryDesc" placeholder="请输入" class="layui-textarea" style="width: 467px"></textarea>
+            </div>
+        </div>
+
+
+
+        <div style="position: absolute; bottom: 20px; margin-left:220px;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+
+        <input name="cashInventoryId" type="hidden">
+        <div style="float: left;">
+            <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">日期</label>
+                <div class="layui-inline layui-show-xs-block">
+<!--                    autocomplete="off"-->
+                    <input type="text" class="layui-input"   placeholder="日期" name="dateTime" id="dateTime2" readonly>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">现金账户ID</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input  type="text" class="layui-input" placeholder="现金账户ID" name="accountId"  readonly>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div style="float: left;">
+            <div class="layui-inline layui-show-xs-block" style="text-align: center;">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">账户名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input  type="text" class="layui-input" readonly autocomplete="off" placeholder="账户名称" name="accountName" id="accountName1">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-primary" style="text-align: center">余额</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input  type="text" class="layui-input" placeholder="余额" name="cashBlance" id="cashBlance" onkeyup = "if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"onafterpaste = "if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}">
+                </div>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-primary" style="text-align: center; width: 130px; height: 101px; line-height: 81px">备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="cashInventoryDesc"  placeholder="请输入" class="layui-textarea" style="width: 467px"></textarea>
+            </div>
+<!--         required lay-verify="required"   -->
+        </div>
+        <div style="position: absolute;  bottom: 20px; margin-left:220px;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-bg-red cancel" type="button" onclick="myclose()">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+<script src="../js/cashInventory.js"></script>
+<script type="text/javascript">
+    layui.use('form',function(){var form=layui.form;form.render('radio','sreach')})
+    layui.use([ 'tableSelect'], function () {
+        var $=layui.jquery,
+            tableSelect=layui.tableSelect;
+        // 搜索框下拉表格
+        tableSelect.render({
+            elem:'#searchAccountName',
+            checkedKey:'accountName',
+            table:{
+                url:'../account/selectAccount',
+                // cellMinWidth:60,
+
+                cols:[
+                    [   {type:'radio'},
+                        {field:'accountName',title:'账户名称',width:250},
+                        {field: 'accountId',title: '账号Id',width:250}
+                    ]
+                ]
+            },
+            done:function (elem,data) {
+                //elem:返回之前input对象；data:表格返回的选中的数据 []
+                var newJson=[];
+                //遍历选中的数据
+                $.each(data.data,function (index,item) {
+                    newJson.push(item.accountName);
+                    console.log(item.accountId);
+                    $("#searchAccountId").val(item.accountId);//给隐藏域中的val赋值
+                });
+                elem.val(newJson.join(","));//给输入框里显示的值赋值
+            }
+        })
+        //增加下拉表格
+        tableSelect.render({
+            elem:'#insertAccountName',
+            checkedKey:'accountName',
+            table:{
+                url:'../account/selectAccount',
+                // cellMinWidth:60,
+
+                cols:[
+                    [   {type:'radio'},
+                        {field:'accountName',title:'账户名称',width:250},
+                        {field: 'accountId',title: '账号Id',width:250}
+                    ]
+                ]
+            },
+            done:function (elem,data) {
+                //elem:返回之前input对象；data:表格返回的选中的数据 []
+                var newJson=[];
+                //遍历选中的数据
+                $.each(data.data,function (index,item) {
+                    newJson.push(item.accountName);
+                    console.log(item.accountId);
+                    $("#insertAccountId").val(item.accountId);//给隐藏域中的val赋值
+                });
+                elem.val(newJson.join(","));//给输入框里显示的值赋值
+            }
+        })
+
+    })
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.BusinessData.mapper.SecuritiesClosedPayMapper">
+    <insert id="insertSecuritiesClosedPay" parameterType="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        insert into securitiesClosedPay values(#{securitiesClosedPayId,jdbcType=VARCHAR},#{fundId,jdbcType=VARCHAR},#{accountId,jdbcType=VARCHAR},#{securitiesId,jdbcType=VARCHAR},#{serviceType},#{amount},#{dateTime,jdbcType=VARCHAR},#{flag})
+    </insert>
+    <update id="updateSecuritiesClosedPay" parameterType="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        update securitiesClosedPay set accountId=#{accountId},securitiesId=#{securitiesId},serviceType=#{serviceType},amount=#{amount},dateTime=#{dateTime},flag=#{flag} where securitiesClosedPayId=#{securitiesClosedPayId}
+    </update>
+    <delete id="deleteSecuritiesClosedPay" parameterType="java.util.List">
+        delete from securitiesClosedPay where securitiesClosedPayId in
+        <foreach collection="list" item="securitiesClosedPayId" open="(" separator="," close=")">
+            #{securitiesClosedPayId}
+        </foreach>
+    </delete>
+    <delete id="deleteSecuritiesNew" parameterType="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        delete from securitiesClosedPay where dateTime=#{dateTime} and fundId=#{fundId} and serviceType=#{serviceType} and  flag=#{flag}
+    </delete>
+
+    <delete id="deleteSecuritiesClosedPayByPojo" parameterType="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        delete from SecuritiesClosedPay where dateTime=#{dateTime} and fundId=#{fundId} and securitiesId=#{securitiesId}
+    </delete>
+
+    <resultMap id="securitiesClosedPayMap" type="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        <result property="securitiesClosedPayId" column="securitiesClosedPayId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="serviceType" column="serviceType" javaType="Integer"></result>
+        <result property="amount" column="amount" javaType="Double"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+    </resultMap>
+    <select id="selectSecuritiesClosedPay" parameterType="java.util.Map" statementType="CALLABLE"
+            resultType="java.util.Map">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=VARCHAR},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=securitiesClosedPayMap})}
+    </select>
+    <select id="selectSecuritiesNew" resultType="com.ssaw.BusinessData.entity.SecuritiesClosedPay">
+        select * from securitiesClosedPay where  dateTime=#{dateTime} and fundId=#{fundId} and serviceType=#{serviceType} and  flag=#{flag}
+    </select>
+</mapper>

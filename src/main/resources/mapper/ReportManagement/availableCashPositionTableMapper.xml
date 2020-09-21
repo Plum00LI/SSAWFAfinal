@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.ReportManagement.mapper.AvailableCashPositionTableMapper">
+
+    <resultMap id="AvailableMap" type="com.ssaw.ReportManagement.entity.AvailableCashPositionTable">
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="cashBlance" column="cashBlance" javaType="Double"></result>
+    </resultMap>
+    <select id="selectAvailable"  parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AvailableMap})}
+    </select>
+
+
+</mapper>

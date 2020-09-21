@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>划款指令页面</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+    <script src="../js/transferMoney.js"></script>
+</head>
+<body>
+<!--工具条-->
+<script type="text/html" id="userToolBar">
+    <div style="float:right">
+        <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+                class="layui-icon">&#xe654;</i>添加划款指令</button>
+        <button class="layui-btn layui-btn-primary layui-btn layui-btn-sm" lay-event="deleteAll" style="color: #FF0000"><i
+                class="layui-icon">&#xe640;</i>批量删除</button>
+    </div>
+    <form class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label" style="width: 110px;text-align: center">划款日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input"  autocomplete="off" placeholder="请选择日期" name="crossSectionDate" id="start">
+            </div>
+        </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn layui-btn-primary"  lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索</button>
+        </div>
+    </form>
+</script>
+
+<div class="layuimini-main">
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable"></table>
+    <!--工具条-->
+    <div style="display: none;" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+                class="layui-icon">&#xe642;</i>生成指令</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del" style="color: #FF0000"><i
+                class="layui-icon">&#xe640;</i>删除</a>
+
+    </div>
+</div>
+<!--增加的div内容-->
+<div id="addContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">收款账户</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择收款账户" name="inAccountName" id="insertAccount">
+                    <input type="hidden" name="inAccountId" id="inAccountId"/>
+                    <input type="hidden" name="inBlankName" id="inBlankName"/>
+                    <input type="hidden" name="foundId" th:value="${session.fundId}">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">付款账户</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择付款账户" name="outAccountName" id="insertAccount2">
+                    <input type="hidden" name="outAccount" id="outAccount"/>
+                    <input type="hidden" name="outBlankName" id="outBlankName"/>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">划款金额</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" type="number" placeholder="请输入划款金额" name="money">
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">划款日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择划款日期" name="crossSectionDate" id="end">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">到账日期</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off" placeholder="请选择到账日期" name="accountingDate" id="up">
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="text-align: center; width: 130px; height: 100px; line-height: 81px">备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="purpose" required lay-verify="required" placeholder="划款用途" class="layui-textarea" style="width: 467px"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute;  bottom: 20px; left: 38%">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="myclose()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+<!--生成指令的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <div>
+            <input type="hidden" name="transferMoneyId"/>
+            <input type="hidden" name="inAccountId"/>
+            <input type="hidden" name="inBlankName"/>
+            <input type="hidden" name="inBlankCardCode"/>
+            <input type="hidden" name="crossSectionDate"/>
+            <input type="hidden" name="accountingDate"/>
+            <input type="hidden" name="money"/>
+            <input type="hidden" name="outAccount"/>
+            <input type="hidden" name="outBlankName"/>
+            <input type="hidden" name="outBlankCardCode"/>
+            <input type="hidden" name="foundId"/>
+            <input type="hidden" name="purpose"/>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 120px;text-align: center">显示抬头项</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 184px">
+                    <select name="orderCheque" id="orderCheque" class="layui-select" lay-filter="title">
+                        <option value="" placeholder="请选择"></option>
+                        <option value="1" >是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+            <div class="layui-inline layui-show-xs-block">
+                <label class="layui-form-label layui-bg-gray" style="width: 120px;text-align: center">显示审核人员</label>
+                <div class="layui-inline layui-show-xs-block" style="width: 184px">
+                    <select name="auditor">
+                        <option value="" placeholder="请选择"></option>
+                        <option value="1" >是</option>
+                        <option value="2">否</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div>
+            <div class="layui-inline layui-show-xs-block" style="display: none" id="BTitleDiv">
+                <label class="layui-form-label layui-bg-gray" style="width: 125px;text-align: center">抬头名称</label>
+                <div class="layui-inline layui-show-xs-block">
+                    <input class="layui-input"  autocomplete="off"  name="cardRate" style="width:490px;" id="BTitle">
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="layui-inline layui-show-xs-block" style="display: none" id="HTitleDiv">
+            <label class="layui-form-label layui-bg-gray" style="text-align: center; width: 130px; height: 100px; line-height: 81px">抬头名称说明</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="accountDesc" required lay-verify="required"  class="layui-textarea" style="width: 485px" id="HTitle"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 40px; margin-left: 220px">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>生成
+            </button>
+            <button class="layui-btn layui-btn-primary cancel" type="button" onclick="myclose()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

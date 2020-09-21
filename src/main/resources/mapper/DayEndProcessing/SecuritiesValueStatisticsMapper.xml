@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.DayEndProcessing.mapper.SecuritiesValueStatisticsMapper">
+
+    <select id="selectSecuritiesValueStatistics" resultType="com.ssaw.DayEndProcessing.entity.SecuritiesValueStatistics">
+    select (s.SECURITIESID)SECURITIESID,(s.SECURITIESNAME)SECURITIESNAME,(CASE s.SECURITIESTYPE WHEN 1 THEN '债券' WHEN 2 THEN '股票' END)as SECURITIESTYPE,(m.CLOSINGPRICE)CLOSINGPRICE,(y.SECURITIESNUM)SECURITIESNUM ,(y.TOTAL)TOTAL,(y.SECURITIESNUM*m.CLOSINGPRICE)marketValue,(y.SECURITIESNUM*m.CLOSINGPRICE-y.TOTAL)TOTALPRICE from (select * from SECURITIES )s
+join (select * from MARKET where DATETIME=#{param3})m on m.SECURITIESID=s.SECURITIESID
+join (select * from SECURITIESINVENTORY where DATETIME=#{param1} and FUNDID=#{param2})y on y.SECURITIESID=s.SECURITIESID
+
+</select>
+    <select id="selectDebentureInterestValueStatistics" resultType="com.ssaw.DayEndProcessing.entity.SecuritiesValueStatistics">
+   select SECURITIESID,sum(NVL(TOTALPRICE,0))TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY where DATETIME=#{param1} and FUNDID=#{param2} and SECURITIESTYPE=#{param3} group by SECURITIESID
+
+</select>
+
+    <select id="selectSecuritiesClearingValueStatistics" resultType="com.ssaw.DayEndProcessing.entity.SecuritiesValueStatistics">
+    select SECURITIESID,sum(NVL(TOTALPRICE,0))TOTALPRICE from SECURITIESCLOSEDPAYINVENTORY where DATETIME=#{param1} and FUNDID=#{param2} and SECURITIESTYPE=#{param3} and FLAG=#{param4} group by SECURITIESID
+</select>
+
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.DayEndProcessing.mapper.AssetValuationMapper">
+
+
+	<select id="selectStockarket" parameterType="java.util.Map" statementType="CALLABLE">
+      {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=AppraisementMap})}
+    </select>
+	<resultMap id="AppraisementMap" type="com.ssaw.DayEndProcessing.entity.StockSecuritiesJoinMarket">
+		<result property="fundId" column="fundId"></result>
+		<result property="securitiesId" column="securitiesId"></result>
+		<result property="tootaIPrice" column="tootaIPrice" ></result>
+		<result property="securityPeriodFlag" column="securityPeriodFlag"></result>
+	</resultMap>
+	<!--    删除证券应收应付库存的条件-->
+	<delete id="deleteSecuritiesClosedPayInventory" parameterType="com.ssaw.InventoryManagement.entity.SecuritiesClosedPayInventory">
+        delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and securityPeriodFlag=#{securityPeriodFlag}
+    </delete>
+
+	<!--    查交易数据 按证券代码分组 插入证券应收应付库存-->
+	<select id="selectTransactionData" parameterType="com.ssaw.TAManagement.entity.TaTransaction" statementType="CALLABLE">
+      {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=TransactionDataMap})}
+    </select>
+	<resultMap id="TransactionDataMap" type="com.ssaw.BusinessData.entity.TransactionData">
+		<result property="securitiesId" column="securitiesId"></result>
+		<result property="dateTime" column="dateTime"></result>
+		<result property="totalSum" column="totalSum" ></result>
+	</resultMap>
+
+	<delete id="deleteSecuritiesClosedPayInventoryTwo" parameterType="com.ssaw.InventoryManagement.entity.SecuritiesClosedPayInventory">
+        delete from securitiesClosedPayInventory where securitiesId=#{securitiesId} and fundId =#{fundId} and flag=#{flag}
+    </delete>
+
+
+	<select id="selectTaTransaction" parameterType="com.ssaw.BusinessData.entity.TransactionData" statementType="CALLABLE">
+      {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=TaTransactionMap})}
+    </select>
+	<select id="selectValuationProcessing" resultType="com.ssaw.DayEndProcessing.entity.AssetValuation"></select>
+	<resultMap id="TaTransactionMap" type="com.ssaw.TAManagement.entity.TaTransaction">
+		<result property="accountId" column="accountId"></result>
+		<result property="dateTime" column="dateTime"></result>
+		<result property="totalMoney" column="totalMoney" ></result>
+		<result property="fundId" column="fundId"></result>
+		<result property="dateTime" column="dateTime"></result>
+	</resultMap>
+
+	<delete id="deleteCashClosedPaylnventory" parameterType="com.ssaw.InventoryManagement.entity.CashClosedPayInventory">
+        delete from CASHCLOSEDPAYINVENTORY fundId=#{fundId} and accountId=#{accountid}
+    </delete>
+
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.InventoryManagement.mapper.TaInventoryMapper">
+    <insert id="insertTaInventory" parameterType="com.ssaw.InventoryManagement.entity.TaInventory">
+        insert into taInventory(taInventoryId,fundId,taNum,taTotal,dateTime,securityPeriodFlag,taInventoryDesc) values (#{taInventoryId},#{fundId},#{taNum},#{taTotal},#{dateTime},#{securityPeriodFlag},#{taInventoryDesc})
+    </insert>
+    <update id="updateTaInventory" parameterType="com.ssaw.InventoryManagement.entity.TaInventory">
+        update taInventory set taInventoryDesc=#{taInventoryDesc},taNum=#{taNum},
+        taTotal=#{taTotal} where taInventoryId=#{taInventoryId}
+    </update>
+    <delete id="deleteTaInventory" parameterType="list">
+        delete from taInventory where taInventoryId in
+        <foreach collection="list" item="taInventoryId" open="("
+                 separator="," close=")">
+            #{taInventoryId}
+        </foreach>
+    </delete>
+    <delete id="deleteTaInventoryDate">
+        delete from taInventory where SECURITYPERIODFLAG=0 and dateTime=#{dateTime} and fundId=#{fundId}
+    </delete>
+
+    <select id="selectTaInventory" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=taInventoryMap})}
+    </select>
+
+    <resultMap id="taInventoryMap" type="com.ssaw.InventoryManagement.entity.TaInventory">
+        <result property="taInventoryId" column="taInventoryId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="taNum" column="taNum" javaType="Integer"></result>
+        <result property="taTotal" column="taTotal" javaType="Double"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="securityPeriodFlag" column="securityPeriodFlag" javaType="Integer"></result>
+        <result property="taInventoryDesc" column="taInventoryDesc" javaType="String"></result>
+    </resultMap>
+
+</mapper>

@@ -1,0 +1,372 @@
+{
+  "homeInfo": {
+    "title": "首页",
+    "href": "page/welcome"
+  },
+  "logoInfo": {
+    "title": "FA SSAW",
+    "image": "../images/logo.png",
+    "href": ""
+  },
+  "menuInfo": [
+    {
+      "title": "数据维护",
+      "icon": "fa fa-address-book",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "业务参数",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "基金设置",
+              "href": "page/fund",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "券商设置",
+              "href": "page/welcome-2.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "交易席位",
+              "href": "page/welcome-3.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "交易所品种费率",
+              "href": "page/varietiesRate",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "证券信息设置",
+              "href": "page/securities",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "债券信息设置",
+              "href": "page/businessDescription",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "股票板块设置",
+              "href": "page/stock",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "现金账户设置",
+              "href": "page/account",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "业务数据",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "交易数据",
+              "href": "page/transactionData",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "权益数据",
+              "href": "page/equityData",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "存款业务",
+              "href": "page/deposit",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "行情数据",
+              "href": "page/market",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "证券应收应付",
+              "href": "page/welcome-2.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "现金应收应付",
+              "href": "page/cashClosedPay",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "现金管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "资金调拨",
+              "href": "page/bankTreasurer",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "划款指令",
+              "href": "page/transferMoney",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "TA管理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "TA交易数据",
+              "href": "page/taManagement",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "业务处理",
+      "icon": "fa fa-lemon-o",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "业务处理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "交易结算",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "TA交易结算",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "权益处理",
+              "href": "page/equityDispose",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        },
+        {
+          "title": "日终处理",
+          "href": "",
+          "icon": "fa fa-home",
+          "target": "_self",
+          "child": [
+            {
+              "title": "库存统计",
+              "href": "page/inventoryStatistics",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "收益计提",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "收益支付",
+              "href": "page/incomePayment",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "资产估值",
+              "href": "page/welcome-1.html",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            },
+            {
+              "title": "净值统计",
+              "href": "page/valueStatistics",
+              "icon": "fa fa-tachometer",
+              "target": "_self"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "库存管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "证券库存",
+          "href": "page/",
+          "icon": "fa fa-meetup",
+          "target": "_self"
+        },
+        {
+          "title": "现金库存",
+          "href": "page/cashInventory",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "证券应收应付库存",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "现金应收应付库存",
+          "href": "page/cashClosedPayInventory",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "TA库存",
+          "href": "page/taInventory",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "title": "报表管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "成交清算日报表",
+          "href": "",
+          "icon": "fa fa-meetup",
+          "target": "_self"
+        },
+        {
+          "title": "成交清算嘎差表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "可用现金头寸表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "证券市场变动表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "股票价格波动表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "股票权益信息表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "席位交易量统计表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "席位成交量明细表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "基金投资组合表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "基金投资板块表",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "单位净值折线图",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        }
+      ]
+    },
+    {
+      "title": "系统管理",
+      "icon": "fa fa-slideshare",
+      "href": "",
+      "target": "_self",
+      "child": [
+        {
+          "title": "日志管理",
+          "href": "",
+          "icon": "fa fa-meetup",
+          "target": "_self"
+        },
+        {
+          "title": "节假日管理",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+
+          "target": "_self"
+        },
+        {
+          "title": "用户管理",
+          "href": "page/userInfoTable",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        },
+        {
+          "title": "角色管理",
+          "href": "page/error.html",
+          "icon": "fa fa-superpowers",
+          "target": "_self"
+        }
+      ]
+    }
+  ]
+}

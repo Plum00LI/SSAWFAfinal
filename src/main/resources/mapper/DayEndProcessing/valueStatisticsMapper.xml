@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.DayEndProcessing.mapper.ValueStatisticsMapper">
+      <insert id="insertValueStatistics" parameterType="com.ssaw.DayEndProcessing.entity.ValueStatistics">
+            insert into valueStatistics(valueStatisticsDate,fundId,projectId,projectName
+          <if test="projectCode !=null and projectCode !=''">
+              ,projectCode
+          </if>
+          <if test="quantityint !=null and quantityint !=''">
+              ,quantityint
+          </if>
+          <if test="peice !=null and peice !=''">
+              ,peice
+          </if>
+          <if test="cost !=null and cost !=''">
+              ,cost
+          </if>
+          <if test="marketValue !=null and marketValue !=''">
+              ,marketValue
+          </if>
+          <if test="valuation !=null and valuation !=''">
+              ,valuation
+          </if>
+            ,projectFatherId) values (#{valueStatisticsDate},#{fundId},#{projectId},#{projectName}
+          <if test="projectCode !=null and projectCode !=''">
+              ,#{projectCode}
+          </if>
+          <if test="quantityint !=null and quantityint !=''">
+              ,#{quantityint}
+          </if>
+          <if test="peice !=null and peice !=''">
+              ,#{peice}
+          </if>
+          <if test="cost !=null and cost !=''">
+              ,#{cost}
+          </if>
+          <if test="marketValue !=null and marketValue !=''">
+              ,#{marketValue}
+          </if>
+          <if test="valuation !=null and valuation !=''">
+              ,#{valuation}
+          </if>
+            ,#{projectFatherId})
+
+     </insert>
+      <delete id="deleteValueStatistics" >
+        delete  from valueStatistics where valueStatisticsDate=#{param1} and fundId=#{param2}
+
+      </delete>
+
+    <select id="selectValueStatistics"  resultType="com.ssaw.DayEndProcessing.entity.ValueStatistics">
+        select  projectId,projectName,NVL(projectCode,'') as projectCode,NVL(quantityint,'') as quantityint,NVL(peice,'') as peice,NVL(cost,'') as cost,NVL(marketValue,'') as marketValue,NVL(valuation,'') as valuation, projectFatherId  from valueStatistics where valueStatisticsDate=#{param1} and fundId=#{param2} order by projectId
+    </select>
+
+
+</mapper>

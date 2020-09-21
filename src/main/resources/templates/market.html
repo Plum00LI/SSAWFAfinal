@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>行情数据</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+    <script src="../js/market.js" type="text/javascript"></script>
+</head>
+
+<body>
+<div class="layuimini-main">
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable"></table>
+</div>
+
+<div style="display: none;" id="toolbar1">
+    <div style="position: absolute; float: left">
+        <form id="searchform" lay-filter="searchform"
+              class="layui-form layui-form-pane">
+            <div class="layui-form-item" style="text-align: center;">
+                <label class="layui-form-label layui-bg-gray"
+                       style="width: 100px;text-align: center;float: left">证券编号</label>
+                <div class="layui-input-inline">
+                    <input type="text"  id="securitiesId"
+                           name="securitiesId" autocomplete="off" placeholder="请输入证券编号"
+                           class="layui-input">
+                </div>
+                <label class="layui-form-label layui-bg-gray"
+                       style="width: 110px;text-align: center">日期</label>
+                <div class="layui-input-inline">
+                    <input type="text" id="dateTime"
+                           name="dateTime" autocomplete="off"
+                           placeholder="请输入时间" class="layui-input">
+                </div>
+                <button style="position: absolute;height: 38px;text-align: center" type="button"
+                        lay-event="search" class="layui-btn layui-btn-sm layui-btn-primary">
+                    <i class="layui-icon">&#xe615;</i>搜索
+                </button>
+            </div>
+        </form>
+    </div>
+    <div style="float: right">
+        <button class="layui-btn layui-btn-sm layui-btn layui-bg-blue" lay-event="shangHai">导入上海行情
+        </button>
+        <button class="layui-btn layui-btn-sm layui-btn layui-bg-blue" lay-event="shenZhen">导入深圳行情
+        </button>
+        <button class="layui-btn layui-btn-sm layui-bg-blue"
+                lay-event="add">
+            <i class="layui-icon">&#xe654;</i>添加行情
+        </button>
+        <button class="layui-btn layui-btn-sm layui-btn-primary"
+                lay-event="deleteAll" style="color: #FF0000">
+            <i class="layui-icon">&#xe640;</i>批量删除
+        </button>
+    </div>
+</div>
+<!--工具条-->
+<div style="display: none;" id="barDemo">
+    <a class="layui-btn layui-btn-xs layui-bg-blue" lay-event="edit"><i
+            class="layui-icon">&#xe642;</i>编辑</a>
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del" style="color: #FF0000"><i
+            class="layui-icon">&#xe640;</i>删除</a>
+</div>
+<!--增加的div内容-->
+<div id="addContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <input name="securitiesId" type="hidden" id="ss">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">证券名称</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="text" class="layui-input" autocomplete="off" placeholder="请输入证券名称" lay-verify="required" id="securities">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-graye">录入日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" autocomplete="off" placeholder="请输入日期" name="dateTime" id="endTime1">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">开盘价格</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="number" class="layui-input" oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                       autocomplete="off" placeholder="请输入开盘价格" name="openPrice">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">收盘价格</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="number" step="1" min="0"  
+                       oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                       class="layui-input" autocomplete="off" placeholder="请输入收盘价格" name="closingPrice">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="height: 100px;line-height: 100px">描述</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <textarea rows="" class="layui-textarea" cols="" autocomplete="off" name="marketDesc"></textarea>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 20px; left: 27%">
+            <button class="layui-btn layui-bg-blue" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="myclose()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <input type="hidden" name="marketId" id="marketId">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">证券编号</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="text" class="layui-input" autocomplete="off" placeholder="请输入证券编号" name="securitiesId" id="securities2">
+                <input name="ss2" type="hidden" id="ss2">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">录入日期</label>
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" autocomplete="off" placeholder="请输入日期" name="dateTime" id="endTime3">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">开盘价格</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="number" class="layui-input" oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                       autocomplete="off" placeholder="请输入开盘价格" name="openPrice">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray">收盘价格</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <input type="number" step="1" min="0"
+                       oninput="javascript:this.value=this.value.replace(/[^\d]/g,'')"
+                       class="layui-input" autocomplete="off" placeholder="请输入收盘价格" name="closingPrice">
+            </div>
+        </div>
+        <br/><br/>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="height: 100px;line-height: 100px">描述</label>
+            <div class="layui-inline layui-show-xs-block" style="float: left">
+                <textarea rows="" class="layui-textarea" cols="" autocomplete="off" name="marketdesc"></textarea>
+            </div>
+        </div>
+
+        <div style="position: absolute; bottom: 40px; left: 27%">
+            <button class="layui-btn layui-bg-blue" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="myclose()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+    </form>
+</div>
+<div class="layui-tab-item" id="uploadOnSeaMarket"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <fieldset class="layui-elem-field layui-field-title"
+              style="margin-top: 30px;">
+        <div class="layui-input-inline">
+            <input type="text" style="height: 32px;" id="endTime2"
+                   name="dateTime" readonly="readonly" autocomplete="off"  lay-verify="required"
+                   placeholder="请输入时间" class="layui-input"> <span id="aftd"></span>
+        </div>
+        <legend style="font-size:25px">拖拽上传</legend>
+    </fieldset>
+    <div class="layui-upload-drag" id="uploadDemo">
+        <i class="layui-icon"></i>
+        <p>点击上传，或将文件拖拽到此处</p>
+        <div class="layui-hide" id="uploadDemoView">
+            <hr>
+            <img src="" alt="上传成功后渲染" style="max-width: 100%">
+        </div>
+    </div>
+    <div>
+        <button type="button" class="layui-btn layui-bg-blue" id="test2">开始上传</button>
+        <span id="zx2"></span>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.BusinessData.mapper.MarketMapper">
+   <insert id="insertMarket" parameterType="com.ssaw.BusinessData.entity.Market">
+      insert into market values(#{marketId,jdbcType=VARCHAR},#{securitiesId,jdbcType=VARCHAR},#{dateTime,jdbcType=VARCHAR},#{openPrice},#{closingPrice},#{marketDesc,jdbcType=VARCHAR})
+   </insert>
+   <update id="updateMarket" parameterType="com.ssaw.BusinessData.entity.Market">
+      update market set securitiesId=#{securitiesId,jdbcType=VARCHAR},dateTime=#{dateTime,jdbcType=VARCHAR},openPrice=#{openPrice},closingPrice=#{closingPrice},marketdesc=#{marketDesc,jdbcType=VARCHAR} where marketId=#{marketId,jdbcType=VARCHAR}
+   </update>
+   <delete id="deleteMarket" parameterType="java.util.List">
+      delete from market where marketId in
+      <foreach collection="list" item="marketId" open="(" separator="," close=")">
+         #{marketId}
+      </foreach>
+   </delete>
+   <resultMap id="marketMap" type="com.ssaw.BusinessData.entity.Market">
+      <result property="marketId" column="marketId" javaType="String"></result>
+      <result property="securitiesId" column="securitiesId" javaType="String"></result>
+      <result property="dateTime" column="dateTime" javaType="String"></result>
+      <result property="openPrice" column="openPrice" javaType="Double"></result>
+      <result property="closingPrice" column="closingPrice" javaType="Double"></result>
+      <result property="marketDesc" column="marketDesc" javaType="String"></result>
+   </resultMap>
+   <select id="selectMarketInfo" parameterType="java.util.Map" statementType="CALLABLE" resultType="java.util.Map">
+      {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=VARCHAR},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=marketMap})}
+   </select>
+
+   <select id="selectMarket" resultType="com.ssaw.BusinessData.entity.Market">
+      select * from market
+   </select>
+</mapper>

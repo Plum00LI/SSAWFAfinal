@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.BusinessData.mapper.CashClosedPayMapper">
+
+    <insert id="insertCashClosedPay" parameterType="com.ssaw.BusinessData.entity.CashClosedPay">
+        insert into cashClosedPay values (#{cashClosedPayId},#{fundId},#{accountId},#{serviceType},#{amount},#{dateTime},#{flag})
+    </insert>
+
+    <update id="updateCashClosedPay" parameterType="com.ssaw.BusinessData.entity.CashClosedPay">
+        update cashClosedPay set dateTime=#{dateTime},serviceType=#{serviceType},amount=#{amount},flag=#{flag} where cashClosedPayId=#{cashClosedPayId}
+    </update>
+
+    <delete id="deleteCashClosedPay" parameterType="list">
+        delete from cashClosedPay where cashClosedPayId in
+        <foreach collection="list" item="cashClosedPayId" open="(" separator="," close=")">
+            #{cashClosedPayId}
+        </foreach>
+    </delete>
+
+    <!--根据时间类型基金ID流入流出删除-->
+    <delete id="deleteNew" parameterType="com.ssaw.BusinessData.entity.CashClosedPay">
+        delete from cashClosedPay where dateTime=#{dateTime} and serviceType=#{serviceType} and fundId=#{fundId} and flag=#{flag}
+    </delete>
+
+    <select id="selectCashClosedPay" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,jdbcType=VARCHAR,mode=IN},#{p_condition,jdbcType=VARCHAR,mode=IN},#{p_pageSize,jdbcType=INTEGER,mode=IN},#{p_page,jdbcType=INTEGER,mode=IN},#{p_count,jdbcType=INTEGER,mode=OUT},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=cashClosedPay_map})}
+    </select>
+
+    <!--根据时间类型基金ID流入流出查询-->
+    <select id="selectNew" resultType="com.ssaw.BusinessData.entity.CashClosedPay">
+         select * from cashClosedPay where  dateTime=#{dateTime} and serviceType=#{serviceType} and fundId=#{fundId} and flag=#{flag}
+    </select>
+
+    <resultMap id="cashClosedPay_map" type="com.ssaw.BusinessData.entity.CashClosedPay">
+        <result property="cashClosedPayId" column="cashClosedPayId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="fundName" column="fundName" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="serviceType" column="serviceType" javaType="Integer"></result>
+        <result property="amount" column="amount" javaType="Double"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+    </resultMap>
+
+    <!--收益计提-->
+    <delete id="deleteNew2" parameterType="com.ssaw.BusinessData.entity.CashClosedPay">
+        delete from cashClosedPay where dateTime =#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.BusinessData.mapper.DepositMapper">
+    <insert id="insertDeposit" parameterType="com.ssaw.BusinessData.entity.Deposit">
+        INSERT INTO deposit (depositId,fundId,outAccountId,inAccountId,directionOfMoney,
+        businessDate,businessType,money,interest,endDate,flag,depositDesc) VALUES(#{depositId},#{fundId},#{outAccountId}
+        ,#{inAccountId},#{directionOfMoney},#{businessDate},#{businessType},#{money},#{interest},#{endDate},#{flag},#{depositDesc,jdbcType=VARCHAR})
+    </insert>
+    <update id="updateDeposit" parameterType="com.ssaw.BusinessData.entity.Deposit">
+        update deposit set fundId=#{fundId},outAccountId=#{outAccountId},inAccountId=#{inAccountId},
+        directionOfMoney=#{directionOfMoney},businessDate=#{businessDate},businessType=#{businessType},money=#{money},
+        interest=#{interest},endDate=#{endDate},flag=#{flag},depositDesc=#{depositDesc} where depositId=#{depositId}
+    </update>
+    <delete id="deleteDeposit">
+    delete from deposit where depositId=#{depositId}
+    </delete>
+
+    <resultMap id="depositMap" type="com.ssaw.BusinessData.entity.Deposit">
+        <result property="depositId" column="depositId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="outAccountId" column="outAccountId" javaType="String"></result>
+        <result property="inAccountId" column="inAccountId" javaType="String"></result>
+        <result property="directionOfMoney" column="directionOfMoney" javaType="Integer"></result>
+        <result property="businessDate" column="businessDate" javaType="String"></result>
+        <result property="businessType" column="businessType" javaType="Integer"></result>
+        <result property="money" column="money" javaType="Double"></result>
+        <result property="interest" column="interest" javaType="Double"></result>
+        <result property="endDate" column="endDate" javaType="String"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="depositDesc" column="depositDesc" javaType="String"></result>
+    </resultMap>
+    <select id="selectDeposit" parameterType="java.util.Map" statementType="CALLABLE">
+        {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=depositMap})}
+    </select>
+</mapper>

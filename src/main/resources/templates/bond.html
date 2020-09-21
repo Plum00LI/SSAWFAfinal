@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>TA交易数据信息页面</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+    <script src="../js/bond.js"></script>
+</head>
+<body>
+
+<!--工具条-->
+<script type="text/html" id="userToolBar">
+    <div style="float:right;">
+        <button class="layui-btn layui-btn-normal layui-btn layui-btn-sm" lay-event="add"><i
+                class="layui-icon">&#xe654;</i>添加数据</button>
+        <button class="layui-btn layui-btn-primary layui-btn layui-btn-sm" lay-event="deleteAll" style="color: #FF0000"><i
+                class="layui-icon">&#xe640;</i>批量删除</button>
+    </div>
+
+    <form class="layui-form layui-col-space5">
+        <label class="layui-form-label layui-bg-gray" style="width: 100px;text-align: center">计息起始日</label>
+
+        <div class="layui-inline layui-show-xs-block">
+            <input class="layui-input"  autocomplete="off" placeholder="请输入选择计息起始日" name="end" id="start" style="width: 170px;">
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券代码</label>
+            <div class="layui-input-inline">
+                <input type="text" name="parRate" lay-verify="required"
+                       autocomplete="off" placeholder="请输入债券代码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block" >
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+            </button>
+        </div>
+    </form>
+</script>
+
+<div class="layuimini-main">
+    <!--表格-->
+    <table id="userTable" lay-filter="userTable"></table>
+    <!--工具条-->
+    <div style="display: none;" id="barDemo">
+        <a class="layui-btn layui-btn-xs" lay-event="edit"><i
+                class="layui-icon">&#xe642;</i>编辑</a>
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del" style="color: #FF0000"><i
+                class="layui-icon">&#xe640;</i>删除</a>
+
+    </div>
+</div>
+<!--增加的div内容-->
+<div id="addContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="addform" lay-filter="addform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <input type="hidden" name="taTransactionId"/>
+        <input type="hidden" name="fundId" />
+
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">证券编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="证券编号"
+                       name="securitiesId" id="insertSecurities">
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="债券名称"
+                       name="bondName" >
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">计息起始日</label>
+            <div class="layui-input-inline">
+                <input type="text" name="drawStartDate" lay-verify="required"
+                       autocomplete="off" placeholder="计息起始日" class="layui-input" id="start3">
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">计息结束日</label>
+            <div class="layui-input-inline">
+                <input type="text" name="drawEndDate" lay-verify="required"
+                       autocomplete="off" placeholder="计息结束日" class="layui-input" id="start4">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券类型</label>
+            <div class="layui-input-inline">
+                <select name="bondType">
+                    <option placeholder="请选择"></option>
+                    <option value="1">银行间</option>
+                    <option value="2">非银行间</option>
+                </select>
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">票面金额</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bondRateAmount" lay-verify="required"
+                       autocomplete="off" placeholder="票面金额" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券利息</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bondRate" lay-verify="required"
+                       autocomplete="off" placeholder="债券利息" class="layui-input">
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">票面利率</label>
+            <div class="layui-input-inline">
+                <input type="text" name="parRate" lay-verify="required"
+                       autocomplete="off" placeholder="票面利率" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">付息次数</label>
+            <div class="layui-input-inline">
+                <select name="payInterestNum">
+                    <option placeholder="请选择"></option>
+                    <option value="1">1年一次</option>
+                    <option value="2">1年俩次</option>
+                    <option value="3">1年四次</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="float: left; width: 130px; height: 100px; line-height: 81px";>备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="bondDesc" required lay-verify="required" placeholder="备注" class="layui-textarea" style="width: 467px"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 20px; left: 38%;">
+            <button class="layui-btn" lay-submit="" lay-filter="addsubmit">
+                <i class="layui-icon">&#x1005;</i>添加
+            </button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="quxiao()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+
+    </form>
+</div>
+<!--修改的div内容-->
+<div id="editContent"
+     style="display: none; height: 100%; height: 100%; text-align: center;">
+    <form id="editform" lay-filter="editform"
+          class="layui-form layui-form-pane"
+          style="margin: 30px auto; display: inline-block;">
+        <input type="hidden" name="taTransactionId"/>
+        <input type="hidden" name="fundId" />
+
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">证券编号</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="证券编号"
+                       name="securitiesId" >
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券名称</label>
+            <div class="layui-input-inline">
+                <input class="layui-input"  autocomplete="off" placeholder="债券名称"
+                       name="bondName" >
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">计息起始日</label>
+            <div class="layui-input-inline">
+                <input type="text" name="drawStartDate" lay-verify="required"
+                       autocomplete="off" placeholder="计息起始日" class="layui-input" id="start1">
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">计息结束日</label>
+            <div class="layui-input-inline">
+                <input type="text" name="drawEndDate" lay-verify="required"
+                       autocomplete="off" placeholder="计息结束日" class="layui-input" id="start2">
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券类型</label>
+            <div class="layui-input-inline">
+                <select name="bondType">
+                    <option placeholder="请选择"></option>
+                    <option value="1">银行间</option>
+                    <option value="2">非银行间</option>
+                </select>
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">票面金额</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bondRateAmount" lay-verify="required"
+                       autocomplete="off" placeholder="票面金额" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">债券利息</label>
+            <div class="layui-input-inline">
+                <input type="text" name="bondRate" lay-verify="required"
+                       autocomplete="off" placeholder="债券利息" class="layui-input">
+            </div>
+
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">票面利率</label>
+            <div class="layui-input-inline">
+                <input type="text" name="parRate" lay-verify="required"
+                       autocomplete="off" placeholder="票面利率" class="layui-input">
+            </div>
+
+        </div>
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">付息次数</label>
+            <div class="layui-input-inline">
+                <select name="payInterestNum">
+                    <option placeholder="请选择"></option>
+                    <option value="1">1年一次</option>
+                    <option value="2">1年俩次</option>
+                    <option value="3">1年四次</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="float: left; width: 130px; height: 100px; line-height: 81px";>备注</label>
+            <div class="layui-inline layui-show-xs-block">
+                <textarea name="bondDesc" required lay-verify="required" placeholder="备注" class="layui-textarea" style="width: 480px"></textarea>
+            </div>
+        </div>
+        <div style="position: absolute; bottom: 30px; left: 38%;">
+            <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
+                <i class="layui-icon">&#x1005;</i>修改
+            </button>
+            <button class="layui-btn layui-btn-primary" type="button" onclick="quxiao()" style="color: #FF0000">
+                <i class="layui-icon">&#x1006;</i>取消
+            </button>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.BusinessData.mapper.TransactionDataMapper">
+    <resultMap id="transactionDataMapper" type="com.ssaw.BusinessData.entity.TransactionData">
+        <result property="transactionDataId" column="transactionDataId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="settlementDate" column="settlementDate" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="securitiesId" column="securitiesId" javaType="String"></result>
+        <result property="brokersId" column="brokersId" javaType="String"></result>
+        <result property="seateId" column="seateId" javaType="String"></result>
+        <result property="transactionDataMode" column="transactionDataMode" javaType="Integer"></result>
+        <result property="status" column="status" javaType="Integer"></result>
+        <result property="price" column="price" javaType="Double"></result>
+        <result property="num" column="num" javaType="Double"></result>
+        <result property="accountName" column="accountName" javaType="String"></result>
+        <result property="netReceipts" column="netReceipts" javaType="Double"></result>
+        <result property="totalSum" column="totalSum" javaType="Double"></result>
+        <result property="flag" column="flag" javaType="Integer"></result>
+        <result property="commission" column="commission" javaType="Double"></result>
+        <result property="transfer" column="transfer" javaType="Double"></result>
+        <result property="brokerage" column="brokerage" javaType="Double"></result>
+        <result property="stamp" column="stamp" javaType="Double"></result>
+        <result property="management" column="management" javaType="Double"></result>
+        <result property="security" column="security" javaType="Double"></result>
+        <result property="transactionDataDesc" column="transactionDataDesc" javaType="String"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="securitiesName" column="securitiesName" javaType="String"></result>
+        <result property="fundName" column="fundName" javaType="String"></result>
+        <result property="brokersName" column="brokersName" javaType="String"></result>
+        <result property="seateName" column="seateName" javaType="String"></result>
+        <result property="blankName" column="blankName" javaType="String"></result>
+    </resultMap>
+    <!--
+     accountId  //现金账户
+     securitiesName    //证券名称
+     fundName;        //基金名称
+     brokersName;                  //券商名称
+     seateName;                //席位名称
+     blankName;                 //银行名称
+     EQUITYDATAID;                 //权益编号-->
+    <select id="selectTransactionData" parameterType="map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=transactionDataMapper})}
+    </select>
+
+    <insert id="insertTransactionData" parameterType="com.ssaw.BusinessData.entity.TransactionData">
+        insert into transactionData(transactionDataId,dateTime,settlementDate,fundId,securitiesId,brokersId,seateId,transactionDataMode,status,price,num,accountId,netReceipts,totalSum,flag,commission,transfer,brokerage,stamp,management,security,transactionDataDesc)
+    values (#{transactionDataId},#{dateTime},#{settlementDate},#{fundId},#{securitiesId},#{brokersId},#{seateId},#{transactionDataMode},#{status},#{price},#{num},#{accountId},#{netReceipts},#{totalSum},#{flag},#{commission},#{transfer},#{brokerage},#{stamp},#{management},#{security},#{transactionDataDesc})
+    </insert>
+
+
+    <delete id="deleteTransactionData" parameterType="String">
+         delete from transactionData where transactionDataId=#{transactionDataId}
+    </delete>
+
+    <update id="updateTransactionData" parameterType="com.ssaw.BusinessData.entity.TransactionData">
+        update transactionData set dateTime=#{dateTime},settlementDate=#{settlementDate},fundId=#{fundId},securitiesId=#{securitiesId},brokersId=#{brokersId},seateId=#{seateId},transactionDataMode=#{transactionDataMode},status=#{status},
+    price=#{price},num=#{num},accountId=#{accountId},netReceipts=#{netReceipts},totalSum=#{totalSum},flag=#{flag},
+    commission=#{commission},transfer=#{transfer},brokerage=#{brokerage}, stamp=#{stamp},management=#{management},
+    security=#{security},transactionDataDesc=#{transactionDataDesc}
+    where transactionDataId=#{transactionDataId}
+    </update>
+</mapper>

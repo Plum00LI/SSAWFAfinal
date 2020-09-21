@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <title>收益支付</title>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <script src="../lib/layuimini/lib/layui-v2.5.5/layui.js"></script>
+    <script src="../lib/layuimini/js/lay-config.js"></script>
+    <link type="text/css" rel="stylesheet" href="../lib/layuimini/lib/layui-v2.5.5/css/layui.css"/>
+
+    <script type="text/javascript">
+        var layid =11;
+        layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
+            var layer = layui.layer;
+            var $ = layui.$;
+            var table = layui.table;
+            var form = layui.form;
+            var formSelects = layui.formSelects;
+            var laydate = layui.laydate;
+            var fundId=$("#fundId").val();
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#statDate' //指定元素
+
+            });
+
+            table.render({
+                elem: '#userTable',
+                url: '/incomePayment/selectCashInterestIncome?fundId='+fundId,
+                page: true,
+                height:'full-150',
+
+                cellMinWidth:60,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'businessDate', title: '业务时间', align:'center'}
+                        ,{field: 'accountName', title: '账户名称', align:'center'}
+                        ,{field: 'deposit', title: '存款类型', align:'center'
+                        ,templet: function(item) {
+                            if (item.deposit == '1') {
+                                return '活期';
+                            }else if(item.deposit == '2') {
+                                return '定期';
+                            }
+                        }}
+                        ,{field: 'businessType', title: '业务类型', align:'center'
+                        ,templet: function(item) {
+                            if (item.businessType == '3') {
+                                return '存款利息';
+                            }
+                        }}
+                        ,{field: 'totalMoney', title: '收支金额', align:'center'}
+                        ,{field: 'businessStatus', title: '流入流出', align:'center',templet: function(item) {
+                            if (item.businessStatus == '1') {
+                                return '流入';
+                            }else if (item.businessStatus == '-1') {
+                                return '流出';
+                            }
+                        }}
+
+                    ]
+                ]
+            });
+
+            table.render({
+                elem: '#userTable2',
+                url: '/incomePayment/selectBondInterestIncome?fundId='+fundId,
+                page: true,
+                height:'full-150',
+
+                cellMinWidth:60,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'dateTime', title: '业务时间', align:'center'}
+                        ,{field: 'securitiesName', title: '证券名称', align:'center'}
+                        ,{field: 'securitiesType', title: '业务类型', align:'center',templet: function(item) {
+                            if (item.securitiesType == '3') {
+                                return '债券利息';
+                            }
+                        }}
+                        ,{field: 'flag', title: '流入流出', align:'center',templet: function(item) {
+                            if (item.flag == '1') {
+                                return '流入';
+                            }else if (item.flag == '-1') {
+                                return '流出';
+                            }
+                        }
+                    }
+                        ,{field: 'totalPrice', title: '总金额', align:'center'}
+                    ]
+                ]
+            });
+            table.render({
+                elem: '#userTable3',
+                url: '/incomePayment/selectPayTwoFees?fundId='+fundId,
+                page: true,
+                height:'full-150',
+                cellMinWidth:60,
+                cols: [
+                    [ //表头
+                        {type: 'checkbox', fixed: 'left'}
+                        ,{field: 'businessDate', title: '业务时间', align:'center'}
+                        ,{field: 'accountName', title: '账户名称', align:'center'}
+                        ,{field: 'businessType', title: '业务类型', align:'center',templet: function(item) {
+                            if (item.businessType == '1') {
+                                return '管理费';
+                            }else if(item.businessType == '2'){
+                                return '托管费';
+                            }
+                        }}
+                        ,{field: 'totalMoney', title: '收支金额', align:'center'}
+                        ,{field: 'businessStatus', title: '流入流出', align:'center',templet: function(item) {
+                            if (item.businessStatus == '1') {
+                                return '流入';
+                            }else if (item.businessStatus == '-1') {
+                                return '流出';
+                            }
+                        }}
+
+                    ]
+                ]
+            });
+
+
+            // 渲染第一个表格
+            form.on('submit(searchSubmit)', function (data) {
+
+                console.log($("#statDate").val());
+                console.log($("#fundId").val());
+
+                if(layid==11){
+
+                    table.reload('userTable', {
+                            url:'/incomePayment/selectCashInterestIncome',
+                            where: {
+                                statDate:$("#statDate").val(),
+                                fundId:$("#fundId").val()
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        }
+                    );
+                }else if (layid==22){
+                    table.reload('userTable2', {
+                            url:'/incomePayment/selectBondInterestIncome',
+                            where: {
+                                statDate:$("#statDate").val(),
+                                fundId:$("#fundId").val()
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        }
+                    );
+                }else{
+                    table.reload('userTable3', {
+                            url:'/incomePayment/selectPayTwoFees',
+                            where: {
+                                statDate:$("#statDate").val(),
+                                fundId:$("#fundId").val()
+                            }
+                            , page: {
+                                curr: 1
+                            }
+                        }
+                    );
+                }
+
+                return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+
+            });
+
+            table.on('toolbar(userTable)', function(obj){
+                var data = obj.data;
+                if(obj.event==='tongJi'){
+                    layer.msg('开始统计');
+                }
+            });
+
+            form.on('submit(tongJi)', function (data) {
+                //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
+                //console.log(data.field.statDate);
+
+                if(layid==11){
+                    var checkStatus = table.checkStatus("userTable"); // 获得选中行所有数据
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var cashs = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        cashs.push(n);
+                    });
+                    // alert(cashs);
+                    var cash = JSON.stringify(cashs);
+
+
+                    // layer.close();
+                    //向服务端发送删除指令
+                    $.post("/incomePayment/statisticCas", "cash="+cash,function(msg){
+                        if(msg>0){
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('统计成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
+                        }
+                    });
+
+
+                }else if(layid==22){
+                    var checkStatus = table.checkStatus("userTable2"); //idTest 即为基础参数 id 对应的值
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var Securitie = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        Securitie.push(n);
+                    });
+                    // alert(cashs);
+                    var Securities = JSON.stringify(Securitie);
+                    var accountIds=$("#accountIds").val();
+
+                    // layer.close();
+                    //向服务端发送删除指令
+                    $.post("/incomePayment/statisticSecurties", {Securities:Securities ,accountIds:accountIds},function(msg){
+                        if(msg>0){
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('统计成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
+                        }
+                    });
+                }else{
+                    var checkStatus = table.checkStatus("userTable3"); //idTest 即为基础参数 id 对应的值
+                    // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
+                    var TwoFee = [];
+                    var dataArr = checkStatus.data; //获取选中行的数据
+                    $.each(dataArr, function (i, n) {
+                        TwoFee.push(n);
+                    });
+                    // alert(cashs);
+                    var TwoFees = JSON.stringify(TwoFee);
+
+
+                    // layer.close();
+                    //向服务端发送删除指令
+                    $.post("/incomePayment/statisticPay", "TwoFees="+TwoFees,function(msg){
+                        if(msg>0){
+                            table.reload('myTable');
+                            layer.closeAll();
+                            layer.msg('统计成功',{
+                                title : '提示',
+                                area : [ '200px',
+                                    '140px' ],
+                                time : 0,
+                                btn : [ '知道了' ]
+                            });
+                        }
+                    });
+                }
+
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+<div style="margin-top: 20px;margin-left: 10px">
+    <form id="searchDate" class="layui-form layui-col-space5">
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label" style="width: 110px;text-align: center">业务日期</label>
+
+            <div class="layui-inline layui-show-xs-block">
+                <input class="layui-input" autocomplete="off" placeholder="请输入统计日期" name="statDate" id="statDate">
+                <input name="fundId" type="hidden" th:value="${session.fundId}" id="fundId">
+                <input name="accountIds" type="hidden" th:value="${session.accountId}" id="accountIds">
+            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-filter="searchSubmit" ><i class="layui-icon">&#xe615;</i>搜索
+            </button>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn" lay-submit="" type="button" lay-event="tongJi" lay-filter="tongJi" ><i class="layui-icon layui-icon-table"></i>统计
+            </button>
+
+        </div>
+    </form>
+</div>
+
+<div class="layui-tab" lay-filter="test1">
+    <ul class="layui-tab-title" style="border-bottom: 2px solid gray">
+        <li class="layui-this" lay-id="11" style="border: 1px solid gray">现金利息收入</li>
+        <li lay-id="22" style="border: 1px solid gray">债券利息收入</li>
+        <li lay-id="33" style="border: 1px solid gray">支付两费</li>
+    </ul>
+    <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+            <!--表格-->
+            <table id="userTable" lay-filter="userTable"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable2" lay-filter="userTable2"></table>
+        </div>
+        <div class="layui-tab-item">
+            <table id="userTable3" lay-filter="userTable3"></table>
+        </div>
+    </div>
+</div>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+
+
+        //监听Tab切换，以改变地址hash值
+        element.on('tab(test1)', function(){
+            location.hash = 'test1='+ this.getAttribute('lay-id');
+
+        });
+        element.on('tab(test1)', function () {
+            layid = this.getAttribute('lay-id');
+
+
+        });
+    });
+</script>
+</body>
+</html>

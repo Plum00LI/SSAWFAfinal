@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.InventoryManagement.mapper.CashInventoryMapper">
+    <insert id="insertCashInventory" parameterType="com.ssaw.InventoryManagement.entity.CashInventory">
+        insert into cashInventory(cashInventoryId,fundId,cashBlance,accountId,dateTime,securitiesNum,securityPeriodFlag,cashInventoryDesc) values (#{cashInventoryId},#{fundId},#{cashBlance},#{accountId},
+        #{dateTime},#{securitiesNum},${securityPeriodFlag},#{cashInventoryDesc})
+    </insert>
+
+    <update id="updateCashInventory" parameterType="com.ssaw.InventoryManagement.entity.CashInventory">
+        update cashInventory set cashBlance=#{cashBlance},accountId=#{accountId},
+        dateTime=#{dateTime},cashInventoryDesc=#{cashInventoryDesc}
+         where cashInventoryId=#{cashInventoryId}
+    </update>
+
+    <delete id="deleteCashInventory" parameterType="list">
+        delete from cashInventory where cashInventoryId in
+        <foreach collection="list" item="cashInventoryId" open="("
+                 separator="," close=")">
+            #{cashInventoryId}
+        </foreach>
+    </delete>
+    <delete id="deleteCashInventoryDate">
+        delete  from cashInventory where SECURITYPERIODFLAG=0 and dateTime=#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
+    </delete>
+
+
+    <resultMap id="cashInventoryMap" type="com.ssaw.InventoryManagement.entity.CashInventory">
+        <result property="cashInventoryId" column="cashInventoryId" javaType="String"></result>
+        <result property="fundId" column="fundId" javaType="String"></result>
+        <result property="cashBlance" column="cashBlance" javaType="Double"></result>
+        <result property="accountId" column="accountId" javaType="String"></result>
+        <result property="dateTime" column="dateTime" javaType="String"></result>
+        <result property="securitiesNum" column="securitiesNum" javaType="Integer"></result>
+        <result property="securityPeriodFlag" column="securityPeriodFlag" javaType="Integer"></result>
+        <result property="cashInventoryDesc" column="cashInventoryDesc" javaType="String"></result>
+    </resultMap>
+
+    <select id="selectCashInventory" parameterType="java.util.Map" statementType="CALLABLE">
+         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=cashInventoryMap})}
+    </select>
+
+</mapper>

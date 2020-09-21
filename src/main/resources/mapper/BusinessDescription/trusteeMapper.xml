@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.BusinessDescription.mapper.TrusteeMapper">
+    <resultMap id="trusteeMap" type="com.ssaw.BusinessDescription.entity.Trustee">
+        <result property="trusteeId" column="trusteeId" javaType="String"></result>
+        <result property="trusteeName" column="trusteeName" javaType="String"></result>
+        <result property="trusteeAddres" column="trusteeAddres" javaType="String"></result>
+        <result property="trusteeCompany" column="trusteeCompany" javaType="String"></result>
+        <result property="trusteePhone" column="trusteePhone" javaType="String"></result>
+        <result property="trusteeFee" column="trusteeFee" javaType="Double"></result>
+        <result property="trusteeDesc" column="trusteeDesc" javaType="String"></result>
+    </resultMap>
+    <select id="selectTrustee" parameterType="java.util.Map" statementType="CALLABLE">
+     {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=trusteeMap})}
+    </select>
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.BusinessDescription.mapper.ManagerMapper">
+    <resultMap id="managerMap" type="com.ssaw.BusinessDescription.entity.Manager">
+        <result property="managerId" column="managerId" javaType="String"></result>
+        <result property="managerAge" column="managerAge" javaType="Double"></result>
+        <result property="managerCompany" column="managerCompany" javaType="String"></result>
+        <result property="managerPhone" column="managerPhone" javaType="String"></result>
+        <result property="managerFee" column="managerFee" javaType="Double"></result>
+        <result property="managerDesc" column="managerDesc" javaType="String"></result>
+    </resultMap>
+    <select id="selectManager" parameterType="java.util.Map" statementType="CALLABLE">
+     {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=managerMap})}
+    </select>
+</mapper>
