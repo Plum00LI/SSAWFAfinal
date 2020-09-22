@@ -136,9 +136,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
             //通过Integer包装类将String类型转换成int基础数据类型
             v_page = Integer.parseInt(page);
         }
-        //String类型时间减一天
         //new SimpleDateFormat对象
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
         Date date=new Date();
 
         //创建一个 String类型的空时间
@@ -189,7 +189,9 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         incomePaymentMapper.selectBondInterestIncome(map);
         //接收返回数据
         List<BondInterestIncome> bondInterestIncomes = (List<BondInterestIncome>) map.get("p_cursor");
+       //bondInterestIncomes集合for循环
         for (BondInterestIncome bondInterestIncome : bondInterestIncomes) {
+            //业务时间set当前时间staDate
             bondInterestIncome.setDateTime(statDate);
         }
         //接收返回总条数
@@ -276,6 +278,7 @@ public class IncomePaymentServiceImpl implements IncomePaymentService {
         incomePaymentMapper.selectPayTwoFees(map);
         //接收返回数据
         List<PayTwoFees> payTwoFees = (List<PayTwoFees>) map.get("p_cursor");
+        //payTwoFees集合for循环
         for (PayTwoFees payTwoFee : payTwoFees) {
                 payTwoFee.setBusinessDate(statDate);
         }

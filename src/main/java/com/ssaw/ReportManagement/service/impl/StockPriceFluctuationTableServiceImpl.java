@@ -80,8 +80,9 @@ public class StockPriceFluctuationTableServiceImpl implements StockPriceFluctuat
         stockPriceFluctuationTableMapper.SelectStockPrice(map);
         //接收返回数据
         List<StockPriceFluctuationTable> stockPriceFluctuationTableList= (List<StockPriceFluctuationTable>) map.get("p_cursor");
+       //stockPriceFluctuationTableList集合for循环
         for (StockPriceFluctuationTable list : stockPriceFluctuationTableList) {
-            //计算出增跌幅
+            //计算出增跌幅（今日金额-昨日金额）/昨日金额*100
             list.setQuoteChange((list.getTodayIce()-list.getBeforeIce())/list.getBeforeIce()*100);
         }
         System.out.println("集合值:"+stockPriceFluctuationTableList);
