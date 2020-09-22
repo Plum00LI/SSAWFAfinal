@@ -220,6 +220,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 
 layui.use('tableSelect',function(){
     var tableSelect=layui.tableSelect;
+    var $ = layui.$;
     tableSelect.render({
         elem: '#account',
         checkedKey: 'accountId',
