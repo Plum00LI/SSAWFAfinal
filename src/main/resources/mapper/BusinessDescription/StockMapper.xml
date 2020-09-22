@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-        <!DOCTYPE mapper
-                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssaw.BusinessDescription.mapper.StockMapper">
-        <select id="selectSonStock" resultMap="stockMap">
+    <select id="selectSonStock" resultMap="stockMap">
             select stockParentId,stockName,stockDesc,stockId from stock where stockParentId!='000'
         </select>
-        <insert id="insertStock" parameterType="com.ssaw.BusinessDescription.entity.Stock">
+    <insert id="insertStock" parameterType="com.ssaw.BusinessDescription.entity.Stock">
             insert into stock(stockId,stockParentId,stockName,stockDesc) values (#{stockId},#{stockParentId},#{stockName},#{stockDesc})
         </insert>
-        <update id="updateStock" parameterType="com.ssaw.BusinessDescription.entity.Stock">
+    <update id="updateStock" parameterType="com.ssaw.BusinessDescription.entity.Stock">
             update stock set stockParentId=#{stockParentId},stockName=#{stockName},stockDesc=#{stockDesc} where stockId=#{stockId}
         </update>
-        <delete id="deleteStock" parameterType="String">
+    <delete id="deleteStock" parameterType="String">
             delete from stock where stockId=#{stockId}
         </delete>
     <resultMap id="stockMap" type="com.ssaw.BusinessDescription.entity.Stock">

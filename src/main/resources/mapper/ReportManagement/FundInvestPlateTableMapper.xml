@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssaw.ReportManagement.mapper.FundInvestPlateTableMapper">
+    <select id="selectFundInvestPlate" resultType="com.ssaw.ReportManagement.entity.FundInvestPlateTable">
+        select (s.STOCKID)STOCKID,(s.STOCKNAME)STOCKNAME,sum((y.SECURITIESNUM))SECURITIESNUM,sum((y.SECURITIESNUM * m.CLOSINGPRICE))marketValue from (select * from STOCK where STOCKID!='000' )s
+ join (select * from SECURITIES)e on e.STOCKID=s.STOCKID
+ join (select * from SECURITIESINVENTORY where DATETIME=#{param1} and FUNDID=#{param2} )y on y.SECURITIESID=e.SECURITIESID
+ join (select * from MARKET where DATETIME=#{param3})m on m.SECURITIESID=y.SECURITIESID group by s.STOCKID,s.STOCKNAME
+    </select>
+
+    <select id="selectValue" resultType="com.ssaw.DayEndProcessing.entity.ValueStatistics">
+        select cost from valueStatistics where projectName='资产净值' and fundId=#{param2} and valueStatisticsDate=#{param1}
+    </select>
+</mapper>

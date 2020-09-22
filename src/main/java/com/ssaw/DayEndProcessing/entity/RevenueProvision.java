@@ -1,5 +1,11 @@
 package com.ssaw.DayEndProcessing.entity;
-
+/**
+ * 收益计提-债券
+ * @type 实体类
+ * @author fusaiying
+ * @date 2020-09-10
+ * @version 1.0
+ */
 public class RevenueProvision {
     private String accountId; //账户 Id
     private String fundId;   //基金Id

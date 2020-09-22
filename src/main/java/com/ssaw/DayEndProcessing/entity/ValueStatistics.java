@@ -42,6 +42,10 @@ public class ValueStatistics {
     public ValueStatistics() {
     }
 
+    public ValueStatistics(Double cost) {
+        this.cost = cost;
+    }
+
     public ValueStatistics(int projectId, String projectName, String projectCode, Double quantityint, Double peice, Double cost, Double marketValue, Double valuation, int projectFatherId) {
         this.projectId = projectId;
         this.projectName = projectName;

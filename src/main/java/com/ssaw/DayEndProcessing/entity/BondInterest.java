@@ -1,5 +1,11 @@
 package com.ssaw.DayEndProcessing.entity;
-
+/**
+ * 收益计提-现金
+ * @type 实体类
+ * @author fusaiying
+ * @date 2020-09-10
+ * @version 1.0
+ */
 public class BondInterest {
 
     private String securitiesId;  //证券编号

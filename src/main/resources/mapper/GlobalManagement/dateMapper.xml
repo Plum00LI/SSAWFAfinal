@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssaw.GlobalManagement.mapper.DateManageMapper">
+    <!-- 批量添加和删除节假日 -->
+    <insert id="insertDate" parameterType="java.util.List" useGeneratedKeys="false" flushCache="false">
+        insert into holiday ( HOLIDAYID,datetime)
+        SELECT
+        holiday_sq.nextval as HOLIDAYID, holiday.*
+        FROM
+        (
+        <foreach collection="list" item="item"  index="index" separator="UNION ALL">
+            SELECT
+            to_date(#{item},'yyyy-MM-dd')
+            FROM dual
+        </foreach>
+        )  holiday
+    </insert>
+
+    <delete id="deleteDate" parameterType="java.util.List">
+        delete from holiday where datetime in
+        <foreach collection="list" item="item" open="(" close=")" separator=",">
+            to_date(#{item},'yyyy-MM-dd')
+        </foreach>
+    </delete>
+
+</mapper>

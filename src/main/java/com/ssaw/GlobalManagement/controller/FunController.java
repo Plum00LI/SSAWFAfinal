@@ -1,7 +1,9 @@
 package com.ssaw.GlobalManagement.controller;
 
 import com.ssaw.GlobalManagement.entity.Fun;
+import com.ssaw.GlobalManagement.log.OperLog;
 import com.ssaw.GlobalManagement.service.FunService;
+import com.ssaw.GlobalManagement.util.OperationType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +28,10 @@ public class FunController {
 
     @RequestMapping("SelectFun")
     @ResponseBody
+    @OperLog(message = "功能查询方法",operation = OperationType.QUERY)
     public List<Fun> selectFun(int roleId){
         List<Fun> fun = funService.selectFun(0, roleId);
-        for (Fun fun1 : fun) {
-            System.out.println(fun1);
-        }
+
         return fun;
     }
 }

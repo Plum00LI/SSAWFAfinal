@@ -1,5 +1,13 @@
 package com.ssaw.BusinessDescription.entity;
 
+/**
+ * 证券和股票的下拉列表
+ * @type 实体类
+ * @author fusaiying
+ * @date 2020-09-01
+ * @version 1.0
+ */
+
 public class SecuritiesAndStock {
     private String securitiesId;//证券编号
     private String securitiesName;//证券名称

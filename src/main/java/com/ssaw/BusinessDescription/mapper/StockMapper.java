@@ -1,10 +1,20 @@
 package com.ssaw.BusinessDescription.mapper;
 
+/**
+ * 股票模块
+ * @type dao层
+ * @author fusaiying
+ * @date 2020-09-02
+ * @version 1.0
+ */
+
 import com.ssaw.BusinessDescription.entity.Securities;
 import com.ssaw.BusinessDescription.entity.Stock;
+import com.ssaw.BusinessDescription.entity.VarietiesRate;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 股票板块
