@@ -14,6 +14,7 @@ import java.util.HashMap;
  */
 @Service
 public interface SecuritiesMarketService {
+
     public HashMap selectSecuritiesMarket(String dateTime);
 
 }

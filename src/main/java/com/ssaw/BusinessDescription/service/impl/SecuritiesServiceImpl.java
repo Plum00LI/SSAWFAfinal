@@ -4,6 +4,7 @@ import com.ssaw.BusinessDescription.entity.Securities;
 import com.ssaw.BusinessDescription.entity.SecuritiesAndStock;
 import com.ssaw.BusinessDescription.mapper.SecuritiesMapper;
 import com.ssaw.BusinessDescription.service.SecuritiesService;
+
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +17,7 @@ import java.util.Map;
  * 债券参数
  * @type Securities的service的实现类
  * @author fusaiying
- * @date 2020-09-01
+ * @date 2020-09-02
  * @version 1.0
  */
 @Service
@@ -110,13 +111,13 @@ public class SecuritiesServiceImpl implements SecuritiesService {
         System.out.println("业务逻辑返回的=" + resultMap.get("securities"));
         return resultMap;
     }
-//添加
+    //添加
     @Override
     public int insertSecurities(Securities securities) {
         int i = securitiesMapper.insertSecurities(securities);
         return i;
     }
-//修改
+    //修改
     @Override
     public int updateSecurities(Securities securities) {
         int i = securitiesMapper.updateSecurities(securities);

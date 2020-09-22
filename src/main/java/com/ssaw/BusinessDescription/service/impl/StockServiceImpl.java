@@ -7,13 +7,15 @@ import com.ssaw.BusinessDescription.service.StockService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 股票板块
  * @type stock的service的实现类
  * @author fusaiying
- * @date 2020-09-01
+ * @date 2020-09-02
  * @version 1.0
  */
 @Service
@@ -46,14 +48,14 @@ public class StockServiceImpl implements StockService {
         int i = stockMapper.insertStock(stock);
         return i;
     }
-//删除
+    //删除
     @Override
     public int deleteStock(String stockId) {
 
         int i = stockMapper.deleteStock(stockId);
         return i;
     }
-//改值
+    //改值
     @Override
     public int updateStock(Stock stock) {
 
