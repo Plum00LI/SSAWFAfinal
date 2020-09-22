@@ -39,16 +39,15 @@ public class SecuritiesMarketServiceImpl implements SecuritiesMarketService {
         }
         ArrayList<SecuritiesMarket> securitiesMarketList = (ArrayList<SecuritiesMarket>) securitiesMarketMapper.selectSecuritiesMarket(dateTime);
         int count = securitiesMarketList.size();
-        //资产净值
-//        double projectId=securitiesMarketMapper.selectProjectId(dateTime,fundId);
         for (SecuritiesMarket securitiesMarket : securitiesMarketList) {
             System.out.println("证券市场变动"+securitiesMarket);
             //市值变动值
             double marketChangeValue=(securitiesMarket.getClosingPrice()-securitiesMarket.getPrice())/securitiesMarket.getPrice();
+            //保留两位小数
             BigDecimal bg = new BigDecimal(marketChangeValue);
             marketChangeValue = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
             securitiesMarket.setMvcr(marketChangeValue);
-            //市值占净值比
+            //市值占净值比 保留两位小数
             double ratio=(securitiesMarket.getSecuritiesNum()*securitiesMarket.getClosingPrice()/securitiesMarket.getProjectId());
             System.out.println("市值 占净值比="+ratio);
             BigDecimal bg1 = new BigDecimal(ratio);
