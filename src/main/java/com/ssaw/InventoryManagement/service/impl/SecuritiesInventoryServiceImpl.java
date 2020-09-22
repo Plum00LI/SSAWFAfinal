@@ -22,23 +22,38 @@ import java.util.Map;
 */
 @Service
 public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryService {
+    //调用证券库存Dao类
     @Resource
     SecuritiesInventoryMapper securitiesInventoryMapper;
-
+    //调用工具类
     @Resource
     DbUtil dbUtil;
 
+    /**
+     * 证券库存查询方法
+     * @return
+     */
     @Override
     public List<SecuritiesInventory> selectSecuritiesInventory() {
         return securitiesInventoryMapper.selectSecuritiesInventory();
     }
 
+    /**
+     * 证券库存增加方法
+     * @param securitiesInventory 证券库存实体类
+     * @return
+     */
     @Override
     public int insertSecuritiesInventory(SecuritiesInventory securitiesInventory) {
 //        securitiesInventory.setFundId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.F));
     return securitiesInventoryMapper.insertSecuritiesInventory(securitiesInventory);
     }
 
+    /**
+     * 证券库存多行删除以及单行删除
+     * @param securitiesInventoryId 证券库存Id
+     * @return
+     */
     @Override
     public int deleteSecuritiesInventory(String securitiesInventoryId) {
         //切割字符串
@@ -50,11 +65,26 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
         return securitiesInventoryMapper.deleteSecuritiesInventory(list);
     }
 
+    /**
+     * 证券库存修改方法
+     * @param securitiesInventory 证券库存实体对象
+     * @return
+     */
     @Override
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory) {
         return securitiesInventoryMapper.updateSecuritiesInventory(securitiesInventory);
     }
 
+    /**
+     * 证券库存分页查询
+     * @param pageSize 条数
+     * @param page 页码
+     * @param dateTime 业务日期
+     * @param securitiesId 证券代码
+     * @param securitiesName 证券名称
+     * @param fundId 基金Id
+     * @return
+     */
     @Override
     public Map<String, Object> selectSecuritiesInventoryInfo(String pageSize, String page,String dateTime,String securitiesId,String securitiesName,String fundId) {
         //创建一个结果集Map,用于存放两个结果变量
@@ -76,11 +106,11 @@ public class SecuritiesInventoryServiceImpl implements SecuritiesInventoryServic
 
         StringBuffer sqlWhere = new StringBuffer();
 
-
+        //高级搜索查询条件 业务日期
         if (dateTime!=null && !dateTime.equals("")){
             sqlWhere.append(" and dateTime like '%"+dateTime+"%'");
         }
-
+        //高级搜索查询条件 证券名称
         if (securitiesName!=null && !securitiesName.equals("")){
             sqlWhere.append(" and securitiesName like '%"+securitiesName+"%'");
         }

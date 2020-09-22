@@ -1,5 +1,12 @@
 package com.ssaw.DayEndProcessing.entity;
 
+/**
+*@program: TescComment
+*@Description:证券库存与行情数据关联查询实体类
+*@author: 瞿平
+*@version:1.0
+*@create: 2020-09-22
+*/
 public class StockSecuritiesJoinMarket {
     private String fundId;
     private String securitiesId;

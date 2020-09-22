@@ -42,6 +42,13 @@ public interface MarketService {
     public int updateMarket(Market market);
 
 
-
+    /**
+     * 行情数据分页查询
+     * @param pageSize 每页条数
+     * @param page 页码
+     * @param securitiesId 证券代码
+     * @param dateTime 业务日期
+     * @return
+     */
     public Map<String,Object> selectMarketInfo(String pageSize, String page,String securitiesId,String dateTime);
 }

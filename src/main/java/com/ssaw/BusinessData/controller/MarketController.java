@@ -33,6 +33,10 @@ public class MarketController {
     @Resource
     DbUtil dbUtil;
 
+    /**
+     * 行情数据查询方法
+     * @return 返回一个hashMap集合
+     */
     public HashMap selectMarket(){
         System.out.println("行情数据查询控制器");
         HashMap hashMap = new HashMap();
@@ -45,6 +49,14 @@ public class MarketController {
         return hashMap;
     }
 
+    /**
+     * 行情数据分页查询
+     * @param page 页码
+     * @param limit 每页的条数
+     * @param securitiesId 证券代码
+     * @param dateTime 业务日期
+     * @return 返回一个hashMap集合
+     */
     @RequestMapping("selectMarketInfo")
     public Map<String,Object> selectMarketInfo(String page,String limit,String securitiesId,String dateTime){
         System.out.println("行情数据分页查询控制器");
@@ -66,6 +78,11 @@ public class MarketController {
         return hashMap;
     }
 
+    /**
+     * 行情数据增加方法
+     * @param market 行情数据实体对象
+     * @return 返回一个新增行情数据对象
+     */
     @RequestMapping("insertMarket")
     @ResponseBody
     public int insertMarket(Market market){
@@ -76,6 +93,11 @@ public class MarketController {
     }
 
 
+    /**
+     * 行情数据修改方法
+     * @param market 行情数据实体对象
+     * @return 返回一个修改后的实体对象
+     */
     @RequestMapping("updateMarket")
     public int updateMarket(Market market){
         int i = marketService.updateMarket(market);

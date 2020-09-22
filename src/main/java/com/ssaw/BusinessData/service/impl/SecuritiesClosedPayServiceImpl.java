@@ -23,13 +23,21 @@ import java.util.Map;
  **/
 @Service
 public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayService {
+    //调用Dao类
     @Resource
     SecuritiesClosedPayMapper securitiesClosedPayMapper;
-
+    //调用工具类
     @Resource
     DbUtil dbUtil;
 
-
+    /**
+     * 分页查询
+     * @param pageSize 每页的条数
+     * @param page 页码
+     * @param securitiesName 证券名称
+     * @param dateTime 业务日期
+     * @return
+     */
     @Override
     public Map<String, Object> selectSecuritiesClosedPay(String pageSize, String page,String securitiesName,String dateTime) {
         //创建一个结果集Map,用于存放两个结果变量
@@ -50,7 +58,7 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
         }
         StringBuffer sqlWhere = new StringBuffer();
 
-
+        //高级搜索条件
         if (dateTime!=null && !dateTime.equals("")){
             sqlWhere.append(" and dateTime like '%"+dateTime+"%'");
         }
@@ -85,11 +93,19 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
         return resultMap;
     }
 
+    /**
+     * 增加
+     * @return 返回一个int类型的参数
+     */
     @Override
     public int insertSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay) {
         return securitiesClosedPayMapper.insertSecuritiesClosedPay(securitiesClosedPay);
     }
 
+    /**
+     * 修改
+     * @return 返回一个int类型的参数
+     */
     @Override
     public int updateSecuritiesClosedPay(SecuritiesClosedPay securitiesClosedPay) {
         System.out.println("进入了修改impl");
@@ -98,6 +114,11 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
         return i;
     }
 
+    /**
+     * 批量删除
+     * @param securitiesClosedPayId
+     * @return
+     */
     @Override
     public int deleteSecuritiesClosedPay(String securitiesClosedPayId) {
         //切割字符串
@@ -111,17 +132,30 @@ public class SecuritiesClosedPayServiceImpl implements SecuritiesClosedPayServic
 
     //-------------------收益支付统计----------------
     //时间、类型、流入流出、基金Id删除信息
+    /**
+     * 根据时间、类型、流入流出、基金Id删除信息
+     * @param securitiesClosedPay
+     */
     @Override
     public void deleteSecuritiesNew(SecuritiesClosedPay securitiesClosedPay) {
         securitiesClosedPayMapper.deleteSecuritiesNew(securitiesClosedPay);
     }
     //根据时间、类型、流入流出、基金Id查询信息
+    /**
+     * 根据时间、类型、流入流出、基金Id删除信息
+     * @param securitiesClosedPay
+     */
     @Override
     public List selectSecuritiesNew(SecuritiesClosedPay securitiesClosedPay) {
         return  securitiesClosedPayMapper.selectSecuritiesNew(securitiesClosedPay);
     }
 
     //傅赛赢
+    /**
+     * 根据证券应收应付实体对象来删除
+     * @param securitiesClosedPay
+     * @return
+     */
     @Override
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPay securitiesClosedPay) {
         return securitiesClosedPayMapper.deleteSecuritiesClosedPayByPojo(securitiesClosedPay);
