@@ -2,26 +2,10 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate','tableSelect'], functi
     var layer = layui.layer;
     var $ = layui.$;
     var table = layui.table;
-     var form = layui.form;
+    var form = layui.form;
     //var tableSelect = layui.tableSelect;
     var laydate = layui.laydate;
 
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#start',//指定元素
-    });
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#updatetime'//指定元素
-    });
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#editopen',//指定元素
-    });
-    //执行一个laydate实例
-    laydate.render({
-        elem: '#editend'//指定元素
-    });
     laydate.render({
         elem: '#datetime' //指定元素
     });

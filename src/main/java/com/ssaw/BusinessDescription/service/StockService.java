@@ -5,12 +5,13 @@ import com.ssaw.BusinessDescription.entity.Stock;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 股票板块
  * @type stock的service类
  * @author fusaiying
- * @date 2020-09-01
+ * @date 2020-09-02
  * @version 1.0
  */
 

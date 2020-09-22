@@ -1,8 +1,14 @@
 package com.ssaw.DayEndProcessing.entity;
-
+/**
+ * 收益计提-两费
+ * @type 实体类
+ * @author fusaiying
+ * @date 2020-09-010
+ * @version 1.0
+ */
 public class TwoFees {
     private String fundId;
-    private String fundName; // 基金名
+    private String fundName; //基金名
     private int fundType; //基金类型
     private String managerId; //管理人Id
     private String trusteeBlank; //托管人Id
@@ -10,9 +16,34 @@ public class TwoFees {
     private double hostingRate ; //托管人费率
     private double management;  //管理费利息
     private double custody;  //托管费利息
-    private double propertyNetWorth; //资产净值
+    private double cost; //资产净值
     private String valueStatisticsDate;
     private String accountId;
+    private double managementMoney;
+    private double custodyMoney;
+    private double marketValue;
+
+    public TwoFees() {
+    }
+
+    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double cost, String valueStatisticsDate, String accountId, double managementMoney, double custodyMoney, double marketValue) {
+        this.fundId = fundId;
+        this.fundName = fundName;
+        this.fundType = fundType;
+        this.managerId = managerId;
+        this.trusteeBlank = trusteeBlank;
+        this.managerRate = managerRate;
+        this.hostingRate = hostingRate;
+        this.management = management;
+        this.custody = custody;
+        this.cost = cost;
+        this.valueStatisticsDate = valueStatisticsDate;
+        this.accountId = accountId;
+        this.managementMoney = managementMoney;
+        this.custodyMoney = custodyMoney;
+        this.marketValue = marketValue;
+    }
+
     public String getFundId() {
         return fundId;
     }
@@ -21,7 +52,12 @@ public class TwoFees {
         this.fundId = fundId;
     }
 
-    public TwoFees() {
+    public String getFundName() {
+        return fundName;
+    }
+
+    public void setFundName(String fundName) {
+        this.fundName = fundName;
     }
 
     public int getFundType() {
@@ -80,20 +116,12 @@ public class TwoFees {
         this.custody = custody;
     }
 
-    public double getPropertyNetWorth() {
-        return propertyNetWorth;
+    public double getCost() {
+        return cost;
     }
 
-    public void setPropertyNetWorth(double propertyNetWorth) {
-        this.propertyNetWorth = propertyNetWorth;
-    }
-
-    public String getFundName() {
-        return fundName;
-    }
-
-    public void setFundName(String fundName) {
-        this.fundName = fundName;
+    public void setCost(double cost) {
+        this.cost = cost;
     }
 
     public String getValueStatisticsDate() {
@@ -112,19 +140,28 @@ public class TwoFees {
         this.accountId = accountId;
     }
 
-    public TwoFees(String fundId, String fundName, int fundType, String managerId, String trusteeBlank, double managerRate, double hostingRate, double management, double custody, double propertyNetWorth, String valueStatisticsDate, String accountId) {
-        this.fundId = fundId;
-        this.fundName = fundName;
-        this.fundType = fundType;
-        this.managerId = managerId;
-        this.trusteeBlank = trusteeBlank;
-        this.managerRate = managerRate;
-        this.hostingRate = hostingRate;
-        this.management = management;
-        this.custody = custody;
-        this.propertyNetWorth = propertyNetWorth;
-        this.valueStatisticsDate = valueStatisticsDate;
-        this.accountId = accountId;
+    public double getManagementMoney() {
+        return managementMoney;
+    }
+
+    public void setManagementMoney(double managementMoney) {
+        this.managementMoney = managementMoney;
+    }
+
+    public double getCustodyMoney() {
+        return custodyMoney;
+    }
+
+    public void setCustodyMoney(double custodyMoney) {
+        this.custodyMoney = custodyMoney;
+    }
+
+    public double getMarketValue() {
+        return marketValue;
+    }
+
+    public void setMarketValue(double marketValue) {
+        this.marketValue = marketValue;
     }
 
     @Override
@@ -139,9 +176,12 @@ public class TwoFees {
                 ", hostingRate=" + hostingRate +
                 ", management=" + management +
                 ", custody=" + custody +
-                ", propertyNetWorth=" + propertyNetWorth +
+                ", cost=" + cost +
                 ", valueStatisticsDate='" + valueStatisticsDate + '\'' +
                 ", accountId='" + accountId + '\'' +
+                ", managementMoney=" + managementMoney +
+                ", custodyMoney=" + custodyMoney +
+                ", marketValue=" + marketValue +
                 '}';
     }
 }

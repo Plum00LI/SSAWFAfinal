@@ -5,7 +5,7 @@
         {call pkg_tables.sp_select(#{p_tableName,mode=IN,jdbcType=VARCHAR},#{p_condition,mode=IN,jdbcType=VARCHAR},#{p_pageSize,mode=IN,jdbcType=INTEGER},#{p_page,mode=IN,jdbcType=INTEGER},#{p_count,mode=OUT,jdbcType=INTEGER},#{p_cursor,mode=OUT,jdbcType=CURSOR,javaType=ResultSet,resultMap=revenueProvisionMap})}
     </select>
     <resultMap id="revenueProvisionMap" type="com.ssaw.DayEndProcessing.entity.RevenueProvision">
-     <result property="accountId" column="accountId"></result>
+        <result property="accountId" column="accountId"></result>
         <result property="fundId" column="fundId"></result>
         <result property="blankCardCode" column="blankCardCode"></result>
         <result property="accountName" column="accountName"></result>
@@ -61,5 +61,6 @@
         <result property="management" column="management"></result>
         <result property="custody" column="custody"></result>
         <result property="accountId" column="accountId"></result>
+        <result property="cost" column="cost"></result>
     </resultMap>
 </mapper>

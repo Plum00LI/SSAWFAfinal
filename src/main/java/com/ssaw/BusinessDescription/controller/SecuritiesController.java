@@ -2,7 +2,11 @@ package com.ssaw.BusinessDescription.controller;
 
 import com.ssaw.BusinessDescription.entity.Securities;
 import com.ssaw.BusinessDescription.entity.SecuritiesAndStock;
+import com.ssaw.BusinessDescription.entity.Stock;
 import com.ssaw.BusinessDescription.service.SecuritiesService;
+import com.ssaw.GlobalManagement.entity.UserInfo;
+import com.ssaw.GlobalManagement.log.OperLog;
+import com.ssaw.GlobalManagement.util.OperationType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,6 +29,7 @@ public class SecuritiesController {
     SecuritiesService securitiesService;
 
     //查询
+    @OperLog(message = "证券板块的查询",operation = OperationType.QUERY)
     @RequestMapping("selectSecurities")
     public Map<String,Object> selectSecurities(String page, String limit,String securitiesId,String exchange,String securitiesType){
         System.out.println(page+limit);
@@ -49,6 +54,8 @@ public class SecuritiesController {
     /**
      *删除
      */
+    @OperLog(message = "证券板块的删除",operation = OperationType.DELETE)
+
     @RequestMapping("deleteSecurities")
     public int deleteSecurities(String securitiesId ){
         System.out.println("进入controller了");
@@ -59,6 +66,8 @@ public class SecuritiesController {
     /**
      * 增加
      */
+    @OperLog(message = "证券板块的增加",operation = OperationType.ADD)
+
     @RequestMapping("insertSecurities")
     public int insertSecurities(Securities securities){
         System.out.println("我是页面数据"+securities);
@@ -69,6 +78,7 @@ public class SecuritiesController {
     /**
      * 修改
      */
+    @OperLog(message = "证券板块的修改",operation = OperationType.UPDATE)
     @RequestMapping("updateSecurities")
     public int updateSecurities(Securities securities){
         System.out.println("进来了控制测");

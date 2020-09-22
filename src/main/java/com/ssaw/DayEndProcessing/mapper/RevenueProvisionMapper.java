@@ -1,5 +1,11 @@
 package com.ssaw.DayEndProcessing.mapper;
-
+/**
+ * 收益计提
+ * @type dao层
+ * @author fusaiying
+ * @date 2020-09-10
+ * @version 1.0
+ */
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.HashMap;
