@@ -1,7 +1,9 @@
 package com.ssaw.GlobalManagement.controller;
 
 import com.ssaw.GlobalManagement.entity.Role;
+import com.ssaw.GlobalManagement.log.OperLog;
 import com.ssaw.GlobalManagement.service.RoleService;
+import com.ssaw.GlobalManagement.util.OperationType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,8 +29,9 @@ public class RoleController {
 
     @RequestMapping("selectRole")
     @ResponseBody
+    @OperLog(message = "角色查询方法",operation = OperationType.QUERY)
     public Object selectRole(){
-        System.out.println("进来了");
+
         List<Role> roleList= roleService.selectRole();
         for (Role role : roleList) {
             if(role.getStatus()==1){

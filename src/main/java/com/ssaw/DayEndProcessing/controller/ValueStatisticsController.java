@@ -7,7 +7,9 @@ import com.ssaw.DayEndProcessing.service.OperationValueStatisticsService;
 import com.ssaw.DayEndProcessing.service.SecuritiesValueStatisticsService;
 import com.ssaw.DayEndProcessing.service.TaValueStatisticsService;
 import com.ssaw.DayEndProcessing.service.ValueStatisticsService;
+import com.ssaw.GlobalManagement.log.OperLog;
 import com.ssaw.GlobalManagement.util.DateTimeUtil;
+import com.ssaw.GlobalManagement.util.OperationType;
 import com.ssaw.InventoryManagement.entity.TaInventory;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +52,7 @@ public class ValueStatisticsController {
      */
     @RequestMapping("insertValueStatistics")
     @ResponseBody
+    @OperLog(message = "净值统计方法",operation = OperationType.ADD)
     public Object insertValueStatistics(String valueStatisticsDate,String fundId,String accountId) throws ParseException {
         valueStatisticsDate = valueStatisticsDate.trim();
         fundId=fundId.trim();
@@ -411,14 +414,7 @@ public class ValueStatisticsController {
 
         //从数据库查询新增的数据
         List<ValueStatistics> valueStatistics = valueStatisticsService.selectValueStatistics(valueStatisticsDate, fundId);
-//        //遍历集合格式化必要金额字段
-//        if(valueStatistics.size()!=0){
-//            for (ValueStatistics valueStatistic : valueStatistics) {
-//                if(valueStatistic!=null){
-//
-//                }
-//            }
-//        }
+
         Map<String,Object> josn = new HashMap<String,Object>();
         josn.put("code", 0);
         josn.put("count",valueStatistics.size());
@@ -433,6 +429,7 @@ public class ValueStatisticsController {
      */
     @RequestMapping("selectValueStatistics")
     @ResponseBody
+    @OperLog(message = "净值查询方法",operation = OperationType.QUERY)
     public Object selectValueStatistics(String valueStatisticsDate,String fundId,String accountId){
         valueStatisticsDate = valueStatisticsDate.trim();
         fundId=fundId.trim();

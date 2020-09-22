@@ -1,6 +1,8 @@
 package com.ssaw.GlobalManagement.controller;
 
+import com.ssaw.GlobalManagement.log.OperLog;
 import com.ssaw.GlobalManagement.service.EndowService;
+import com.ssaw.GlobalManagement.util.OperationType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +24,7 @@ public class EndowController {
     EndowService endowService;
 
     @RequestMapping("deInEndow")
+    @OperLog(message = "角色绑定模块方法",operation = OperationType.ADD)
     public void endows(String strIds,String roldId){
         System.out.println(strIds);
         System.out.println(roldId);
