@@ -19,7 +19,7 @@
         </foreach>
     </delete>
     <delete id="deleteCashClosedPayInventoryDate">
-        delete from cashClosedPayInventory where INITIALSIGNS=0 and businessDate=#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
+        delete from cashClosedPayInventory where INITIALSIGNS=0 and businessType in(1,2,3) and businessDate=#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
     </delete>
 
     <!--查询-->
