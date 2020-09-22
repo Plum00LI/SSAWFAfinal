@@ -25,8 +25,8 @@ is
     --创建查询的存储过程
     procedure sp_select(p_tableName varchar2, p_condition varchar2, p_pageSize number, p_page number,p_count out number,p_cursor out sys_refcursor)
     is
-        v_sql varchar2(1000):='select * from (select rownum as rn,d.* from(select * from '|| p_tableName || ' where 1=1';
-        v_sql2 varchar2(500) := 'select count(*) from (select * from '|| p_tableName || ' where 1=1 ';
+        v_sql varchar2(4000):='select * from (select rownum as rn,d.* from(select * from '|| p_tableName || ' where 1=1';
+        v_sql2 varchar2(4000) := 'select count(*) from (select * from '|| p_tableName || ' where 1=1 ';
     begin
         if p_condition is not null or p_condition !='' then
             v_sql := v_sql || p_condition;
@@ -42,7 +42,7 @@ is
     -- 获取最大的id编号
     procedure sp_selectMaxId(p_tableName varchar2,p_acronym varchar2,p_date varchar2,p_tableId out varchar2)
     is
-        v_sql varchar2(1000) := 'select '|| p_tableName || 'Id from ' || p_tableName || ' where '|| p_tableName || 'Id like '''||p_acronym || p_date ||'%''';
+        v_sql varchar2(4000) := 'select '|| p_tableName || 'Id from ' || p_tableName || ' where '|| p_tableName || 'Id like '''||p_acronym || p_date ||'%''';
         v_cursor sys_refcursor;
         -- 定义行变量（只接收一个列  id列）
         v_row varchar2(50);
