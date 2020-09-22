@@ -1,7 +1,9 @@
 package com.ssaw.GlobalManagement.controller;
 
 import com.ssaw.GlobalManagement.entity.FunTest;
+import com.ssaw.GlobalManagement.log.OperLog;
 import com.ssaw.GlobalManagement.service.FunTestService;
+import com.ssaw.GlobalManagement.util.OperationType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,12 +28,11 @@ public class FunTestController {
 
     @RequestMapping("SelectFunTest")
     @ResponseBody
+    @OperLog(message = "模块加载测试方法",operation = OperationType.QUERY)
     public List<FunTest> testFun(){
-        System.out.println("进来了");
+
         List<FunTest> funTestList = funTestService.selectPidFun(0,3);
-        for (FunTest funTest : funTestList) {
-            System.out.println(funTest);
-        }
+
         return funTestList;
     }
 
