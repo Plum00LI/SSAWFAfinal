@@ -95,9 +95,9 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
 				{field: 'securitiesType', title: '证券类型', sort: true,
 					templet:function (item) {
 						if (item.securitiesType=="1"){
-							return '股票';
-						}else if (item.securitiesType=="2"){
 							return '债券';
+						}else if (item.securitiesType=="2"){
+							return '股票';
 						}
 					}
 				},

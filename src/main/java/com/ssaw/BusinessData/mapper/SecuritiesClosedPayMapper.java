@@ -43,12 +43,25 @@ public interface SecuritiesClosedPayMapper {
 
 
     //-------------------收益支付统计----------------
-    //根据时间、类型、流入流出、基金Id删除信息
+    /**
+     * 根据时间、类型、流入流出、基金Id删除信息
+     * @param securitiesClosedPay
+     */
     void deleteSecuritiesNew(SecuritiesClosedPay securitiesClosedPay);
-    //根据时间、类型、流入流出、基金Id查询
+
+    /**
+     * 根据时间、类型、流入流出、基金Id查询
+     * @param securitiesClosedPay
+     * @return
+     */
     List<SecuritiesClosedPay> selectSecuritiesNew(SecuritiesClosedPay securitiesClosedPay);
 
     //傅赛赢
+    /**
+     * 根据证券应收应付实体对象来删除
+     * @param securitiesClosedPay
+     * @return
+     */
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPay securitiesClosedPay);
 
 }

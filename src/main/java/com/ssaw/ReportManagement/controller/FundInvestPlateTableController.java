@@ -99,8 +99,10 @@ public class FundInvestPlateTableController {
     @RequestMapping("selectFundInvestPlateTable2")
     @ResponseBody
     public Object selectFundInvestPlateTable2(String valueStatisticsDate,String fundId) throws ParseException {
+        //去空格
         valueStatisticsDate = valueStatisticsDate.trim();
         fundId=fundId.trim();
+        //如页面传空字串，则获取本地时间
         if(valueStatisticsDate.equals("")){
             valueStatisticsDate= DateTimeUtil.getSystemDateTime("yyyy-MM-dd");
 

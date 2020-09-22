@@ -29,21 +29,26 @@ import java.util.List;
 @RestController
 @RequestMapping("assetValuationController")
 public class AssetValuationController {
+    //调用资产估值Dao类
     @Resource
     AssetValuationMapper assetValuationMapper;
-
+    //调用资产估值service类
     @Resource
     AssetValuationService assetValuationService;
-
+    //调用证券应收应付库存service类
     @Resource
     SecuritiesClosedPayInventoryService securitiesClosedPayInventoryService;
-
+    //调用现金应收应付库存service类
     @Resource
     CashClosedPayInventoryService cashClosedPayInventoryService;
-
+    //调用工具类
     @Resource
     DbUtil dbUtil;
 
+    /**
+     * 资产估值查询方法
+     * @return
+     */
     @RequestMapping("selectAssetValuationData")
     public HashMap selectAssetValuationData() {
         List<AssetValuationData> assetValuationDataList = assetValuationService.selectBiaoge();
@@ -56,6 +61,13 @@ public class AssetValuationController {
         return assetValuationDataMap;
     }
 
+    /**
+     * 资产估值操作类
+     * @param toDay 业务日期
+     * @param arrJson json数据
+     * @param fundId 基金Id
+     * @return
+     */
     @RequestMapping("startValuation")
     public int startValuation(String toDay,String arrJson,String fundId){
         System.out.println("进来了");
@@ -72,7 +84,7 @@ public class AssetValuationController {
                 List<StockSecuritiesJoinMarket> stockSecuritiesJoinMarketList = (List<StockSecuritiesJoinMarket>) stockarketMap.get("p_cursor");
                 for (StockSecuritiesJoinMarket stockSecuritiesJoinMarket : stockSecuritiesJoinMarketList) {
                     System.out.println( stockSecuritiesJoinMarket.getSecuritiesId()+"========================================");
-
+                    //将估值的数据添加到证券应收应付库存
                     SecuritiesClosedPayInventory securitiesClosedPayInventory = new SecuritiesClosedPayInventory();
                     //开始执行增加
                     securitiesClosedPayInventory.setFundId(stockSecuritiesJoinMarket.getFundId());
@@ -107,6 +119,7 @@ public class AssetValuationController {
                     securitiesClosedPayInventory.setSecuritiesId(transactionData.getSecuritiesId());
                     Double totalSum=0.0;
                     if (transactionData.getFlag()==-1){
+                        //资金流向为-1时  总金额为负 拿金额乘以-1得到正确的金额
                         totalSum=transactionData.getTotalSum()*-1;
                     }else{
                         totalSum=transactionData.getTotalSum()*1;
@@ -118,12 +131,15 @@ public class AssetValuationController {
                     securitiesClosedPayInventory.setSecuritiesClosedPayDesc("投资有风险");
                     System.out.println("查清算款增加的实体类="+securitiesClosedPayInventory);
                     assetValuationService.deleteSecuritiesClosedPayInventoryTwo(securitiesClosedPayInventory);
+                    //调用证券应收应付库存增加方法，将清算的数据插入到证券应收应付库存
                     securitiesClosedPayInventoryService.insertSecuritiesClosedPayInventory(securitiesClosedPayInventory);
                     System.out.println("查ta交易数据================================");
+                    //查询TA交易数据，进行清算
                     HashMap taTransactionMap = assetValuationService.selectTaTransaction(fundId,toDay);
                     List<TaTransaction> taTransactionList = (List<TaTransaction>)taTransactionMap.get("p_cursor");
                     for (TaTransaction taTransaction : taTransactionList) {
                         System.out.println(taTransaction+"ta==========================================");
+                        //new一个现金应收应付库存实体对象
                         CashClosedPayInventory cashClosedPayInventory = new CashClosedPayInventory();
                         cashClosedPayInventory.setCashClosedPayInventoryId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.CCPI));
                         cashClosedPayInventory.setBusinessDate(taTransaction.getDateTime());
@@ -133,6 +149,7 @@ public class AssetValuationController {
                         cashClosedPayInventory.setBusinessStatus(1);
                         cashClosedPayInventory.setInitialSigns(1);
                         cashClosedPayInventory.setTotalMoney(taTransaction.getTotalMoney());
+                        //调用现金应收应付库存增加方法，请TA清算数据插入到现金应收应付库存
                         i = cashClosedPayInventoryService.insertCashClosedPayInventory(cashClosedPayInventory);
                     }
 

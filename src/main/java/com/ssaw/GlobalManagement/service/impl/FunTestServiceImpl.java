@@ -27,16 +27,21 @@ public class FunTestServiceImpl implements FunTestService {
 
     @Override
     public List<FunTest> selectPidFun(int pid,int roleId) {
+        //查询指定角色所有父功能
         List<FunTest> funTestList = funTestMapper.selectPidFun(pid,roleId);
+        //遍历功能集合
         for (FunTest funTest : funTestList) {
-            System.out.println(funTest);
+           //根据集合内功能对象的ID循环查询对应的所有子功能集合
             List<FunTest> funTests1 = funTestMapper.selectChildFun(funTest.getId(), roleId);
+            //当子功能集合不为空时，将查到的子功能集合Set到夫功能对象的Child集合属性中
             if(funTests1.size()!=0){
                 funTest.setChild(funTests1);
             }
+            //再次遍历子功能集合，
             for (FunTest test : funTests1) {
-                System.out.println(test);
+              //根据集合内功能对象的ID循环查询对应的所有子功能集合
                 List<FunTest> funTests2 = funTestMapper.selectChildFun(test.getId(), roleId);
+                //当子功能集合不为空时，将查到的子功能集合Set到夫功能对象的Child集合属性中
                 if(funTests2.size()!=0){
                     test.setChild(funTests2);
                 }

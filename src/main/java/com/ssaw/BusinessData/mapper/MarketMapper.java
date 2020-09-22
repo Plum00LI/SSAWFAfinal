@@ -49,5 +49,10 @@ public interface MarketMapper {
      */
       public Map<String,Object> selectMarketInfo(Map map);
 
+     /**
+     * 批量删除
+     * @param marketId 行情Id
+     * @return marketId 行情Id
+     */
       int deleteMarket(List marketId);
 }

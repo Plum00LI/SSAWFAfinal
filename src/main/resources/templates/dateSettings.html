@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>laydatePro</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <link rel="stylesheet" href="../lib/layui-master/src/css/layui.css" media="all">
+    <link rel="stylesheet" href="../lib/layui/css/view.css">
+    <style type="text/css">
+        .date {
+            display: inline-block;
+            right: 20px;
+        }
+
+        .layui-laydate, .layui-laydate-content {
+            width: 265px;
+        }
+
+
+        .layui-laydate-header i {
+            display: none;
+        }
+
+        input {
+            display: none;
+        }
+    </style>
+</head>
+<body style="overflow: auto; background-color: white;"
+      class="layui-view-body layui-content">
+<div style="float: left"><input type="text" name="endtime" style="text-align: center;" id="date" lay-verify="date" placeholder="选择年份"
+                                readonly="readonly" class="layui-input"><input/></div>
+<div style="float: right"><button type="button" id="save" class="layui-btn layui-btn-normal layui-btn-fluid">保存节假日</button></div>
+
+
+<br/>
+
+<div style="float: contour">
+    <div class="date">
+        <div id="datatime1"></div>
+        <span id="d1"></span>
+        <div id="datatime5"></div>
+        <span id="d5"></span>
+        <div id="datatime9"></div>
+        <span id="d9"></span>
+    </div>
+    <div class="date">
+        <div id="datatime2"></div>
+        <span id="d2"></span>
+        <div id="datatime6"></div>
+        <span id="d6"></span>
+        <div id="datatime10"></div>
+        <span id="d10"></span>
+    </div>
+    <div class="date">
+        <div id="datatime3"></div>
+        <span id="d3"></span>
+        <div id="datatime7"></div>
+        <span id="d7"></span>
+        <div id="datatime11"></div>
+        <span id="d11"></span>
+    </div>
+    <div class="date">
+        <div id="datatime4"></div>
+        <span id="d4"></span>
+        <div id="datatime8"></div>
+        <span id="d8"></span>
+        <div id="datatime12"></div>
+        <span id="d12"></span>
+    </div>
+</div>
+
+
+<input id="dateval1" type="text"/>
+<input id="dateval2" type="text"/>
+<input id="dateval3" type="text"/>
+<input id="dateval4" type="text"/>
+
+<input id="dateval5" type="text"/>
+<input id="dateval6" type="text"/>
+<input id="dateval7" type="text"/>
+<input id="dateval8" type="text"/>
+
+<input id="dateval9" type="text"/>
+<input id="dateval10" type="text"/>
+<input id="dateval11" type="text"/>
+<input id="dateval12" type="text"/>
+<script src="../lib/layui-master/src/layui.js" charset="utf-8"></script>
+<script>
+    layui.config({base: '../lib/layui-master/src/lay/plug/', cache: true})
+        .use(['laydatePro', 'code', 'util', 'form', 'jquery'], function () {
+            var $ = layui.$,
+                laydate = layui.laydate,
+                util = layui.util,
+                form = layui.form,
+                laydatePro = layui.laydatePro;
+            laydate.render({
+                elem: '#date',
+                theme:'#25B5E5',
+                value: new Date(),
+                type: 'year',
+                done: function (value) {
+                    $('#datatime1').remove();
+                    $('#datatime2').remove();
+                    $('#datatime4').remove();
+                    $('#datatime5').remove();
+                    $('#datatime6').remove();
+                    $('#datatime7').remove();
+                    $('#datatime8').remove();
+                    $('#datatime3').remove();
+                    $('#datatime9').remove();
+                    $('#datatime10').remove();
+                    $('#datatime11').remove();
+                    $('#datatime12').remove();
+                    $('#d1').before('<div id="datatime1"></div>');
+                    $('#d2').before('<div id="datatime2"></div>');
+                    $('#d3').before('<div id="datatime3"></div>');
+                    $('#d4').before('<div id="datatime4"></div>');
+                    $('#d5').before('<div id="datatime5"></div>');
+                    $('#d6').before('<div id="datatime6"></div>');
+                    $('#d7').before('<div id="datatime7"></div>');
+                    $('#d8').before('<div id="datatime8"></div>');
+                    $('#d9').before('<div id="datatime9"></div>');
+                    $('#d10').before('<div id="datatime10"></div>');
+                    $('#d11').before('<div id="datatime11"></div>');
+                    $('#d12').before('<div id="datatime12"></div>');
+                    zz(value);
+                }
+            });
+            var headDate = $("#date").val();
+
+            function zz(headDate) {
+                $.ajax({
+                    method: 'post',
+                    url: '../dateManageController/selectDate',
+                    data: {date: headDate},
+                    cache: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result)
+                        var str = JSON.stringify(result);
+                        var strDate = str.substr(1, str.length - 2);
+                        var arr = new Array();
+                        var dateData = strDate.split(",");
+                        Date.prototype.format = function (format) {
+                            var date = {
+                                "M+": this.getMonth() + 1,
+                                "d+": this.getDate(),
+                                "h+": this.getHours(),
+                                "m+": this.getMinutes(),
+                                "s+": this.getSeconds(),
+                                "q+": Math.floor((this.getMonth() + 3) / 3),
+                                "S+": this.getMilliseconds()
+                            };
+                            if (/(y+)/i.test(format)) {
+                                format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+                            }
+                            for (var k in date) {
+                                if (new RegExp("(" + k + ")").test(format)) {
+                                    format = format.replace(RegExp.$1, RegExp.$1.length == 1
+                                        ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                                }
+                            }
+                            return format;
+                        }
+                        Date.daysInMonth = function (year, month) {
+                            if (month == 1) {
+                                if (year % 4 == 0 && year % 100 != 0)
+                                    return 29;
+                                else
+                                    return 28;
+                            } else if ((month <= 6 && month % 2 == 0) || (month = 6 && month % 2 == 1))
+                                return 31;
+                            else
+                                return 30;
+                        };
+                        Date.prototype.addMonth = function (addMonth) {
+                            var y = this.getFullYear();
+                            var m = this.getMonth();
+                            var nextY = y;
+                            var nextM = m;
+                            //如果当前月+要加上的月>11 这里之所以用11是因为 js的月份从0开始
+                            if (m > 11) {
+                                nextY = y + 1;
+                                nextM = parseInt(m + addMonth) - 11;
+                            } else {
+                                nextM = this.getMonth() + addMonth
+                            }
+                            var daysInNextMonth = Date.daysInMonth(nextY, nextM);
+                            var day = this.getDate();
+                            if (day > daysInNextMonth) {
+                                day = daysInNextMonth;
+                            }
+                            return new Date(nextY, nextM, day);
+                        };
+                        var arr1 = new Array();
+                        var arr2 = new Array();
+                        var arr3 = new Array();
+                        var arr4 = new Array();
+                        var arr5 = new Array();
+                        var arr6 = new Array();
+                        var arr7 = new Array();
+                        var arr8 = new Array();
+                        var arr9 = new Array();
+                        var arr10 = new Array();
+                        var arr11 = new Array();
+                        var arr12 = new Array();
+
+                        function zxc(m, month, arrObj) {
+                            if (m == month) {
+                                arrObj.push(d.format('yyyy-MM-dd'));
+                            }
+                        }
+
+                        var startDate = new Date(headDate + "/01/01");
+                        var z = parseInt(headDate) + 1;
+                        var endDate = new Date(z + "/01/01");
+                        if (result == '') {
+                            for (
+                                var d = new Date(startDate.getTime());
+                                d.getTime() <= endDate.getTime();
+                                d.setDate(d.getDate() + 1)
+                            ) {
+                                if (d.getDay() == 0 || d.getDay() == 6) {
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '01', arr1);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '02', arr2);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '03', arr3);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '04', arr4);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '05', arr5);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '06', arr6);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '07', arr7);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '08', arr8);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '09', arr9);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '10', arr10);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '11', arr11);
+                                    zxc(d.format('yyyy-MM-dd').substring(5, 7), '12', arr12);
+                                    arr.push(d.format('yyyy-MM-dd'));
+                                }
+                            }
+                        } else {
+                            for (var i = 0; i < dateData.length; i++) {
+                                var d = new Date(dateData[i]);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '01', arr1);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '02', arr2);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '03', arr3);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '04', arr4);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '05', arr5);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '06', arr6);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '07', arr7);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '08', arr8);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '09', arr9);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '10', arr10);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '11', arr11);
+                                zxc(d.format('yyyy-MM-dd').substring(5, 7), '12', arr12);
+                                arr.push(d.format('yyyy-MM-dd'));
+                            }
+                        }
+                        $('.laydate-set-ym span').click(function () {
+                            return false;
+                        })
+
+                        laydate.render({
+                            elem: '#datatime1',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr1.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval1').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime2',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr2.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval2').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime3',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr3.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval3').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime4',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr4.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval4').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime5',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr5.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval5').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime6',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr6.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval6').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime7',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr7.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval7').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime8',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr8.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval8').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime9',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr9.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval9').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime10',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr10.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval10').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime11',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr11.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval11').val(value);
+
+                            }
+                        });
+                        laydate.render({
+                            elem: '#datatime12',
+                            theme: '#25B5E5',
+                            trigger: 'click',
+                            showBottom: false,
+                            value: arr12.join(','),
+                            multiple: ',',
+                            circleMark: true,
+                            position: 'static',
+                            done: function (value, date, endDate) {
+                                $('#dateval12').val(value);
+
+                            }
+                        });
+                        $('#dateval1').val(arr1.join(','));
+                        $('#dateval2').val(arr2.join(','));
+                        $('#dateval3').val(arr3.join(','));
+                        $('#dateval4').val(arr4.join(','));
+                        $('#dateval5').val(arr5.join(','));
+                        $('#dateval6').val(arr6.join(','));
+                        $('#dateval7').val(arr7.join(','));
+                        $('#dateval8').val(arr8.join(','));
+                        $('#dateval9').val(arr9.join(','));
+                        $('#dateval10').val(arr10.join(','));
+                        $('#dateval11').val(arr11.join(','));
+                        $('#dateval12').val(arr12.join(','));
+                        $("#save").click(function () {
+                            var strList = $('#dateval1').val() + "," + $('#dateval2').val() + "," + $('#dateval3').val() + "," +
+                                $('#dateval4').val() + "," + $('#dateval5').val() + "," + $('#dateval6').val() + "," +
+                                $('#dateval7').val() + "," + $('#dateval8').val() + "," + $('#dateval9').val() + "," +
+                                $('#dateval10').val() + "," + $('#dateval11').val() + "," + $('#dateval12').val();
+                            $.ajax({
+                                method: 'post',
+                                url: '../dateManageController/insertDate',
+                                data: {strList: strList},
+                                cache: false,
+                                dataType: 'json',
+                                success: function (result) {
+                                    if (result == 1) {
+                                        //边缘弹出
+                                        layer.open({
+                                            type: 1
+                                            , offset: 'rb' //具体配置参考：offse t参数项
+                                            , content: '<div style="padding: 15px 80px;">保存成功！</div>'
+                                            , skin: 'layui-layer-molv'
+                                            , btn: '关闭'
+                                            , time: 4000
+                                            , btnAlign: 'c' //按钮居中
+                                            , shade: 0 //不显示遮罩
+                                            , yes: function () {
+                                                layer.closeAll();
+                                            }
+                                        });
+                                    } else {
+                                        //边缘弹出
+                                        layer.open({
+                                            type: 1
+                                            , offset: 'rb' //具体配置参考：offse t参数项
+                                            , content: '<div style="padding: 15px 80px;">保存失败！</div>'
+                                            , skin: 'layui-layer-molv'
+                                            , btn: '关闭'
+                                            , time: 4000
+                                            , btnAlign: 'c' //按钮居中
+                                            , shade: 0 //不显示遮罩
+                                            , yes: function () {
+                                                layer.closeAll();
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function (xhr) {
+                                }
+                            })
+                        })
+
+                    },
+                    error: function (xhr) {
+                    }
+                })
+            }
+
+            zz(headDate);
+        });
+</script>
+</body>
+</html>

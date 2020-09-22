@@ -28,36 +28,36 @@
     </div>
 
     <form class="layui-form">
-            <div class="layui-input-inline">
-                <label class="layui-form-label layui-bg-gray" style="width: 100px;text-align: center">证券编号</label>
-                <input name="securitiesId" lay-verify="required" autocomplete="off" placeholder="" class="layui-input layui-input-inline" id="securitiesId_3" style="width: 200px">
-            </div>
+        <div class="layui-input-inline">
+            <label class="layui-form-label layui-bg-gray" style="width: 100px;text-align: center">证券编号</label>
+            <input name="securitiesId" lay-verify="required" autocomplete="off" placeholder="" class="layui-input layui-input-inline" id="securitiesId_3" style="width: 200px">
+        </div>
 
 
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">交易所名称</label>
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">交易所名称</label>
-                <div class="layui-inline layui-show-xs-block">
-                    <select name="exchange_3" id="exchange_3">
-                        <option value="">请选择</option>
-                        <option value="1">上交所</option>
-                        <option value="2">深交所</option>
-                    </select>
-                </div>
+                <select name="exchange_3" id="exchange_3">
+                    <option value="">请选择</option>
+                    <option value="1">上交所</option>
+                    <option value="2">深交所</option>
+                </select>
             </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">证券类型</label>
             <div class="layui-inline layui-show-xs-block">
-                <label class="layui-form-label layui-bg-gray" style="width: 110px;text-align: center">证券类型</label>
-                <div class="layui-inline layui-show-xs-block">
-                    <select name="securitiesType" id="securitiesType_3">
-                        <option value="">请选择</option>
-                        <option value="1">债券</option>
-                        <option value="2">股票</option>
-                    </select>
-                </div>
+                <select name="securitiesType" id="securitiesType_3">
+                    <option value="">请选择</option>
+                    <option value="1">债券</option>
+                    <option value="2">股票</option>
+                </select>
             </div>
-            <div class="layui-inline layui-show-xs-block">
-                <button class="layui-btn layui-btn-primary" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
-                </button>
-            </div>
+        </div>
+        <div class="layui-inline layui-show-xs-block">
+            <button class="layui-btn layui-btn-primary" lay-submit="" lay-event="search" lay-filter="sreach"><i class="layui-icon">&#xe615;</i>搜索
+            </button>
+        </div>
     </form>
 </script>
 <div class="layuimini-main">
@@ -77,14 +77,14 @@
     <form id="addform" lay-filter="addform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-<!--        证券编号-->
+        <!--        证券编号-->
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-gray"> 证券编号</label>
             <div class="layui-input-inline">
                 <input name="securitiesId" lay-verify="required"
                        autocomplete="off" placeholder="" class="layui-input">
             </div>
-<!--            证券名称-->
+            <!--            证券名称-->
             <label class="layui-form-label layui-bg-gray"> 证券名称</label>
             <div class="layui-input-inline">
                 <input name="securitiesName" lay-verify="required"
@@ -92,7 +92,7 @@
             </div>
         </div>
 
-<!--            证券类型-->
+        <!--            证券类型-->
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-gray">证券类型</label>
             <div class="layui-input-inline">
@@ -102,7 +102,7 @@
                     <option value="2">股票</option>
                 </select>
             </div>
-<!--        股票板块-->
+            <!--        股票板块-->
             <label class="layui-form-label layui-bg-gray">股票板块</label>
             <div class="layui-input-inline">
                 <input name="addStockName" lay-verify="required" id="addStockName"
@@ -111,14 +111,14 @@
             </div>
         </div>
 
-<!--        发行日期-->
+        <!--        发行日期-->
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-gray"> 发行日期</label>
             <div class="layui-input-inline">
                 <input  name="issueDate" lay-verify="required"
-                       autocomplete="off" placeholder="" class="layui-input" id="start">
+                        autocomplete="off" placeholder="" class="layui-input" id="start">
             </div>
-<!--        延迟日期-->
+            <!--        延迟日期-->
             <label class="layui-form-label layui-bg-gray">延迟日期</label>
             <div class="layui-input-inline">
                 <select name="delayDate" id="delayDate">
@@ -130,7 +130,7 @@
             </div>
         </div>
 
-<!--        交易所-->
+        <!--        交易所-->
         <div class="layui-form-item" style="text-align: center;">
             <label class="layui-form-label layui-bg-gray">交易所</label>
             <div class="layui-input-inline">
@@ -140,7 +140,7 @@
                     <option value="2">深交所</option>
                 </select>
             </div>
-<!--         备注-->
+            <!--         备注-->
             <label class="layui-form-label layui-bg-gray"> 备注</label>
             <div class="layui-input-inline">
                 <input name="securitiesDesc"
@@ -165,76 +165,76 @@
     <form id="editform" lay-filter="editform"
           class="layui-form layui-form-pane"
           style="margin: 30px auto; display: inline-block;">
-    <!--        证券编号-->
-    <div class="layui-form-item" style="text-align: center;">
-        <label class="layui-form-label layui-bg-gray"> 证券编号</label>
-        <div class="layui-input-inline">
-            <input name="securitiesId" lay-verify="required"
-                   autocomplete="off" placeholder="" class="layui-input">
+        <!--        证券编号-->
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray"> 证券编号</label>
+            <div class="layui-input-inline">
+                <input name="securitiesId" lay-verify="required"
+                       autocomplete="off" placeholder="" class="layui-input">
+            </div>
+            <!--            证券名称-->
+            <label class="layui-form-label layui-bg-gray"> 证券名称</label>
+            <div class="layui-input-inline">
+                <input name="securitiesName" lay-verify="required"
+                       autocomplete="off" placeholder="" class="layui-input">
+            </div>
         </div>
-        <!--            证券名称-->
-        <label class="layui-form-label layui-bg-gray"> 证券名称</label>
-        <div class="layui-input-inline">
-            <input name="securitiesName" lay-verify="required"
-                   autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
 
-    <!--            证券类型-->
-    <div class="layui-form-item" style="text-align: center;">
-        <label class="layui-form-label layui-bg-gray">证券类型</label>
-        <div class="layui-input-inline">
-            <select name="securitiesType" id="securitiesType1">
-                <option value="0">请选择</option>
-                <option value="1">债券</option>
-                <option value="2">股票</option>
-            </select>
+        <!--            证券类型-->
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray">证券类型</label>
+            <div class="layui-input-inline">
+                <select name="securitiesType" id="securitiesType1">
+                    <option value="0">请选择</option>
+                    <option value="1">债券</option>
+                    <option value="2">股票</option>
+                </select>
+            </div>
+            <!--        股票板块-->
+            <label class="layui-form-label layui-bg-gray">股票板块</label>
+            <div class="layui-input-inline">
+                <input name="stockName" lay-verify="required" id="addStockName2"
+                       autocomplete="off" placeholder="" class="layui-input">
+                <input type="hidden" id="addStockId2" name="stockId">
+            </div>
         </div>
-        <!--        股票板块-->
-        <label class="layui-form-label layui-bg-gray">股票板块</label>
-        <div class="layui-input-inline">
-            <input name="stockName" lay-verify="required" id="addStockName2"
-                   autocomplete="off" placeholder="" class="layui-input">
-            <input type="hidden" id="addStockId2" name="stockId">
-        </div>
-    </div>
 
-    <!--        发行日期-->
-    <div class="layui-form-item" style="text-align: center;">
-        <label class="layui-form-label layui-bg-gray"> 发行日期</label>
-        <div class="layui-input-inline">
-            <input name="issueDate" lay-verify="required"
-                   autocomplete="off" placeholder="" class="layui-input" id="updatetime">
+        <!--        发行日期-->
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray"> 发行日期</label>
+            <div class="layui-input-inline">
+                <input name="issueDate" lay-verify="required"
+                       autocomplete="off" placeholder="" class="layui-input" id="updatetime">
+            </div>
+            <!--        延迟日期-->
+            <label class="layui-form-label layui-bg-gray">延迟日期</label>
+            <div class="layui-input-inline">
+                <select name="delayDate" id="delayDate1">
+                    <option value="1">T+1</option>
+                    <option value="2">T+2</option>
+                    <option value="3">T+3</option>
+                    <option value="4">T+4</option>
+                </select>
+            </div>
         </div>
-        <!--        延迟日期-->
-        <label class="layui-form-label layui-bg-gray">延迟日期</label>
-        <div class="layui-input-inline">
-            <select name="delayDate" id="delayDate1">
-                <option value="1">T+1</option>
-                <option value="2">T+2</option>
-                <option value="3">T+3</option>
-                <option value="4">T+4</option>
-            </select>
-        </div>
-    </div>
 
-    <!--        交易所-->
-    <div class="layui-form-item" style="text-align: center;">
-        <label class="layui-form-label layui-bg-gray">交易所</label>
-        <div class="layui-input-inline">
-            <select name="exchange" id="exchange1">
-                <option value="0">请选择</option>
-                <option value="1">上交所</option>
-                <option value="2">深交所</option>
-            </select>
+        <!--        交易所-->
+        <div class="layui-form-item" style="text-align: center;">
+            <label class="layui-form-label layui-bg-gray">交易所</label>
+            <div class="layui-input-inline">
+                <select name="exchange" id="exchange1">
+                    <option value="0">请选择</option>
+                    <option value="1">上交所</option>
+                    <option value="2">深交所</option>
+                </select>
+            </div>
+            <!--         备注-->
+            <label class="layui-form-label layui-bg-gray"> 备注</label>
+            <div class="layui-input-inline">
+                <input name="securitiesDesc"
+                       autocomplete="off" placeholder="" class="layui-input">
+            </div>
         </div>
-        <!--         备注-->
-        <label class="layui-form-label layui-bg-gray"> 备注</label>
-        <div class="layui-input-inline">
-            <input name="securitiesDesc"
-                   autocomplete="off" placeholder="" class="layui-input">
-        </div>
-    </div>
         <div style="position: absolute; bottom: 40px; left: 35%;">
             <button class="layui-btn" lay-submit="" lay-filter="editsubmit">
                 <i class="layui-icon">&#x1005;</i>确认修改
