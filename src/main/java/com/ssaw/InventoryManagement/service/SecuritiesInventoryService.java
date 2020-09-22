@@ -45,7 +45,7 @@ public interface SecuritiesInventoryService {
     int updateSecuritiesInventory(SecuritiesInventory stock);
 
     /**
-     *
+     *分页查询
      * @param pageSize 条数
      * @param page 页码
      * @return

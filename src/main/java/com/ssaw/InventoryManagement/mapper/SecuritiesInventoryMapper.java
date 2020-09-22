@@ -49,6 +49,12 @@ public interface SecuritiesInventoryMapper {
      */
     void selectSecuritiesInventoryInfo(Map map);
 
+    /**
+     * 根据证券代码，业务日期，基金Id进行删除
+     * @param securitiesId 证券代码
+     * @param dateTime 业务日期
+     * @param fundId 基金Id
+     */
     void deleteSecuritiesInventoryDate(String securitiesId,String dateTime,String fundId);
 
 }

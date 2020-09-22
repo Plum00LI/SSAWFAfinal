@@ -17,7 +17,10 @@ import java.util.Map;
 public interface SecuritiesClosedPayService {
     /**
      * 分页查询
-     * @param
+     * @param pageSize 每页的条数
+     * @param page 页码
+     * @param securitiesName 证券名称
+     * @param dateTime 业务日期
      * @return
      */
     public Map<String,Object> selectSecuritiesClosedPay(String pageSize, String page,String securitiesName,String dateTime);
@@ -43,11 +46,25 @@ public interface SecuritiesClosedPayService {
 
     //-------------------收益支付统计----------------
     //时间、类型、流入流出、基金Id删除信息
+    /**
+     * 根据时间、类型、流入流出、基金Id删除信息
+     * @param securitiesClosedPay
+     */
     void deleteSecuritiesNew(SecuritiesClosedPay securitiesClosedPay);
     //根据时间、类型、流入流出、基金Id查询信息
+    /**
+     * 根据时间、类型、流入流出、基金Id查询
+     * @param securitiesClosedPay
+     * @return
+     */
     List selectSecuritiesNew(SecuritiesClosedPay securitiesClosedPay);
 
 
     //傅赛赢
+    /**
+     * 根据证券应收应付实体对象来删除
+     * @param securitiesClosedPay
+     * @return
+     */
     public int deleteSecuritiesClosedPayByPojo(SecuritiesClosedPay securitiesClosedPay);
 }
