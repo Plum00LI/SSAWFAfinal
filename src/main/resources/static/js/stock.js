@@ -9,7 +9,7 @@ layui.use(['table', 'treetable', 'element', 'form', 'layer', 'laydate'], functio
 
     //新增父类提交
     form.on('submit(addsubmitparent)', function (data) {
-        alert("coming")
+        //alert("coming")
         var formData = $('#addformparent').serialize();
         $.post("../Stock/insertStock", formData, function (msg) {
             if (msg > 0) {
@@ -225,7 +225,7 @@ layui.use(['table', 'treetable', 'element', 'form', 'layer', 'laydate'], functio
     //给表格编辑，删除按钮添加点击事件
     table.on('tool(stock-table)', function (obj) {
         var data = obj.data;//得到删除行整行的数据
-        alert(data.stockId);
+        //alert(data.stockId);
         if (obj.event === 'del') {
             layer.confirm('真的删除行么', {icon: 2}, function (index) {
                 layer.close(index);
@@ -256,7 +256,7 @@ layui.use(['table', 'treetable', 'element', 'form', 'layer', 'laydate'], functio
 
             });
         } else if (obj.event === 'edit') {
-            alert(JSON.stringify(data));
+            //alert(JSON.stringify(data));
             form.val('updateform', $.parseJSON(JSON.stringify(data)));
             var index = layer.open({
                 type: 1,
