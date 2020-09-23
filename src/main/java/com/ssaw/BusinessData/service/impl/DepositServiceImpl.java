@@ -157,8 +157,8 @@ public class DepositServiceImpl implements DepositService {
         bankTreasurer.setAccountId(deposit.getOutAccountId());
         bankTreasurer.setAccountName(deposit.getOutAccountName());
         //调拨日期
-        bankTreasurer.setDbTime(deposit.getBusinessDate());
-        bankTreasurer.setDateTime(deposit.getBusinessDate());
+        bankTreasurer.setDbTime(DateTimeUtil.getSystemDateTime("yyyy-MM-hh"));
+        bankTreasurer.setDateTime(DateTimeUtil.getSystemDateTime("yyyy-MM-hh"));
         bankTreasurer.setAllocatingType(5);
         bankTreasurer.setBusinessId(deposit.getDepositId());
         bankTreasurer.setBankTreasurerDesc("");
