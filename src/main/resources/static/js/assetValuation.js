@@ -144,8 +144,8 @@ layui.use(['form', 'table', 'layer','laydate','jquery'], function() {
                                     //边缘弹出
                                     layer.open({
                                         type: 1
-                                        ,offset: 'rb' //具体配置参考：offset参数项
-                                        ,content: '<div style="padding: 15px 80px;">估值完毕！</div>'
+                                        ,offset: 'type' //具体配置参考：offset参数项
+                                        ,content: '<div style="padding: 20px 100px">估值完毕！</div>'
                                         ,skin: 'layui-layer-molv'
                                         ,btn: '关闭'
                                         ,time: 4000

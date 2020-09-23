@@ -5,6 +5,7 @@ import com.ssaw.BusinessData.mapper.MarketMapper;
 import com.ssaw.BusinessData.service.MarketService;
 import com.ssaw.GlobalManagement.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import java.util.Map;
 *@create: 2020-09-01
 */
 @Service
+@Transactional
 public class MarketServiceImpl implements MarketService {
     //调用Dao类
     @Resource
