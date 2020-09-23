@@ -68,6 +68,7 @@ public class AccountController {
     @RequestMapping("insertAccount")
     @OperLog(message = "增加现金账户",operation = OperationType.ADD)
     public int insertAccount(Account account){
+        //现金账户Id
         account.setAccountId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.A));
         int i = accountService.insertAccount(account);
         return i;

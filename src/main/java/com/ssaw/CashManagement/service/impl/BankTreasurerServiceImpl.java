@@ -114,6 +114,7 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
      */
     @Override
     public int insertBankTreasurer(BankTreasurer bankTreasurer) {
+        //资金调拨Id
         bankTreasurer.setBankTreasurerId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.BT));
         return bankTreasurerMapper.insertBankTreasurer(bankTreasurer);
     }
@@ -135,8 +136,11 @@ public class BankTreasurerServiceImpl implements BankTreasurerService {
      */
     @Override
     public int deleteBankTreasurer(String bankTreasurerId) {
+        //切割，
         String[] split = bankTreasurerId.split(",");
+        //创建一个集合保存现金账户Id
         ArrayList<Object> bankTreasurerList=new ArrayList<>();
+        //通过循环把现金账户Id保存到集合中去
         for (String id : split) {
             bankTreasurerList.add(id);
         }

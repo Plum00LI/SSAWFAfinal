@@ -98,6 +98,7 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
      */
     @Override
     public int insertTransferMoney(TransferMoney transferMoney) {
+        //划款指令Id
         transferMoney.setTransferMoneyId(dbUtil.requestDbTableMaxId(SysTableNameListUtil.TM));
         return transferMoneyMapper.insertTransferMoney(transferMoney);
     }
@@ -114,8 +115,11 @@ public class TransferMoneyServiceImpl implements TransferMoneyService {
      */
     @Override
     public int deleteTransferMoney(String transferMoneyId) {
+        //切割，
         String[] split = transferMoneyId.split(",");
+        //创建一个集合保存现金账户Id
         ArrayList  transferMoneyList= new ArrayList<>();
+        //通过循环把现金账户Id保存到集合中去
         for (String id : split) {
             transferMoneyList.add(id);
         }
