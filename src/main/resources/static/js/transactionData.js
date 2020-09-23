@@ -541,7 +541,9 @@ layui.use(['table', 'form', 'tableSelect'], function () {
 
 });
 //添加
+
 function myNum() {
+    var lixidays=0;
     layui.use(['layer'], function () {
         var $ = layui.$;
         //交易金额 = 数量*价格
@@ -554,8 +556,8 @@ function myNum() {
         var seateRate1=document.getElementById("seateRate1").value;
         var netReceipts1=document.getElementById("netReceipts").value;
         var commission=Number(seateRate1)*Number(netReceipts1);
-        $("#commission").val(commission);
-
+        $("#commission").val(commission/100);
+        //securitiesId
         var securitiesId =document.getElementById("securitiesId").value;
         var securitiesType1=document.getElementById("securitiesType1").value;
         var exchange1=document.getElementById("exchange1").value;
@@ -568,45 +570,42 @@ function myNum() {
                 $('#brokerage1').val(item.brokerage);
                 //证券利息：股票和债券都属于证券
                 //股票没有利息，债券利息就是债券
-                var parRate=0;
-                var bondRateAmount=0;
-                var lixiday=0;
-                //获取债券信息表里的数据
+
+
                 $.post("../selectBond", {securitiesId: securitiesId,drawStartDate: '',page:1,limit:1},function(obj2) {
-                    $.each(obj.data,function (index2,item2){
-                        // 每天利息: 票面利率/365*票面金额*数量*1
+                    $.each(obj2.data,function (index2,item2){
+                        //  票面利率/365*票面金额*数量*1
                         //票面利率
-                        parRate = item2.parRate;
-                        //票面金额
-                        bondRateAmount = item2.bondRateAmount;
+                        var lixiday = Number(item2.parRate)/365*Number(item2.bondRateAmount)*Number(num)*1;
+                        lixidays = lixiday.toFixed(2);
+                        $('#security1').val(lixidays);
                     })
                 })
-                //当天应收债券利息
-                lixiday = parRate/365*bondRateAmount*num*1;
-                // alert(lixiday)
-                //股票没有利息
-                if (item.rateType==2){
-
-                    $('#security1').val(lixiday);
-                }else{
-                    $('#security1').val(lixiday);
+                var vals=0;
+                if (item.rateType==1){
+                    vals = $('#security1').val();
+                }else if (item.rateType==2){
+                    $('#security1').val(0);
                 }
+                alert(vals)
+                var totalSum=0;
                 //买入
                 if ($('#transactionDataMode').val()==1){
-                    $('#totalSum').val(netReceipts+commission+item.stampDuty
-                        +item.transferFee+item.collectionRate+item.brokerage+lixiday);
+                    totalSum=Number(netReceipts)+Number(commission)/100+Number(item.stampDuty)
+                        +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(vals);
+                    //var floatSum=parseFloat(totalSum);
+                    var ser=totalSum.toFixed(2);
+                    $('#totalSum').val(ser);
                     //卖出
                 }else if($('#transactionDataMode').val()==2){
-                    $('#totalSum').val(netReceipts-(commission+item.stampDuty
-                        +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
+                    $('#totalSum').val(netReceipts-(commission/100+item.stampDuty
+                        +item.transferFee+item.collectionRate+item.brokerage)+vals);
                 }
             })
 
         });
     })
 }
-
-
 
 //修改
 function myNum2() {
@@ -622,17 +621,17 @@ function myNum2() {
         var seateRate2=document.getElementById("seateRate2").value;
         var netReceipts2=document.getElementById("netReceipts2").value;
         var commission2=Number(seateRate2)*Number(netReceipts2);
-        $("#commission2").val(commission2);
+        $("#commission2").val(commission2/100);
         //securitiesId
         var securitiesId2 =document.getElementById("securitiesId2").value;
         var securitiesType2=document.getElementById("securitiesType2").value;
-        var exchange2=document.getElementById("exchange1").value;
+        var exchange2=document.getElementById("exchange2").value;
 
         $.post("../varietiesRate/selectVarietiesRate", {exchangeName: exchange2,rateType: securitiesType2,page:1,limit:1},function(obj){
             $.each(obj.data,function (index,item) {
-                $('#transfer2').val(item.stampDuty);
-                $('#stamp2').val(item.transferFee);
-                $('#management2').val(item.collectionRate);
+                $('#stampDuty2').val(item.stampDuty);
+                $('#transferFee2').val(item.transferFee);
+                $('#collectionRate2').val(item.collectionRate);
                 $('#brokerage2').val(item.brokerage);
                 //证券利息：股票和债券都属于证券
                 //股票没有利息，债券利息就是债券
@@ -640,7 +639,7 @@ function myNum2() {
                 var bondRateAmount2=0;
                 var lixiday=0;
                 $.post("../selectBond", {securitiesId: securitiesId2,drawStartDate: '',page:1,limit:1},function(obj2) {
-                    $.each(obj.data,function (index2,item2){
+                    $.each(obj2.data,function (index2,item2){
                         //  票面利率/365*票面金额*数量*1
                         //票面利率
                         parRate2 = item2.parRate;
@@ -650,20 +649,23 @@ function myNum2() {
                 })
                 //当天应收债券利息
                 lixiday = parRate2/365*bondRateAmount2*num2*1;
-                // alert(lixiday)
+
                 //股票没有利息
                 if (item.rateType==2){
+                    lixiday=0;
                     $('#security2').val(lixiday);
-                }else{
+                }else if (item.rateType==1){
                     $('#security2').val(lixiday);
                 }
-                //买入
+                //买入   结算金额
                 if ($('#transactionDataMode2').val()==1){
-                    $('#totalSum2').val(netReceipts2+commission2+item.stampDuty
-                        +item.transferFee+item.collectionRate+item.brokerage+lixiday);
+                    var totalSum=Number(netReceipts2)+Number(commission2)/100+Number(item.stampDuty)
+                        +Number(item.transferFee)+Number(item.collectionRate)+Number(item.brokerage)+Number(lixiday);
+                    var ser=totalSum.toFixed(2);
+                    $('#totalSum2').val(ser);
                     //卖出
                 }else if($('#transactionDataMode2').val()==2){
-                    $('#totalSum2').val(netReceipts2-(commission2+item.stampDuty
+                    $('#totalSum2').val(netReceipts2-(commission2/100+item.stampDuty
                         +item.transferFee+item.collectionRate+item.brokerage)+lixiday);
                 }
             })

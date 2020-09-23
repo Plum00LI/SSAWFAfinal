@@ -56,7 +56,7 @@ public class TransactionDataController {
         System.out.println("删除进来了");
         String s = null;
         Map<String, Object> msgMap = new HashMap<>();
-        if (transactionDataId!=null&&!transactionDataId.equals("")){
+        if (!transactionDataId.equals("")){
             s=transactionDataService.deleteTransactionData(transactionDataId,null);
         }else {
             s=transactionDataService.deleteTransactionData(null,transactionData);
