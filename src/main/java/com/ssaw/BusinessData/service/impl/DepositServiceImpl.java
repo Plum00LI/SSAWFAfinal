@@ -116,9 +116,9 @@ public class DepositServiceImpl implements DepositService {
         bankTreasurer.setAccountId(deposit.getOutAccountId());
         //流出账户名称
         bankTreasurer.setAccountName(deposit.getOutAccountName());
-        //调拨日期为存款业务的业务时间
+        //调拨日期
         bankTreasurer.setDbTime(deposit.getBusinessDate());
-        bankTreasurer.setDateTime(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
+        bankTreasurer.setDateTime(deposit.getBusinessDate());
         //调拨类型
         bankTreasurer.setAllocatingType(5);
         //业务标号就是存款业务的Id
@@ -156,9 +156,9 @@ public class DepositServiceImpl implements DepositService {
         bankTreasurer.setTotalPrice(deposit.getMoney());
         bankTreasurer.setAccountId(deposit.getOutAccountId());
         bankTreasurer.setAccountName(deposit.getOutAccountName());
-        //调拨日期为存款业务的业务时间
+        //调拨日期
         bankTreasurer.setDbTime(deposit.getBusinessDate());
-        bankTreasurer.setDateTime(DateTimeUtil.getSystemDateTime("yyyy-MM-dd"));
+        bankTreasurer.setDateTime(deposit.getBusinessDate());
         bankTreasurer.setAllocatingType(5);
         bankTreasurer.setBusinessId(deposit.getDepositId());
         bankTreasurer.setBankTreasurerDesc("");
