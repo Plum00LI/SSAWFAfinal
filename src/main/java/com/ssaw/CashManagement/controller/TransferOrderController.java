@@ -40,8 +40,6 @@ public class TransferOrderController {
         System.out.println("excel===========================");
         System.err.println("transferMoney="+transferMoney);
 
-
-
         //头部
         String[] headers=new String[] {"到账日期：","付款账户名：","付款开户行：","付款账号：","付款金额（小写）及币种：","付款金额（大写）及币种：","收款账户名：","收款开户行：","收款账号：","付款金额（小写）及币种：","付款金额（大写）及币种：","划款用途：","备注："};
         TransferMoney transferMoney1=transferMoneyMapper.selectTransferMoneyByTransferMoneyId(transferMoney.getTransferMoneyId());

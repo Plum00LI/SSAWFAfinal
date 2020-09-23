@@ -143,7 +143,7 @@
             form.on('submit(tongJi)', function (data) {
                 //console.log(data.field); //当前容器的全部表单字段，名值对形式：{name: value}
                 //console.log(data.field.statDate);
-                alert(  "layid=" + layid);
+                //alert(  "layid=" + layid);
                 if(layid==11){
                     var checkStatus = table.checkStatus("userTable"); // 获得选中行所有数据
                     // 其中 ID 为基础参数 id 对应的值（见：设定容器唯一ID）
@@ -154,7 +154,7 @@
                     });
                     // alert(cashs);
                     var cash = JSON.stringify(cashs);
-                    alert(cash);
+                    //alert(cash);
 
                     layer.close();
                     //向服务端发送删除指令
@@ -184,8 +184,8 @@
                     });
                     // alert(cashs);
                     var Securities = JSON.stringify(Securitie);
-                    alert(Securities);
-                    alert(accountId);
+                    //alert(Securities);
+                    //alert(accountId);
                     // layer.close();
                     //向服务端发送删除指令
                     $.post("/RevenueProvision/StatisticalSecurities", {
@@ -214,7 +214,7 @@
                     });
                     // alert(cashs);
                     var TwoFees = JSON.stringify(TwoFee);
-                    alert(TwoFees);
+                    //alert(TwoFees);
 
                     // layer.close();
                     //向服务端发送删除指令

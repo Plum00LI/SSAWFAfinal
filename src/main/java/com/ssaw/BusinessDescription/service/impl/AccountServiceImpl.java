@@ -119,8 +119,11 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     public int deleteAccount(String accountId) {
+        //切割，
         String[] split = accountId.split(",");
+        //创建一个集合保存现金账户Id
         ArrayList<Object> accountList = new ArrayList<>();
+        //通过循环把现金账户Id保存到集合中去
         for (String id : split) {
             accountList.add(id);
         }

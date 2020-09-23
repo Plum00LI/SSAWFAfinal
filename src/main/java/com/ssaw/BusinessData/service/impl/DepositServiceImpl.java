@@ -88,7 +88,6 @@ public class DepositServiceImpl implements DepositService {
         depositMapper.selectDeposit(map);
         //接收返回数据
         List<Deposit> depositList= (List<Deposit>) map.get("p_cursor");
-
         //接收返回总条数
         int v_count= (int) map.get("p_count");
         //将结果放入结果集Map
