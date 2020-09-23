@@ -5,6 +5,7 @@ import com.ssaw.BusinessData.mapper.MarketMapper;
 import com.ssaw.BusinessData.service.MarketService;
 import com.ssaw.GlobalManagement.util.SysTableNameListUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -20,21 +21,36 @@ import java.util.Map;
 *@create: 2020-09-01
 */
 @Service
+@Transactional
 public class MarketServiceImpl implements MarketService {
+    //调用Dao类
     @Resource
     MarketMapper marketMapper;
 
-
+    /**
+     * 查询方法
+     * @return
+     */
     @Override
     public List<Market> selectMarket() {
         return marketMapper.selectMarket();
     }
 
+    /**
+     * 行情数据增加方法
+     * @param market 行情数据实体对象
+     * @return
+     */
     @Override
     public int insertMarket(Market market) {
         return marketMapper.insertMarket(market);
     }
 
+    /**
+     * 删除方法
+     * @param marketId 行情Id
+     * @return
+     */
     @Override
     public int deleteMarket(String marketId) {
         //切割字符串
@@ -46,12 +62,24 @@ public class MarketServiceImpl implements MarketService {
         return marketMapper.deleteMarket(list);
     }
 
+    /**
+     * 修改方法
+     * @param market 行情数据实体对象
+     * @return
+     */
     @Override
     public int updateMarket(Market market) {
         return marketMapper.updateMarket(market);
     }
 
-
+    /**
+     * 行情数据分页查询
+     * @param pageSize 每页条数
+     * @param page 页码
+     * @param securitiesId 证券代码
+     * @param dateTime 业务日期
+     * @return
+     */
     @Override
     public Map<String, Object> selectMarketInfo(String pageSize, String page,String securitiesId,String dateTime) {
         //创建一个结果集Map,用于存放两个结果变量
@@ -72,13 +100,15 @@ public class MarketServiceImpl implements MarketService {
         }
 
         StringBuffer sqlWhere = new StringBuffer();
+        //高级搜索条件sql语句拼接  证券代码
         if (securitiesId!=null && !securitiesId.equals("")){
             sqlWhere.append(" and securitiesId like '%"+securitiesId+"%'");
         }
-
+        //高级搜索条件sql语句拼接  业务日期
         if (dateTime!=null && !dateTime.equals("")){
             sqlWhere.append(" and dateTime like '%"+dateTime+"%'");
         }
+        //按条件查询sql语句
         String tableName="(select m.marketId,m.securitiesId,s.securitiesName,m.dateTime,m.openPrice,m.closingPrice,m.marketdesc from " + SysTableNameListUtil.M +" m join (select securitiesName,securitiesId from "+ SysTableNameListUtil.SE+" )  s on m.securitiesId=s.securitiesId)";
         System.out.println("语句"+tableName);
         //创建一个Map,用来调用存储过程

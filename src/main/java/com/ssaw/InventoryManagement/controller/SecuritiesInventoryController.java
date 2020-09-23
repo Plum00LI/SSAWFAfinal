@@ -33,7 +33,10 @@ public class SecuritiesInventoryController {
     @Resource
     DbUtil dbUtil;
 
-
+    /**
+     * 证券库存查询方法
+     * @return
+     */
     @RequestMapping("selectSecuritiesInventory")
     public HashMap selectSecuritiesInventoryService(){
         System.out.println("证券库存查询控制器");
@@ -88,6 +91,11 @@ public class SecuritiesInventoryController {
         return securitiesInventoryService.insertSecuritiesInventory(securitiesInventory);
     }
 
+    /**
+     * 证券库存修改方法
+     * @param securitiesInventory 证券库存对象
+     * @return
+     */
     @RequestMapping("updateSecuritiesInventory")
     public int updateSecuritiesInventory(SecuritiesInventory securitiesInventory){
         System.out.println("修改的方法");
@@ -96,6 +104,11 @@ public class SecuritiesInventoryController {
         return i;
     }
 
+    /**
+     * 证券库存删除方法
+     * @param securitiesInventoryId 证券库存Id
+     * @return
+     */
     @RequestMapping("deleteSecuritiesInventory")
     public int deleteSecuritiesInventory(String securitiesInventoryId){
 

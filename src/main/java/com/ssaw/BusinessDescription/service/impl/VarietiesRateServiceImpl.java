@@ -138,15 +138,18 @@ public class VarietiesRateServiceImpl implements VarietiesRateService {
     //按条件查询
     @Override
     public int selectVarietiesRate2(int exchangeName, int rateType) {
-        //
+        //运用varietiesRateMapper中的方法进行按条件查询
      List<VarietiesRate> varietiesRateList=   varietiesRateMapper.selectVarietiesRate2(exchangeName, rateType);
-
+    //判断集合是否为null/size（）为0
         if (varietiesRateList!=null&&varietiesRateList.size()>0) {
             System.out.println("getExchangeName="+varietiesRateList.get(0).getExchangeName());
             System.out.println("getRateType="+varietiesRateList.get(0).getRateType());
+            //判断交易所名称和费率类型是否已存在
             if(exchangeName==varietiesRateList.get(0).getExchangeName()&&rateType==varietiesRateList.get(0).getRateType()){
+               //存在返回0
                 return 0;
             }else {
+                //不存在返回1
                 return 1;
             }
         }else {

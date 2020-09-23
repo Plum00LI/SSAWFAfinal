@@ -83,36 +83,47 @@ public class AvailableCashPositionTableServiceImpl implements AvailableCashPosit
         map.put("p_cursor",null);
         //调用Mapper执行查询
         availableCashPositionTableMapper.selectAvailable(map);
-        //接收返回数据
+       //定义 清算款金额、申购金额、存款金额、总额。
         double qingsuankuan=0;
         double shengou=0;
         double cunkuan=0;
         double zonge=0;
+        //接收返回数据
         List<AvailableCashPositionTable> availableCashPositionTableList= (List<AvailableCashPositionTable>) map.get("p_cursor");
+       //加强for循环availableCashPositionTableList
         for (AvailableCashPositionTable availableCashPositionTable : availableCashPositionTableList) {
+           //判断账户名称为“申购赎回”
             if(availableCashPositionTable.getAccountName().equals("申购赎回")){
+                //算出申购金额
                 shengou+=availableCashPositionTable.getCashBlance();
+                //判断账户名称为“清算款”
             }else if(availableCashPositionTable.getAccountName().equals("清算款")){
+                //清算款金额
                 qingsuankuan+=availableCashPositionTable.getCashBlance();
+                //最后数据都为存款金额
             }else {
+                //算出存款金额
                 cunkuan+=availableCashPositionTable.getCashBlance();
             }
 
         }
+        //算出总额
         zonge=cunkuan+qingsuankuan+shengou;
 
+        //创建四个构造方法账户名为"清算款合计"\"申购赎回合计"\"银行存款合计"\"可用寸头金额"
         AvailableCashPositionTable availableCashPositionTable1=new AvailableCashPositionTable("清算款合计",qingsuankuan);
         AvailableCashPositionTable availableCashPositionTable2=new AvailableCashPositionTable("申购赎回合计",shengou);
         AvailableCashPositionTable availableCashPositionTable3=new AvailableCashPositionTable("银行存款合计",cunkuan);
         AvailableCashPositionTable availableCashPositionTable4=new AvailableCashPositionTable("可用寸头金额",zonge);
 
+        //将构造方法添加到集合中
         availableCashPositionTableList.add(availableCashPositionTable1);
         availableCashPositionTableList.add(availableCashPositionTable2);
         availableCashPositionTableList.add(availableCashPositionTable3);
         availableCashPositionTableList.add(availableCashPositionTable4);
         //接收返回总条数
         int v_count= (int) map.get("p_count");
-        //将结果放入结果集Map
+        //将结果，结果数量 放入结果集Map
         resultMap.put("availableCashPositionTableList",availableCashPositionTableList);
         resultMap.put("count",v_count);
         System.out.println(resultMap.get("availableCashPositionTableList"));
