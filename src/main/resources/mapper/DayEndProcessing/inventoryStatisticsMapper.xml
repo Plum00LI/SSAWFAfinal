@@ -46,7 +46,7 @@
         (select * from SECURITIESCLOSEDPAYINVENTORY where fundid=#{fundId}
         and securitiesType = 3  and DATETIME=to_char(to_date(#{dateTime},'yyyy-MM-dd')-1,'yyyy-MM-dd')) ns
         full join
-        (select sum(nvl(amount,0)) as amount,securitiesid,flag from
+        (select sum(nvl(amount,0)*flag) as amount,securitiesid,flag from
         securitiesClosedPay where fundId=#{fundId} and serviceType=3 and
         dateTime=#{dateTime} group by securitiesid,amount ,flag) se
 		on ns.securitiesid = se.securitiesid

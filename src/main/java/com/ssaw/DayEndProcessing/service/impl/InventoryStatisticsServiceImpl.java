@@ -206,7 +206,8 @@ public class InventoryStatisticsServiceImpl implements InventoryStatisticsServic
                         if(cashClosedPayInventoryDataList.size()!=0 && cashClosedPayInventoryDataList.get(0)!=null) {
                             for (CashClosedPayInventoryData cashClosedPayInventoryData : cashClosedPayInventoryDataList) {
                                 //根据日期删除
-                                cashClosedPayInventoryMapper.deleteCashClosedPayInventoryDate(cashClosedPayInventoryData.getAccountId(),dateTime, fundId);
+                                cashClosedPayInventoryMapper.deleteCashClosedPayInventoryDate(cashClosedPayInventoryData.getBusinessType()
+                                        ,cashClosedPayInventoryData.getAccountId(),dateTime, fundId);
                                 //定义新现金应收应付库存对象
                                 CashClosedPayInventory cashClosedPayInventory1 = new CashClosedPayInventory();
                                 //现金应收应付库存Id

@@ -58,10 +58,14 @@ public class UserInfoController {
      * @param userId 请求数据中的要删除UserInfo的UserId
      * @return 执行信息
      */
+    @OperLog(message = "用户删除",operation = OperationType.DELETE)
     @RequestMapping("deleteUserInfoByUserId")
     public Map<String,Object> deleteUserInfoByUserId(String userId){
-        //调用Service层执行删除方法，并接收返回结果
-        boolean result = userInfoService.deleteUserInfoByUserId(userId);
+        boolean result = false;
+        if (!userId.equals("1")){
+            //调用Service层执行删除方法，并接收返回结果
+            result = userInfoService.deleteUserInfoByUserId(userId);
+        }
         //判断结果，响应数据
         Map<String, Object> json = new HashMap<>();
         if (result){
@@ -73,5 +77,25 @@ public class UserInfoController {
         }
         //返回数据
         return json;
+    }
+
+    /**
+     * ajax请求新增UserInfo的控制层方法
+     * @param userInfo 新增的用户信息
+     * @return
+     */
+    @OperLog(message = "用户新增",operation = OperationType.ADD)
+    @RequestMapping("insertUserInfo")
+    public Map<String,Object> insertUser(UserInfo userInfo){
+        Map<String,Object> map = new HashMap<>();
+        int i = userInfoService.insertUserInfo(userInfo);
+        if (i!=0){
+            map.put("code",1);
+            map.put("msg","添加用户 "+userInfo.getUserName()+" 成功");
+        }else {
+            map.put("code",0);
+            map.put("msg","新增失败");
+        }
+        return map;
     }
 }

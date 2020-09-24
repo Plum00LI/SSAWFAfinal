@@ -48,7 +48,7 @@
 
     <!--收益计提-->
     <delete id="deleteNew2" parameterType="com.ssaw.BusinessData.entity.CashClosedPay">
-        delete from cashClosedPay where dateTime =#{dateTime} and fundId=#{fundId} and accountId=#{accountId}
+        delete from cashClosedPay where dateTime =#{dateTime} and fundId=#{fundId} and accountId=#{accountId} and serviceType=#{serviceType}
     </delete>
 
 </mapper>

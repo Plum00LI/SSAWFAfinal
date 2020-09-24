@@ -1,5 +1,6 @@
 package com.ssaw.GlobalManagement.mapper;
 
+import com.ssaw.GlobalManagement.entity.UserInfo;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
@@ -23,4 +24,7 @@ public interface UserInfoMapper {
 
     //判断用户登录
     public int isLogin(String userName,String userPwd);
+
+    //用户增加的方法
+    public int insertUserInfo(UserInfo userInfo);
 }

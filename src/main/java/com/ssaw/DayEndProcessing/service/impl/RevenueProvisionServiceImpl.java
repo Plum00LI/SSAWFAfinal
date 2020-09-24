@@ -59,16 +59,26 @@ public class RevenueProvisionServiceImpl implements RevenueProvisionService {
         HashMap twoFeesMap = new HashMap();
         System.out.println("jjjjjjjjj"+statDate);
         if(statDate!="" && statDate!=null ){
-            twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.cost,\n" +
-                    "       ROUND((va.cost*f.managerRate/100/365 ),4)as managementMoney,\n" +
-                    "       ROUND((va.cost*f.hostingRate/100/365 ),4)as CustodyMoney from  fund f\n" +
-                    "    join (select valueStatisticsDate,cost,FUNDID from valueStatistics where valueStatisticsDate=to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd') and PROJECTNAME='资产净值') va on f.fundId=va.fundId)");
+            //查询日期 是不是基金成立日  select * from 基金表 where  
+            //若是  基金信息设置   的基金规模
+
+
+            twoFeesMap.put("p_tableName","(select FUNDID,MANAGERRATE,ACCOUNTID,HOSTINGRATE,valueStatisticsDate,ROUND((costs*managerRate/100/365 ),4)as managementMoney ,ROUND((costs*hostingRate/100/365 ),4)as CustodyMoney from (select f.fundId,f.managerRate,f.accountId,f.hostingRate,'"+statDate+"' as valueStatisticsDate,(case when va.cost=0 then SIZEOFTHE else va.COST end)as costs\n" +
+                    "                            from  fund f join (select valueStatisticsDate,cost,FUNDID from valueStatistics where valueStatisticsDate=to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd') and PROJECTNAME='资产净值') va on f.fundId=va.fundId))");
+
+/*            twoFeesMap.put("p_tableName","(select fundId,managerRate,accountId,hostingRate,'"+ statDate +"' as valueStatisticsDate,MARKETVALUE,ROUND((MARKETVALUEs*managerRate/100/365 ),2)as managementMoney,\n" +
+            " ROUND((MARKETVALUEs*hostingRate/100/365 ),2)as CustodyMoney from (select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.cost,\n" +
+                    "(case when va.cost=0 then ROUND(to_number(sizeOfThe)) else ROUND(to_number(va.cost)) end) MARKETVALUEs from  fund f\n" +
+                    "  join (select * from valueStatistics where valueStatisticsDate=\n" +
+                    " to_char(to_date('"+statDate+"','yyyy-MM-dd')-1,'yyyy-MM-dd') and PROJECTNAME='资产净值') va on f.fundId=va.fundId))");*/
+
         }else {
             twoFeesMap.put("p_tableName","(select f.fundId,f.managerRate,f.accountId,f.hostingRate,va.valueStatisticsDate,va.cost,\n" +
                     "       ROUND((va.cost*f.managerRate/100/365 ),4)as management,\n" +
                     "       ROUND((va.cost*f.hostingRate/100/365 ),4)as Custody from  fund f\n" +
                     "    join (select valueStatisticsDate,cost,FUNDID from valueStatistics where valueStatisticsDate='2020-08-01') va on f.fundId=va.fundId)");
         }
+
         twoFeesMap.put("p_condition","");
         twoFeesMap.put("p_pageSize",limit);
         twoFeesMap.put("p_page",page);

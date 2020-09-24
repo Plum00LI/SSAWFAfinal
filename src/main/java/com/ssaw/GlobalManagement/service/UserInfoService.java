@@ -1,5 +1,7 @@
 package com.ssaw.GlobalManagement.service;
 
+import com.ssaw.GlobalManagement.entity.UserInfo;
+
 import java.util.Map;
 
 /**
@@ -19,4 +21,7 @@ public interface UserInfoService {
 
     //判断用户登录
     public int isLogin(String userName,String userPwd);
+
+    //增加用户方法
+    public int insertUserInfo(UserInfo userInfo);
 }
