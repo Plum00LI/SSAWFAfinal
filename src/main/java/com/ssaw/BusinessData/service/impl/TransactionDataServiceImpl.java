@@ -70,24 +70,25 @@ public class TransactionDataServiceImpl implements TransactionDataService {
 
     @Override
     public String deleteTransactionData(String transactionDataId , String transactionData) {
-        if (!transactionDataId.equals("")){
+        if (transactionDataId!=null&&!transactionDataId.equals("")){
             transactionDataMapper.deleteTransactionData(transactionDataId);
             return "删除成功";
         }else {
             String[] split=new String[0];
+            String[] split1;
             if (transactionData!=null&&!transactionData.equals("")){
                 split= transactionData.split(",");
             }
             for(int i=0;i<split.length;i++){
-                String[] split1 = split[i].split("-");
+                split1= split[i].split("-");
                 if (split1[1].equals("0")){
                     transactionDataMapper.deleteTransactionData(split1[0]);
-                    return "删除成功";
                 }else {
                     return "您选中的数据中含有已结算数据";
                 }
+
             }
-            return "数据异常";
+            return "删除成功";
         }
     }
 

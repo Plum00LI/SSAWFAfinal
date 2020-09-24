@@ -164,6 +164,7 @@ layui.use(['element', 'form', 'table', 'layer', 'laydate'], function () {
                     content:$("#addContent"),
                     btn:[]
                 });
+                $("#addform")[0].reset();
                 form.render();
                 //全屏弹窗 layer.full(index);
                 break;
@@ -587,7 +588,7 @@ function myNum() {
                 }else if (item.rateType==2){
                     $('#security1').val(0);
                 }
-                alert(vals)
+                // alert(vals)
                 var totalSum=0;
                 //买入
                 if ($('#transactionDataMode').val()==1){

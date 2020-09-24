@@ -136,6 +136,7 @@ layui.use([ 'element', 'form', 'table', 'layer','laydate'], function () {
 					btn:[],
 					area:['800px','600px']
 				});
+				$("#addform")[0].reset();
 				form.render();
 				break;
 			case 'search':

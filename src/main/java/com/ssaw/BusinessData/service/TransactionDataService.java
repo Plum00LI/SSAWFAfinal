@@ -26,7 +26,7 @@ public interface TransactionDataService {
      * 删除交易数据
      * @param transactionDataId
      */
-    String deleteTransactionData(String transactionData, String transactionDataId);
+    String deleteTransactionData(String transactionDataId, String transactionData);
 
     /**
      *  修改交易数据
