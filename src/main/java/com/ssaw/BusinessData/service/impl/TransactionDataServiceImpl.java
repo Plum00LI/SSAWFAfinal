@@ -70,7 +70,7 @@ public class TransactionDataServiceImpl implements TransactionDataService {
 
     @Override
     public String deleteTransactionData(String transactionDataId , String transactionData) {
-        if (transactionDataId!=null&&!transactionDataId.equals("")){
+        if (!transactionDataId.equals("")){
             transactionDataMapper.deleteTransactionData(transactionDataId);
             return "删除成功";
         }else {
