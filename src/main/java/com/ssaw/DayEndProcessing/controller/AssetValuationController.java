@@ -118,14 +118,18 @@ public class AssetValuationController {
                     securitiesClosedPayInventory.setSecuritiesType(2);
                     securitiesClosedPayInventory.setSecuritiesId(transactionData.getSecuritiesId());
                     Double totalSum=0.0;
-                    if (transactionData.getFlag()==-1){
+                    if (transactionData.getTotalSum()<0){
                         //资金流向为-1时  总金额为负 拿金额乘以-1得到正确的金额
                         totalSum=transactionData.getTotalSum()*-1;
-                    }else{
-                        totalSum=transactionData.getTotalSum()*1;
+                        securitiesClosedPayInventory.setFlag(-1);
                     }
-                    System.out.println("类型="+transactionData.getFlag());
-                    securitiesClosedPayInventory.setFlag(transactionData.getFlag());
+                    else
+                    {
+                        totalSum=transactionData.getTotalSum();
+                        securitiesClosedPayInventory.setFlag(1);
+                    }
+            //        System.out.println("类型="+transactionData.getFlag());
+
                     securitiesClosedPayInventory.setTotalPrice(totalSum);
                     securitiesClosedPayInventory.setSecurityPeriodFlag(1);
                     securitiesClosedPayInventory.setSecuritiesClosedPayDesc("投资有风险");

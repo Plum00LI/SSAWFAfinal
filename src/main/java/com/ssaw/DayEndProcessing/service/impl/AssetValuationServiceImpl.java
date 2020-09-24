@@ -99,9 +99,9 @@ public class AssetValuationServiceImpl implements AssetValuationService {
     public HashMap selectTransactionData(String dateTime) {
         HashMap ransactionDataMap = new HashMap();
         //查询交易数据，对证券进行清算
-        ransactionDataMap.put("p_tableName","(select securitiesId,flag,dateTime,fundId,status,SUM(totalSum*flag) totalSum from transactionData\n" +
-                "where to_date(dateTime,'yyyy-MM-dd') <= to_date(dateTime,'yyyy-MM-dd') and transactionDataMode in (1,2,3,4)\n" +
-                "  and to_date(dateTime,'yyyy-MM-dd') < to_date(settlementDate,'yyyy-MM-dd') GROUP BY securitiesId,dateTime,fundId,status,flag)");
+        ransactionDataMap.put("p_tableName","(select securitiesId,dateTime,fundId,status,SUM(totalSum*flag) totalSum from transactionData\n" +
+                "where to_date(dateTime,'yyyy-MM-dd') <= to_date('"+ dateTime +"','yyyy-MM-dd') and transactionDataMode in (1,2,3,4)\n" +
+                "  and to_date('"+dateTime+"','yyyy-MM-dd') < to_date(settlementDate,'yyyy-MM-dd') GROUP BY securitiesId,dateTime,fundId,status)");
         ransactionDataMap.put("p_condition","");//传入查询条件
         ransactionDataMap.put("p_pageSize",5);//传入分页显示条数
         ransactionDataMap.put("p_page",1);//传入分页页码

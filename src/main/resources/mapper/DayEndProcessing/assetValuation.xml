@@ -16,7 +16,7 @@
 	</resultMap>
 	<!--    删除证券应收应付库存的条件-->
 	<delete id="deleteSecuritiesClosedPayInventory" parameterType="com.ssaw.InventoryManagement.entity.SecuritiesClosedPayInventory">
-        delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and securityPeriodFlag=#{securityPeriodFlag}
+        delete from securitiesClosedPayInventory where fundId=#{fundId} and securitiesId=#{securitiesId} and securityPeriodFlag=#{securityPeriodFlag} and dateTime=#{dateTime}
     </delete>
 
 	<!--    查交易数据 按证券代码分组 插入证券应收应付库存-->
